@@ -1,0 +1,366 @@
+<!doctype html><html lang=en>
+<head>
+<title>Veritas :: Tony's Portfolio</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="My attempt at a testing framework.">
+<meta name=keywords content="Scala,Github Actions,CI,Testing,Reflection,Parallel Programming">
+<meta name=robots content="noodp">
+<link rel=canonical href=https://antoniosbarotsis.github.io/posts/posharp/>
+<link rel=stylesheet href=https://antoniosbarotsis.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://antoniosbarotsis.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://antoniosbarotsis.github.io/img/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Veritas">
+<meta property="og:description" content="My attempt at a testing framework.">
+<meta property="og:url" content="https://antoniosbarotsis.github.io/posts/posharp/">
+<meta property="og:site_name" content="Tony's Portfolio">
+<meta property="og:image" content="https://antoniosbarotsis.github.io/img/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-03-06 22:29:48 +0100 +0100">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+Tony's Portfolio
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://antoniosbarotsis.github.io/posts/posharp/>Veritas</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-03-06
+</span>
+<span class=post-reading-time>:: 12 min read (2468 words)</span>
+&nbsp;|&nbsp;<a href=https://github.com/AntoniosBarotsis/Blog/tree/master/content/posts/posharp.md rel="noopener noreferrer" target=_blank>View Source</a>
+</div>
+<span class=post-tags>
+#<a href=https://antoniosbarotsis.github.io/tags/coding/>Coding</a>&nbsp;
+#<a href=https://antoniosbarotsis.github.io/tags/scala/>Scala</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#what-is-veritas>What is Veritas</a></li>
+<li><a href=#what-does-it-do>What does it do</a></li>
+<li><a href=#but-what-does-using-veritas-look-like>But what does using Veritas look like?</a></li>
+<li><a href=#running-the-test-code>Running the test code</a></li>
+<li><a href=#how-and-why-did-i-make-use-of-multi-threading>How and why did I make use of multi-threading</a></li>
+<li><a href=#detecting-test-methods-and-invoking-them>Detecting test methods and invoking them</a></li>
+<li><a href=#creating-the-pipeline>Creating the pipeline</a></li>
+<li><a href=#the-future>The future</a></li>
+<li><a href=#closing>Closing</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<h2 id=what-is-veritas>What is Veritas<a href=#what-is-veritas class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Veritas is a small testing framework that I am building for <a href=https://github.com/pijuskri/Po-Sharp>a friend&rsquo;s compiler</a>. He started
+working on this project recently and seeing as how I found it very interesting, I decided to contribute to it. I then remembered that
+I do not know how to build compilers so I instead decided to finally look into things like reflection and frameworks and decided
+to build one for his language.</p>
+<p>All cool projects have 2 things in common: a pipeline badge and a mythological name, so I made a pipeline and found out that the Romans
+had a goddess of truth called <a href=https://en.wikipedia.org/wiki/Veritas>Veritas</a>, somehow the Romans did not have a goddess of Unit
+Testing Frameworks so I unfortunately had to go with that.</p>
+<h2 id=what-does-it-do>What does it do<a href=#what-does-it-do class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>The fact that building a framework that is written in one language and tests another one is complicated should not be a surprise.</p>
+<p>I essentially had to come up with a way of representing Po# code (that&rsquo;s what my friend called the language) as well as compiling,
+executing it and validating its output. I also wanted to make working with it not too different from commonly used frameworks as in
+I wanted everything to work through annotations, the tester should not have to worry about what was happening behind the scenes for the
+tests to work.</p>
+<h2 id=but-what-does-using-veritas-look-like>But what does using Veritas look like?<a href=#but-what-does-using-veritas-look-like class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>I am glad you asked! Here&rsquo;s an example:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#a6e22e>@Test</span>
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TestExample</span> <span style=color:#f92672>{</span>
+  <span style=color:#66d9ef>def</span> valTest1<span style=color:#f92672>()</span><span style=color:#66d9ef>:</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>Boolean</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>String</span><span style=color:#f92672>)</span> <span style=color:#66d9ef>=</span>
+    <span style=color:#e6db74>&#34;&#34;&#34;def main(): int {
+</span><span style=color:#e6db74>         val a = 5;
+</span><span style=color:#e6db74>         print(a);
+</span><span style=color:#e6db74>         return 0;
+</span><span style=color:#e6db74>       }&#34;&#34;&#34;</span>
+      <span style=color:#f92672>.</span><span style=color:#a6e22e>ShouldBe</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;5&#34;</span><span style=color:#f92672>)</span>
+      <span style=color:#f92672>.</span><span style=color:#a6e22e>Run</span><span style=color:#f92672>()</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>If the code seems weird to you then worry not for there are <a href=https://github.com/pijuskri/Po-Sharp/blob/master/docs/Guide.md>docs</a> about it.</p>
+<p>I am not sure if this is a common thing under other languages or maybe under a different name but I have been doing a lot of C# lately
+and there is this concept of &ldquo;fluent&rdquo; syntax which essentially is code that is very intuitive and easy to read, almost like reading plain
+English. I was heavily inspired by <a href=https://fluentassertions.com/introduction>Fluent Assertions</a> and I want to add/change some stuff on the
+Veritas interface to make it a little more like it as I really like using it, I believe you can already see that it heavily inspired
+Veritas' design.</p>
+<p>At this point, you might have noticed the interesting return type, a boolean string tuple? The boolean indicates whether the test passed or
+failed while the string holds a message useful for debugging (so if a test fails, it can show the difference between expected and actual
+value). I believe that because of how my test invocation works I cannot get the return value of the code directly, hence this ugly tuple,
+it&rsquo;s been some time since I &ldquo;designed&rdquo; this.</p>
+<p>As I mentioned earlier, runtime exceptions aren&rsquo;t fully implemented into the language yet but when it comes to compiler exceptions you
+can do the following.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#66d9ef>def</span> parseErrorTest<span style=color:#f92672>()</span><span style=color:#66d9ef>:</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>Boolean</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>String</span><span style=color:#f92672>)</span> <span style=color:#66d9ef>=</span>
+  <span style=color:#e6db74>&#34;{def a; a = 5; print(a);}&#34;</span>
+    <span style=color:#f92672>.</span><span style=color:#a6e22e>ShouldThrow</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> <span style=color:#a6e22e>ParseException</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>))</span>
+</code></pre></div><p>Something similar will be added for runtime exceptions with possibly a <code>.WithMessage</code> option to verify that the code crashed with the
+appropriate message but that will depend on how concise those messages end up being. The compiler error messages are a bit too
+dev-debug friendly rather than language-user friendly for the time being so <code>.WithMessage</code> does not make sense for compile-time errors,
+they essentially look like a small stack trace.</p>
+<p>Another thing that is perhaps worth mentioning is the use of extension methods. Extension methods, in essence, add methods to a class from
+outside of this class. That sounds terribly boring until you realize how useful it is in some scenarios, in this case, it just looks a
+bit cleaner. Using extension methods I could ditch the old syntax of the tests that looked like this</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#66d9ef>def</span> parseErrorTest<span style=color:#f92672>()</span><span style=color:#66d9ef>:</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>Boolean</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>String</span><span style=color:#f92672>)</span> <span style=color:#66d9ef>=</span>
+  <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>PoSharpScript</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;{def a; a = 5; print(a);}&#34;</span><span style=color:#f92672>)</span>
+    <span style=color:#f92672>.</span><span style=color:#a6e22e>ShouldThrow</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> <span style=color:#a6e22e>ParseException</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>))</span>
+</code></pre></div><p>and instead go away with the class instantiation. I attached a few methods to the Scala String class which in turn call <code>PoSharpScript</code>
+under the hood.</p>
+<p>Scala implements extension methods through <em>implicit</em> classes;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#66d9ef>implicit</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>PoSharpImplicit</span><span style=color:#f92672>(</span><span style=color:#66d9ef>val</span> code<span style=color:#66d9ef>:</span> <span style=color:#66d9ef>String</span><span style=color:#f92672>)</span> <span style=color:#66d9ef>extends</span> <span style=color:#a6e22e>IPoSharp</span> <span style=color:#f92672>{</span>
+  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ShouldBe</span><span style=color:#f92672>(</span>expected<span style=color:#66d9ef>:</span> <span style=color:#66d9ef>String</span><span style=color:#f92672>)</span><span style=color:#66d9ef>:</span> <span style=color:#66d9ef>PoSharpScript</span> <span style=color:#f92672>=</span> 
+    <span style=color:#a6e22e>PoSharpScript</span><span style=color:#f92672>(</span>code<span style=color:#f92672>).</span><span style=color:#a6e22e>ShouldBe</span><span style=color:#f92672>(</span>expected<span style=color:#f92672>)</span>
+
+  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ShouldThrow</span><span style=color:#f92672>(</span>expected<span style=color:#66d9ef>:</span> <span style=color:#66d9ef>Throwable</span><span style=color:#f92672>)</span><span style=color:#66d9ef>:</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>Boolean</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>String</span><span style=color:#f92672>)</span> <span style=color:#66d9ef>=</span> 
+    <span style=color:#a6e22e>PoSharpScript</span><span style=color:#f92672>(</span>code<span style=color:#f92672>).</span><span style=color:#a6e22e>ShouldThrow</span><span style=color:#f92672>(</span>expected<span style=color:#f92672>)</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p><code>IPoSharp</code> is a trait (or interface) that defines the 2 methods you can see below and <code>PoSharpScript</code> is the main class I use to interact
+with Po# code. I made use of this recently as a wrapper to the <code>PoSharpScript</code> class since the logic was already implemented there,
+this is purely for syntactic sugar.</p>
+<h2 id=running-the-test-code>Running the test code<a href=#running-the-test-code class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>This part is a little messy. Compiling and writing the assembly code to a file is easy since there are methods for this
+in the main package of the compiler but I also have to run it somehow. In case you haven&rsquo;t checked out the repo, you need WSL to run
+the code, you cannot run some of the tools natively on windows. Thankfully, Scala has this <a href=https://scala-lang.org/api/3.1.1/scala/sys/process.html>Process</a>
+class that can help with that. I can use that class to spawn an external process that launches WSL and runs MAKE</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#66d9ef>import</span> scala.sys.process.Process
+
+<span style=color:#a6e22e>Process</span><span style=color:#f92672>(</span><span style=color:#e6db74>s&#34;wsl make TARGET_FILE=</span><span style=color:#e6db74>$fileName</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>).!!</span>
+</code></pre></div><p>This snippet returns anything that would normally get printed to the terminal if we were to run this command. <code>TARGET_FILE</code> is a variable
+used in the makefile to specify the <code>.asm</code> file as well as the executable.</p>
+<h2 id=how-and-why-did-i-make-use-of-multi-threading>How and why did I make use of multi-threading<a href=#how-and-why-did-i-make-use-of-multi-threading class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>The way the compiler works is: it gets fed some input in Po# from either a <code>.txt</code> file or in this case just a string, that gets parsed
+and compiled to <a href=https://nasm.org/>NASM</a> which gets dumped to a <code>.asm</code> file which we can now finally execute. That&rsquo;s cool but how can
+we actually get the test output then? Well, there doesn&rsquo;t seem to be a good solution to this, or at least not one that I could come up with.
+What I settled for is reading the last thing that the code prints which of course requires the snippet to print something. As of now,
+runtime exceptions have not been fully added yet but when that happens, the same would apply for getting the exception message and I could
+additionally check the exit code.</p>
+<p>Executing the test snippets is terribly slow because of all the file accesses + compilation required + spawning the external WSL process.
+At the time of writing this, 7 tests executed sequentially take 5-6 seconds, this will only get worse with more tests. Since there are only
+so many tests as of now we can afford to assign one test per thread (which seems to be the most efficient for the time being), that takes the
+execution time down to around a second or two, this will hopefully scale much better than the sequential solution.</p>
+<p>Since a <code>.asm</code> file gets created for each test I need to make sure that they have unique names so the different threads don&rsquo;t cause issues.
+I decided to set the file name to <code>packageName.className.methodName</code> which should be unique at all times. These are also cleared after
+all tests are finished executing so no artifacts are left behind.</p>
+<p>I tried to think a bit ahead here and try to find out what would be a good future-proof optimization to make. Up until this point,
+spawning one thread per test is the most efficient way of running the tests which if you&rsquo;ve done multi-threading may sound overkill
+and or counterintuitive but again, the process of running a test is very slow. But since it&rsquo;s probably not a good idea to allocate
+threads in this way for 1000 tests I decided to allow for chunking the test methods per thread which should be the best of both worlds;
+it is not fully sequential so we have a performance boost but it also scales better since each thread will be handling more than one
+test at a time. This should in theory be faster in the future when more tests get added compared to having a set amount of available
+threads with one test each and having to wait for them to finish running before you allocate another one for the next test. Since it is
+still early and I can&rsquo;t know what the optimal amount of threads or number of chunks is both are variables.</p>
+<h2 id=detecting-test-methods-and-invoking-them>Detecting test methods and invoking them<a href=#detecting-test-methods-and-invoking-them class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>I settled with the following:</p>
+<ul>
+<li>All test classes must be in the <code>test</code> package</li>
+<li>All test methods must be defined inside of a class annotated with <code>@Test</code></li>
+<li>All test methods must include the keyword <code>test</code> in their name</li>
+</ul>
+<p>I kind of combined what <a href=https://junit.org/junit5/>JUnit</a> and <a href=https://pytest.org/>PyTest</a> do with the <code>@Test</code> and method names (although
+I think PyTest does it with filenames instead of method names). I could&rsquo;ve made it so you need the methods annotated instead but decided to
+go for this instead for no particular reason other than it will look a bit less cluttered. Since I consider tests to have <code>test</code> in their
+method name one can also easily define helper methods in the class and they won&rsquo;t be treated as tests.</p>
+<p>I found <a href=https://github.com/ronmamo/reflections>this</a> a great library that allows you to easily use reflection.</p>
+<p>I first need to get all classes inside the <code>test</code> package which I achieve with the following:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#66d9ef>import</span> org.reflections.Reflections
+<span style=color:#66d9ef>import</span> org.reflections.scanners.Scanners.TypesAnnotated
+<span style=color:#66d9ef>import</span> org.reflections.util.ConfigurationBuilder
+
+<span style=color:#66d9ef>val</span> reflections <span style=color:#66d9ef>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Reflections</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> <span style=color:#a6e22e>ConfigurationBuilder</span><span style=color:#f92672>()</span>
+  <span style=color:#f92672>.</span>forPackage<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;test&#34;</span><span style=color:#f92672>)</span>
+  <span style=color:#f92672>.</span>setScanners<span style=color:#f92672>(</span><span style=color:#a6e22e>TypesAnnotated</span><span style=color:#f92672>))</span>
+</code></pre></div><p>I then take the results of that query and extract the class names from the package. At this point, the class names
+should look something like <code>test.className</code>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala>reflections
+  <span style=color:#f92672>.</span>getStore
+  <span style=color:#f92672>.</span>get<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;TypesAnnotated&#34;</span><span style=color:#f92672>)</span>
+  <span style=color:#f92672>.</span>get<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;scala.reflect.ScalaSignature&#34;</span><span style=color:#f92672>)</span>
+  <span style=color:#f92672>.</span>toArray
+  <span style=color:#f92672>.</span>filter<span style=color:#f92672>(</span><span style=color:#66d9ef>_</span><span style=color:#f92672>.</span>asInstanceOf<span style=color:#f92672>[</span><span style=color:#66d9ef>String</span><span style=color:#f92672>].</span>contains<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;test.&#34;</span><span style=color:#f92672>))</span>
+  <span style=color:#f92672>.</span>map<span style=color:#f92672>(</span><span style=color:#66d9ef>_</span><span style=color:#f92672>.</span>asInstanceOf<span style=color:#f92672>[</span><span style=color:#66d9ef>String</span><span style=color:#f92672>])</span>
+</code></pre></div><p>Here&rsquo;s where the more interesting things happen. We need to first get the class and then also create an instance for it</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#66d9ef>val</span> testClass <span style=color:#66d9ef>=</span> <span style=color:#a6e22e>ScalaClassLoader</span><span style=color:#f92672>(</span>getClass<span style=color:#f92672>.</span>getClassLoader<span style=color:#f92672>).</span>tryToInitializeClass<span style=color:#f92672>(</span>c<span style=color:#f92672>)</span>
+<span style=color:#66d9ef>val</span> instance  <span style=color:#66d9ef>=</span> <span style=color:#a6e22e>ScalaClassLoader</span><span style=color:#f92672>(</span>getClass<span style=color:#f92672>.</span>getClassLoader<span style=color:#f92672>).</span>create<span style=color:#f92672>(</span>c<span style=color:#f92672>)</span>
+</code></pre></div><p>This may be a little confusing but the two are different; <code>testClass</code> is essentially a reference to the test class. This later
+allows us to use <code>getMethods</code> to find the tests inside of it which, in order to run, we need to instantiate it first hence the
+<code>instance</code>. I made a separate method for executing the test since the code was getting a little cluttered. This just invokes the
+method and based on the return value, it prints whether the test passed or not.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-scala data-lang=scala><span style=color:#66d9ef>def</span> runTest<span style=color:#f92672>(</span>instance<span style=color:#66d9ef>:</span> <span style=color:#66d9ef>AnyRef</span><span style=color:#f92672>,</span> el<span style=color:#66d9ef>:</span> <span style=color:#66d9ef>Method</span><span style=color:#f92672>)</span> <span style=color:#66d9ef>=</span> <span style=color:#f92672>{</span>
+  <span style=color:#75715e>// Catches invalid tests (say main is missing from the code snippet)
+</span><span style=color:#75715e></span>  <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+    lastMethodName <span style=color:#66d9ef>=</span> el<span style=color:#f92672>.</span>getName
+    <span style=color:#66d9ef>val</span> <span style=color:#f92672>(</span>output<span style=color:#f92672>,</span> actual<span style=color:#f92672>)</span> <span style=color:#66d9ef>=</span> el<span style=color:#f92672>.</span>invoke<span style=color:#f92672>(</span>instance<span style=color:#f92672>).</span>asInstanceOf<span style=color:#f92672>[(</span><span style=color:#66d9ef>Boolean</span>, <span style=color:#66d9ef>String</span><span style=color:#f92672>)]</span>
+    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>output<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#75715e>// print passed
+</span><span style=color:#75715e></span>    <span style=color:#f92672>}</span> <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+      <span style=color:#75715e>// print failed
+</span><span style=color:#75715e></span>      exitCode <span style=color:#66d9ef>=</span> <span style=color:#ae81ff>1</span>
+    <span style=color:#f92672>}</span>
+  <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>case</span> e<span style=color:#66d9ef>:</span> <span style=color:#66d9ef>Exception</span> <span style=color:#f92672>=&gt;</span>
+      <span style=color:#75715e>// print error
+</span><span style=color:#75715e></span>      exitCode <span style=color:#66d9ef>=</span> <span style=color:#ae81ff>1</span>
+  <span style=color:#f92672>}</span> 
+<span style=color:#f92672>}</span>
+</code></pre></div><p>This is a little bit simplified compared to the actual method; I wanted to be able to run this method from different threads
+so I had to use a synchronized <code>StringBuilder</code> for the outputs. In order to not lock it too often, I chunk the results to a
+temporary <code>StringBuiler</code> and only push them to the synchronized one once the thread is done executing its tests.</p>
+<ul>
+<li>Was this necessary? No</li>
+<li>Does it give any significant performance increase? Not really</li>
+<li>Is it cool that I did it regardless? Yeah 😎</li>
+</ul>
+<p>On the topic of cool things, Scala has <a href=https://www.scala-lang.org/api/current/scala/io/AnsiColor.html>this</a> library which makes it
+easy for you to use ANSI escape sequences and add some color to your prints!</p>
+<h2 id=creating-the-pipeline>Creating the pipeline<a href=#creating-the-pipeline class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Building the pipeline was more complicated than it sounds. For starters, the project initially used <a href=https://www.scala-sbt.org/>SBT</a>.
+When I was developing the framework I would test run it using Intellij which would compile everything with Java behind the scenes unlike
+SBT which uses Scala. Turns out the 2 have some runtime differences when it comes to the classloaders and the test classes could not
+be detected so I eventually made a merge request that made everything work through Gradle which took a bit of fiddling around until
+everything started working again but at least the classloaders were not complaining anymore.</p>
+<p>Another issue I had was getting the pipeline to work on an Ubuntu image which seemed to also have some classloader issues
+because the test methods could not get invoked. In case anyone is willing to take a look and potentially fix it, here&rsquo;s the
+<a href="https://github.com/AntoniosBarotsis/Po-Sharp/runs/5428580842?check_suite_focus=true">pipeline run</a> and the
+<a href=https://github.com/AntoniosBarotsis/Po-Sharp/blob/152fbbdeb5b570024a4210e2563f3295459ef9cf/.github/workflows/workflow.yml>pipeline yml file</a>.</p>
+<p>Other than that small hiccup, the rest was fairly standard stuff.</p>
+<p>I want the pipeline to run on master pushes and on pull requests. The job should run on a windows image, I checkout to the repo and use
+<a href=https://github.com/Vampire/setup-wsl>this</a> action to set up WSL, Gradle has a short post about setting up a Gradle build workflow
+<a href=https://github.com/marketplace/actions/gradle-build-action>here</a> which I used for the setup and finally I install any WSL
+dependencies I need and run the Gradle task for the tests</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build and Test</span>
+
+<span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>branches</span>:
+      - <span style=color:#e6db74>&#34;master&#34;</span>
+  <span style=color:#f92672>pull_request</span>:
+
+<span style=color:#f92672>jobs</span>:
+ <span style=color:#f92672>gradle</span>:
+   <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>windows-2022</span>
+   <span style=color:#f92672>steps</span>:
+   - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+
+   - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up WSL</span>
+     <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>Vampire/setup-wsl@v1</span>
+
+   - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-java@v2</span>
+     <span style=color:#f92672>with</span>:
+       <span style=color:#f92672>distribution</span>: <span style=color:#ae81ff>temurin</span>
+       <span style=color:#f92672>java-version</span>: <span style=color:#ae81ff>17</span>
+
+   - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Setup Gradle</span>
+     <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>gradle/gradle-build-action@v2</span>
+     <span style=color:#f92672>with</span>:
+       <span style=color:#f92672>gradle-version</span>: <span style=color:#ae81ff>7.3</span>
+
+   - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Execute Gradle build</span>
+     <span style=color:#f92672>run</span>: <span style=color:#ae81ff>gradle build</span>
+
+   - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Install dependencies</span>
+     <span style=color:#f92672>shell</span>: <span style=color:#ae81ff>wsl-bash {0}</span>
+     <span style=color:#f92672>run</span>: |<span style=color:#e6db74>
+</span><span style=color:#e6db74>       apt update
+</span><span style=color:#e6db74>       apt install make nasm gcc -y</span>       
+
+   - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Run tests</span>
+     <span style=color:#f92672>run</span>: <span style=color:#ae81ff>gradle runTests</span>
+</code></pre></div><p>About a month and a half had passed since I started working on Veritas before I finally saw this</p>
+<img src=/img/posharp/tests.png class=center style=border-radius:8px>
+<p>and this</p>
+<p><img src="https://img.shields.io/github/workflow/status/pijuskri/Po-Sharp/Build%20and%20Test?style=for-the-badge#center" alt="GitHub Workflow Status"></p>
+<h2 id=the-future>The future<a href=#the-future class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>As I mentioned earlier, the framework is not done which is to be expected since the language itself is not done evolving. Now that the
+the pipeline is also complete I have reached a point where the framework is both capable enough to test anything currently present in the
+language and can ensure that nothing breaks over time through the pipeline.</p>
+<p>That being said, I now have the freedom to worry about more &ldquo;trivial&rdquo; things such as</p>
+<ul>
+<li>Actual error handling that does not simply wrap the entire framework in a try-catch</li>
+<li>Improved error messages for anything that could go wrong</li>
+<li><del><em>Steal</em></del> get inspiration from Fluent Assertions on new things to add</li>
+</ul>
+<p>Of course, this is what I can come up with now, more stuff will probably appear along the way as the language evolves.</p>
+<h2 id=closing>Closing<a href=#closing class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>All in all, it has been really cool and interesting to work on this. It was really interesting to dive into reflection, it really
+is fascinating to me how you can interact with a project&rsquo;s source code through &mldr; more source code. It also gives you a better
+understanding of how these frameworks function which is great. Multi-threading was another thing I enjoyed getting into, I recently
+developed an interest to parallel programming and this is one of the ways I pursued that interest. It&rsquo;s nice knowing your code
+helps someone and makes their lives easier but also more boring because who likes writing tests am I right?</p>
+<p>Really interested in seeing where this will go from now, till next time!</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://antoniosbarotsis.github.io/posts/simple_jwt/>
+<span class=button__icon>←</span>
+<span class=button__text>Simple JWT</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/>
+<span class=button__text>Zip it and ship it!</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+<script src=https://utteranc.es/client.js repo=AntoniosBarotsis/Blog issue-term=pathname label=Comment theme=github-dark crossorigin=anonymous async></script>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://antoniosbarotsis.github.io/assets/main.js></script>
+<script src=https://antoniosbarotsis.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

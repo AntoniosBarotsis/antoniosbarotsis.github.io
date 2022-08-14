@@ -1,0 +1,363 @@
+<!doctype html><html lang=en>
+<head>
+<title>C# and the ELK stack :: Tony's Portfolio</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Integrating the ELK stack with C#.">
+<meta name=keywords content="Csharp,Elasticsearch,Kibana,Monitoring,ELK">
+<meta name=robots content="noodp">
+<link rel=canonical href=https://antoniosbarotsis.github.io/posts/cs_elk/>
+<link rel=stylesheet href=https://antoniosbarotsis.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://antoniosbarotsis.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://antoniosbarotsis.github.io/img/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C# and the ELK stack">
+<meta property="og:description" content="Integrating the ELK stack with C#.">
+<meta property="og:url" content="https://antoniosbarotsis.github.io/posts/cs_elk/">
+<meta property="og:site_name" content="Tony's Portfolio">
+<meta property="og:image" content="https://antoniosbarotsis.github.io/img/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2021-10-28 22:04:54 +0200 +0200">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+Tony's Portfolio
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://antoniosbarotsis.github.io/posts/cs_elk/>C# and the ELK stack</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2021-10-28
+</span>
+<span class=post-reading-time>:: 6 min read (1278 words)</span>
+&nbsp;|&nbsp;<a href=https://github.com/AntoniosBarotsis/Blog/tree/master/content/posts/cs_elk.md rel="noopener noreferrer" target=_blank>View Source</a>
+</div>
+<span class=post-tags>
+#<a href=https://antoniosbarotsis.github.io/tags/coding/>Coding</a>&nbsp;
+#<a href=https://antoniosbarotsis.github.io/tags/csharp/>Csharp</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#what-is-the-elk-stack>What is the ELK stack?</a></li>
+<li><a href=#what-will-we-be-creating>What will we be creating?</a></li>
+<li><a href=#coding>Coding</a>
+<ul>
+<li><a href=#setting-up-middleware>Setting up middleware</a></li>
+<li><a href=#setting-up-the-elasticsearch-and-kibana-containers>Setting up the Elasticsearch and Kibana containers</a></li>
+<li><a href=#setting-up-serilog>Setting up Serilog</a></li>
+<li><a href=#kibana>Kibana</a></li>
+</ul>
+</li>
+<li><a href=#conclusion>Conclusion</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<h2 id=what-is-the-elk-stack>What is the ELK stack?<a href=#what-is-the-elk-stack class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>With today&rsquo;s applications growing in complexity rapidly, debugging and efficiently digesting logs have become crucial.
+That is the problem that the <a href=https://www.elastic.co/what-is/elk-stack>ELK stack</a> is trying to solve.</p>
+<p>The ELK stack consists of:</p>
+<ul>
+<li>Elasticsearch: A distributed search engine with highly refined analytics capabilities</li>
+<li>Logstash: A data-processing pipeline that collects data and delivers it to Elasticsearch</li>
+<li>Kibana: A visualization platform built expressly for Elasticsearch</li>
+</ul>
+<p>These three together make for a great way of digesting aggregated logs from your application through visualisations.</p>
+<h2 id=what-will-we-be-creating>What will we be creating?<a href=#what-will-we-be-creating class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>We will be making a simple API (the default weather forecast template), have it produce logs using Serilog into elasticsearch and viewing them
+through kibana.</p>
+<p>For this post I will be assuming you have used C## before and thus you have a ready-to-go set up on your machine.</p>
+<h2 id=coding>Coding<a href=#coding class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Let&rsquo;s first make our project using the dotnet cli, I will name mine <code>elk</code></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>dotnet new webapi -n elk
+</code></pre></div><p>Verify that everything is working fine by running the API</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>dotnet run
+</code></pre></div><p>and visiting <code>https://localhost:5001/weatherforecast</code>. I am using <a href=https://insomnia.rest/>Insomnia</a> for my http client but Postman or your browser
+would also work.</p>
+<img src=/img/cs_elk/helloWorld.jpg class=center style=border-radius:8px>
+<h3 id=setting-up-middleware>Setting up middleware<a href=#setting-up-middleware class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>I will be setting up middleware to handle logging as it is a cleaner solution than logging in each request. You can read more about middleware
+<a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-5.0">here</a>.</p>
+<p>I created the following file:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// MyMiddleware.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>using</span> System.Threading.Tasks;
+<span style=color:#66d9ef>using</span> Microsoft.AspNetCore.Http;
+<span style=color:#66d9ef>using</span> Microsoft.Extensions.Logging;
+
+<span style=color:#66d9ef>namespace</span> elk
+{
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyMiddleware</span>
+    {
+        <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>readonly</span> ILogger&lt;MyMiddleware&gt; <span style=color:#ae81ff>_l</span>ogger;
+        <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>readonly</span> RequestDelegate <span style=color:#ae81ff>_</span>next;
+
+        <span style=color:#66d9ef>public</span> MyMiddleware(RequestDelegate next, ILogger&lt;MyMiddleware&gt; logger)
+        {
+            <span style=color:#ae81ff>_</span>next = next;
+            <span style=color:#ae81ff>_l</span>ogger = logger;
+        }
+
+        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>async</span> Task InvokeAsync(HttpContext context)
+        {
+            <span style=color:#ae81ff>_l</span>ogger.LogInformation(<span style=color:#e6db74>&#34;Hello from middleware&#34;</span>);
+            <span style=color:#66d9ef>await</span> <span style=color:#ae81ff>_</span>next(context);
+        }
+    }
+}
+</code></pre></div><p>and added the following line to the <code>Configure</code> method in <code>Startup.cs</code></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// Startup.cs -&gt; Configure
+</span><span style=color:#75715e></span>app.UseMiddleware&lt;MyMiddleware&gt;();
+</code></pre></div><p>If we now run the app and make a request to our endpoint we can see <code>Hello from middleware</code> logged to the console.</p>
+<p>Knowing that that works lets change the middleware a bit so it can catch and handle exceptions</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// MyMiddleware.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>using</span> System;
+<span style=color:#66d9ef>using</span> System.Threading.Tasks;
+<span style=color:#66d9ef>using</span> Microsoft.AspNetCore.Http;
+<span style=color:#66d9ef>using</span> Microsoft.AspNetCore.Mvc;
+<span style=color:#66d9ef>using</span> Microsoft.Extensions.Logging;
+
+<span style=color:#66d9ef>namespace</span> elk
+{
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyMiddleware</span>
+    {
+        <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>readonly</span> ILogger&lt;MyMiddleware&gt; <span style=color:#ae81ff>_l</span>ogger;
+        <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>readonly</span> RequestDelegate <span style=color:#ae81ff>_</span>next;
+
+        <span style=color:#66d9ef>public</span> MyMiddleware(RequestDelegate next, ILogger&lt;MyMiddleware&gt; logger)
+        {
+            <span style=color:#ae81ff>_</span>next = next;
+            <span style=color:#ae81ff>_l</span>ogger = logger;
+        }
+
+        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>async</span> Task InvokeAsync(HttpContext context)
+        {
+            <span style=color:#66d9ef>try</span>
+            {
+                <span style=color:#66d9ef>await</span> <span style=color:#ae81ff>_</span>next(context);
+            }
+            <span style=color:#66d9ef>catch</span> (Exception exception)
+            {
+                <span style=color:#ae81ff>_l</span>ogger.LogError(exception, <span style=color:#e6db74>&#34;Something went wrong&#34;</span>);
+                
+                <span style=color:#66d9ef>await</span> HandleExceptionAsync(context, exception);
+            }
+        }
+
+        <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> Task HandleExceptionAsync(HttpContext context, Exception ex)
+        {
+            context.Response.StatusCode = <span style=color:#ae81ff>500</span>;
+            <span style=color:#66d9ef>return</span> context.Response.WriteAsync(<span style=color:#e6db74>&#34;An exception occured&#34;</span>);
+        }
+    }
+}
+</code></pre></div><p>If we now run the app again we should see nothing logged in the console. If we add a <code>throw new Exception();</code> statement in our controller
+we should get a <code>500</code> Response back saying that an exception occured and also see the exception logged in the terminal.</p>
+<p>I am going to add the following to the controller so we get errors at random from the endpoint</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#66d9ef>if</span> (rng.Next(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>10</span>) &lt; <span style=color:#ae81ff>2</span>)
+    <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> Exception();
+</code></pre></div><h3 id=setting-up-the-elasticsearch-and-kibana-containers>Setting up the Elasticsearch and Kibana containers<a href=#setting-up-the-elasticsearch-and-kibana-containers class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>I will be using Docker to run Elasticsearch and Kibana so first thing I want to do is make a <code>docker-compose.yml</code> file.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#75715e>## docker-compose.yml</span>
+<span style=color:#f92672>version</span>: <span style=color:#e6db74>&#34;2.4&#34;</span>
+<span style=color:#f92672>services</span>:
+  <span style=color:#f92672>es</span>:
+    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>docker.elastic.co/elasticsearch/elasticsearch:7.14.2</span>
+    <span style=color:#f92672>container_name</span>: <span style=color:#ae81ff>es</span>
+    <span style=color:#f92672>ports</span>:
+      - <span style=color:#e6db74>&#34;9200:9200&#34;</span>
+    <span style=color:#f92672>cpu_count</span>: <span style=color:#ae81ff>1</span>
+    <span style=color:#f92672>mem_limit</span>: <span style=color:#ae81ff>4g</span>
+    <span style=color:#f92672>ulimits</span>:
+      <span style=color:#f92672>memlock</span>:
+        <span style=color:#f92672>soft</span>: -<span style=color:#ae81ff>1</span>
+        <span style=color:#f92672>hard</span>: -<span style=color:#ae81ff>1</span>
+      <span style=color:#f92672>nofile</span>:
+        <span style=color:#f92672>soft</span>: <span style=color:#ae81ff>65536</span>
+        <span style=color:#f92672>hard</span>: <span style=color:#ae81ff>65536</span>
+    <span style=color:#f92672>environment</span>:
+      - <span style=color:#ae81ff>cluster.name=es-docker</span>
+      - <span style=color:#ae81ff>cluster.initial_master_nodes=node1</span>
+      - <span style=color:#ae81ff>node.name=node1</span>
+      - <span style=color:#ae81ff>bootstrap.memory_lock=true</span>
+      - <span style=color:#e6db74>&#34;ES_JAVA_OPTS=-Xms2g -Xmx2g&#34;</span>
+  <span style=color:#f92672>kib</span>:
+    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>docker.elastic.co/kibana/kibana:7.14.2</span>
+    <span style=color:#f92672>container_name</span>: <span style=color:#ae81ff>kib</span>
+    <span style=color:#f92672>ports</span>:
+      - <span style=color:#e6db74>&#34;5601:5601&#34;</span>
+    <span style=color:#f92672>depends_on</span>:
+      - <span style=color:#ae81ff>es</span>
+    <span style=color:#f92672>cpu_count</span>: <span style=color:#ae81ff>1</span>
+    <span style=color:#f92672>mem_limit</span>: <span style=color:#ae81ff>4g</span>
+    <span style=color:#f92672>environment</span>: 
+      <span style=color:#f92672>ELASTICSEARCH_URL</span>: <span style=color:#ae81ff>http://es:9200</span>
+      <span style=color:#f92672>ELASTICSEARCH_HOSTS</span>: <span style=color:#ae81ff>http://es:9200</span>
+</code></pre></div><p>A few things about this;</p>
+<ul>
+<li>It seems that at the time of writing this, version 3 does not support resource limits without using swarm hence the downgrade to 2.4
+(please use resource limits if you want your computer to be usable)</li>
+<li>The <code>cluster.initial_master_nodes</code> and <code>node.name</code> must have the same value as I want to use a one node cluster</li>
+<li>The <code>ELASTICSEARCH_URL</code> and <code>ELASTICSEARCH_HOSTS</code> params are needed since by default these will try to find the elasticsearch server at
+<code>http://localhost:9200</code>.</li>
+</ul>
+<h3 id=setting-up-serilog>Setting up Serilog<a href=#setting-up-serilog class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>We will be using the <code>Serilog.AspNetCore</code> (for logging), <code>Serilog.Sinks.Elasticsearch</code> (for pushing our logs to elastic) and
+<code>Serilog.Enricher.Environment</code> (for adding properties from System.Environment) packages.</p>
+<p>Once you have those installed, go to the <code>appsettings.json</code> file, remove the Logging section and add the following:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=color:#e6db74>&#34;Serilog&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+  <span style=color:#f92672>&#34;MinimumLevel&#34;</span>: {
+    <span style=color:#f92672>&#34;Default&#34;</span>: <span style=color:#e6db74>&#34;Information&#34;</span>,
+    <span style=color:#f92672>&#34;Override&#34;</span>: {
+      <span style=color:#f92672>&#34;Microsoft&#34;</span>: <span style=color:#e6db74>&#34;Information&#34;</span>,
+      <span style=color:#f92672>&#34;System&#34;</span>: <span style=color:#e6db74>&#34;Warning&#34;</span>
+    }
+  }
+}
+</code></pre></div><p>We need to make some changes in our <code>Program.cs</code> file both for logging in the terminal as well as pushing our logs to Elastic.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// Program.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> IHostBuilder CreateHostBuilder(<span style=color:#66d9ef>string</span>[] args)
+{
+    <span style=color:#66d9ef>return</span> Host.CreateDefaultBuilder(args)
+        .UseSerilog((context, configuration) =&gt;
+        {
+            configuration
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .WriteTo.Console()
+                .WriteTo.Elasticsearch(
+                    <span style=color:#66d9ef>new</span> ElasticsearchSinkOptions(<span style=color:#66d9ef>new</span> Uri(context.Configuration[<span style=color:#e6db74>&#34;ElasticConfig:url&#34;</span>]))
+                    {
+                        IndexFormat = <span style=color:#e6db74>$&#34;{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}-&#34;</span> +
+                                      <span style=color:#e6db74>$&#34;{context.Configuration[&#34;</span>ASPNETCORE_ENVIRONMENT<span style=color:#e6db74>&#34;].ToLower()}_{DateTime.UtcNow:yyyy-MM-dd}&#34;</span>,
+                        AutoRegisterTemplate = <span style=color:#66d9ef>true</span>
+                    })
+                .Enrich.WithProperty(<span style=color:#e6db74>&#34;Environment&#34;</span>, context.HostingEnvironment.EnvironmentName)
+                .ReadFrom.Configuration(context.Configuration);
+        })
+        .ConfigureWebHostDefaults(webBuilder =&gt; { webBuilder.UseStartup&lt;Startup&gt;(); });
+}
+</code></pre></div><p>Most of this you can find online but for as a short explanation:</p>
+<ul>
+<li>We enrich our logs with the log context, machine name and the environment (dev/prod)</li>
+<li>We push our logs both to the console and to elastic</li>
+<li>The logs in elastic will have the format <code>appname-dev/prod_date</code>. Something to keep in mind for this is that it looks like some characters
+like <code>:</code> do not work in these patterns or at least didn&rsquo;t work for me hence the underscore.</li>
+</ul>
+<p>What&rsquo;s cool about this is that we do not have to change our existing logger related code! We can also however use Serilog directly:</p>
+<ul>
+<li>Change the <code>using Microsoft.Extensions.Logging;</code> import to <code>using Serilog;</code></li>
+<li>Remove the generic from the <code>ILogger</code>s</li>
+<li>Change <code>_logger.LogError</code> to <code>_logger.Error</code></li>
+</ul>
+<p>Another thing we can do is edit the Exception data and log some debugging critical parameter.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// WeatherForecastController.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>if</span> (rng.Next(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>10</span>) &lt; <span style=color:#ae81ff>2</span>)
+{
+    <span style=color:#66d9ef>var</span> myException = <span style=color:#66d9ef>new</span> Exception();
+    myException.Data.Add(<span style=color:#e6db74>&#34;someVeryImportantAttribute&#34;</span>, <span style=color:#ae81ff>42</span>);
+    <span style=color:#66d9ef>throw</span> myException;
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// MyMiddleware.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>catch</span> (Exception exception)
+{
+    <span style=color:#ae81ff>_l</span>ogger.Error(exception, <span style=color:#e6db74>&#34;Something went wrong, {message}&#34;</span>, exception.Data[<span style=color:#e6db74>&#34;someVeryImportantAttribute&#34;</span>]);
+    
+    <span style=color:#66d9ef>await</span> HandleExceptionAsync(context, exception);
+}
+</code></pre></div><p>If we now run the app logs will start getting pushed to elastic (make sure to also make a few requests so you get some errors!).</p>
+<h3 id=kibana>Kibana<a href=#kibana class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>We can now visit <code>http://localhost:5601</code> to access kibana.</p>
+<p>Once there, go to <code>Spaces > Manage Spaces</code> from the top right and select default. On the left you should see <code>Index patterns</code> and if you go there
+you can essentially define the log pattern that you want kibana to consider, in my case that is <code>elk-development_*</code>. We can then go to
+<code>Analytics > Discover</code> and voilà!</p>
+<img src=/img/cs_elk/logs.jpg class=center style=border-radius:8px>
+<p>If you made the Exception data change mentioned earlier you should be able to see that as well</p>
+<img src=/img/cs_elk/data.jpg class=center style=border-radius:8px>
+<p>The true power of this comes from how you can query your logs. You could for example query for <code>level: Error</code> to get all your error logs</p>
+<img src=/img/cs_elk/errors.jpg class=center style=border-radius:8px>
+<p>You could also make queries like <code>fields.ElapsedMilliseconds > 10</code> or <code>fields.RequestPath: /weatherforecast</code>, you can read more about the
+possible queries <a href=https://www.elastic.co/guide/en/kibana/current/kuery-query.html>here</a>.</p>
+<p>One thing I always love spending way too much time on is visualizations and I can definitely see this being the most powerful feature in
+Kibana</p>
+<img src=/img/cs_elk/plots.jpg class=center style=border-radius:8px>
+<h2 id=conclusion>Conclusion<a href=#conclusion class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Overall I think this was a pretty cool learning experience for me as I had never done proper error handling or used middleware before in
+C## (or used docker hardware limits but we do not talk about that). I think that although I definitely see the ELK stack being invaluable
+to a big company, I feel like I will not be using or recommend others to use if for small or personal projects as it is relatively hard
+to set up locally and expensive to host (especially if before this you just had a single app instance running).</p>
+<p>Long story short; it is definitely pretty cool but like normal logging should be enough for the majority of cases 👍.</p>
+<p>And of course by no means will implementing all of this compensate for bad error handling.</p>
+<p>Thanks for reading!</p>
+<p>You can find the code <a href=https://github.com/AntoniosBarotsis/elk>here</a>.</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://antoniosbarotsis.github.io/posts/aspnet_testing/>
+<span class=button__icon>←</span>
+<span class=button__text>Testing an ASP .NET Core project</span>
+</a>
+</span>
+</div>
+</div>
+<script src=https://utteranc.es/client.js repo=AntoniosBarotsis/Blog issue-term=pathname label=Comment theme=github-dark crossorigin=anonymous async></script>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://antoniosbarotsis.github.io/assets/main.js></script>
+<script src=https://antoniosbarotsis.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

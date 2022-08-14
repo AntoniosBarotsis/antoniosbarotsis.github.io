@@ -1,0 +1,359 @@
+<!doctype html><html lang=en>
+<head>
+<title>Testing an ASP .NET Core project :: Tony's Portfolio</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Tests and automated coverage reports with .NET and Github actions.">
+<meta name=keywords content="Csharp,CI,Testing,Github Actions">
+<meta name=robots content="noodp">
+<link rel=canonical href=https://antoniosbarotsis.github.io/posts/aspnet_testing/>
+<link rel=stylesheet href=https://antoniosbarotsis.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://antoniosbarotsis.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://antoniosbarotsis.github.io/img/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Testing an ASP .NET Core project">
+<meta property="og:description" content="Tests and automated coverage reports with .NET and Github actions.">
+<meta property="og:url" content="https://antoniosbarotsis.github.io/posts/aspnet_testing/">
+<meta property="og:site_name" content="Tony's Portfolio">
+<meta property="og:image" content="https://antoniosbarotsis.github.io/img/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2021-10-29 16:12:35 +0200 +0200">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+Tony's Portfolio
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://antoniosbarotsis.github.io/posts/aspnet_testing/>Testing an ASP .NET Core project</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2021-10-29
+</span>
+<span class=post-reading-time>:: 7 min read (1364 words)</span>
+&nbsp;|&nbsp;<a href=https://github.com/AntoniosBarotsis/Blog/tree/master/content/posts/aspnet_testing.md rel="noopener noreferrer" target=_blank>View Source</a>
+</div>
+<span class=post-tags>
+#<a href=https://antoniosbarotsis.github.io/tags/coding/>Coding</a>&nbsp;
+#<a href=https://antoniosbarotsis.github.io/tags/csharp/>Csharp</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#introduction>Introduction</a></li>
+<li><a href=#coding>Coding</a>
+<ul>
+<li><a href=#creating-the-project>Creating the project</a></li>
+<li><a href=#creating-the-service>Creating the service</a></li>
+<li><a href=#writing-our-tests>Writing our tests</a></li>
+<li><a href=#adding-a-ci-pipeline-with-codecov>Adding a CI pipeline with Codecov</a></li>
+</ul>
+</li>
+<li><a href=#conclusion>Conclusion</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<h2 id=introduction>Introduction<a href=#introduction class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Most Web API templates I could find online do not have testing pre configured in them and the official ones do not have it at all so I thought
+that I would make a post about setting up basic unit tests as well as mocking dependencies.</p>
+<p>I will be using <a href=https://xunit.net/>XUnit</a> which is one of the most used testing frameworks for .NET as well as
+<a href=https://fakeiteasy.github.io/>FakeItEasy</a> for mocking. In the end I will also use <a href=https://dotnetfoundation.org/projects/coverlet>Coverlet</a>
+and <a href=https://about.codecov.io/>Codecov</a> for coverage reports.</p>
+<p>The API will be the weather forecast template with the addition of a service layer which is what we will be testing. Let&rsquo;s get started!</p>
+<h2 id=coding>Coding<a href=#coding class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<h3 id=creating-the-project>Creating the project<a href=#creating-the-project class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>I will be creating a solution with 2 projects, one being the API and the other one being the one for testing.</p>
+<p>We start by creating a folder for the solution:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>mkdir TestingAPI
+cd TestingAPI
+dotnet new sln
+</code></pre></div><p>We can now create the API project and add it to our solution:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>dotnet new webapi -n src
+dotnet sln add src/src.csproj
+</code></pre></div><p>Similarly for our test project:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>dotnet new xunit -n test
+dotnet sln add test/test.csproj
+</code></pre></div><p>Running <code>dotnet run --project src</code> should spin up the server and sure enough, visiting <code>https://localhost:5001/weatherforecast</code>
+returns us the expected responce.</p>
+<h3 id=creating-the-service>Creating the service<a href=#creating-the-service class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>I will create a <code>Services</code> folder and inside it add 2 files: a service interface and its implementation</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// IMyDependency.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>using</span> System.Threading.Tasks;
+
+<span style=color:#66d9ef>namespace</span> src.Services
+{
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> IMyDependency
+    {
+        Task&lt;<span style=color:#66d9ef>string</span>&gt; GetDataFromDatabaseAsync();
+    }
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// MyDependency.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>using</span> System.Threading.Tasks;
+
+<span style=color:#66d9ef>namespace</span> src.Services
+{
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyDependency</span>: IMyDependency
+    {
+        <span style=color:#66d9ef>public</span> Task&lt;<span style=color:#66d9ef>string</span>&gt; GetDataFromDatabaseAsync()
+        {
+            <span style=color:#66d9ef>return</span> Task.FromResult(<span style=color:#e6db74>&#34;Hello From MyDependency!&#34;</span>);
+        }
+    }
+}
+</code></pre></div><p>Let&rsquo;s head to our controller and make use of the service we just created there so we can make sure it works:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// WeatherForecastController.cs
+</span><span style=color:#75715e>// ...
+</span><span style=color:#75715e></span><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>readonly</span> ILogger&lt;WeatherForecastController&gt; <span style=color:#ae81ff>_l</span>ogger;
+<span style=color:#66d9ef>private</span> <span style=color:#66d9ef>readonly</span> IMyDependency <span style=color:#ae81ff>_d</span>ependency;
+
+<span style=color:#66d9ef>public</span> WeatherForecastController(ILogger&lt;WeatherForecastController&gt; logger, IMyDependency dependency)
+{
+    <span style=color:#ae81ff>_l</span>ogger = logger;
+    <span style=color:#ae81ff>_d</span>ependency = dependency;
+}
+<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span><span style=color:#a6e22e>
+</span><span style=color:#a6e22e>[HttpGet]</span>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>async</span> Task&lt;IEnumerable&lt;WeatherForecast&gt;&gt; Get()
+{
+    <span style=color:#ae81ff>_l</span>ogger.LogInformation(<span style=color:#66d9ef>await</span> <span style=color:#ae81ff>_d</span>ependency.GetDataFromDatabaseAsync());
+    
+    <span style=color:#75715e>// No changes below this
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>var</span> rng = <span style=color:#66d9ef>new</span> Random();
+    <span style=color:#66d9ef>return</span> Enumerable.Range(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>5</span>).Select(index =&gt; <span style=color:#66d9ef>new</span> WeatherForecast
+    {
+        Date = DateTime.Now.AddDays(index),
+        TemperatureC = rng.Next(-<span style=color:#ae81ff>20</span>, <span style=color:#ae81ff>55</span>),
+        Summary = Summaries[rng.Next(Summaries.Length)]
+    })
+    .ToArray();
+}
+</code></pre></div><p>Lastly we head to <code>Startup.cs</code> to register the implementation</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// Startup.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped&lt;IMyDependency, MyDependency&gt;();
+    <span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>}
+</code></pre></div><p>If we now run the app and hit the endpoint we should see <code>Hello From MyDependency!</code> logged in the console.</p>
+<h3 id=writing-our-tests>Writing our tests<a href=#writing-our-tests class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Let&rsquo;s navigate to our test project and write our first test</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// UnitTest1.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>using</span> System.Threading.Tasks;
+<span style=color:#66d9ef>using</span> FakeItEasy;
+<span style=color:#66d9ef>using</span> src.Services;
+<span style=color:#66d9ef>using</span> Xunit;
+
+<span style=color:#66d9ef>namespace</span> test
+{
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>UnitTest1</span>
+    {
+<span style=color:#a6e22e>        [Fact]</span>
+        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>async</span> Task Test1()
+        {
+            <span style=color:#66d9ef>var</span> myDependency = <span style=color:#66d9ef>new</span> MyDependency();
+            Assert.Equal(<span style=color:#e6db74>&#34;Hello From MyDependency!&#34;</span>, <span style=color:#66d9ef>await</span> myDependency.GetDataFromDatabaseAsync());
+        }
+    }
+}
+</code></pre></div><p>Here I changed the return type from <code>void</code> to <code>async Task</code> since the method we want to test is async. Running the test with
+<code>dotnet test</code> passes but this is not what we want.</p>
+<p>In a normal project this method could require a database connection that we probably do not want to make use of in our tests for various reasons.
+This is where mocking comes into play; we can provide a fake implementation to our service methods. It might not be as apparent here why this could
+be useful so let me explain.</p>
+<p>Usually the way I like to structure my apps is to split them into 3 layers</p>
+<ul>
+<li>Controllers: handle http requests, call service layer</li>
+<li>Services: business logic, call repository layer</li>
+<li>Repositories: Handle database queries</li>
+</ul>
+<p>Coming from a Spring Boot background, my terminology might be a bit different than what is normally used for .NET projects but the idea is the same;
+split your logic into layers and use dependency injection to interact between them.</p>
+<p>The most important layer to test is the service layer since that&rsquo;s where all the actual &ldquo;programming&rdquo; is. In order to test that I would have to mock
+my repository interface and have it return arbitrary fake data without actually using the database. You can imagine how bad of an idea it would be
+if someone was to test creations, updates or deletions while using the actual database&mldr;</p>
+<p>There are some other options such as using a different, in memory database for testing but we will not be covering that in this post.</p>
+<p>So back to our test, how do we mock the dependency?</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#75715e>// UnitTest1.cs
+</span><span style=color:#75715e></span><span style=color:#66d9ef>using</span> System.Threading.Tasks;
+<span style=color:#66d9ef>using</span> FakeItEasy;
+<span style=color:#66d9ef>using</span> src.Services;
+<span style=color:#66d9ef>using</span> Xunit;
+
+<span style=color:#66d9ef>namespace</span> test
+{
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>UnitTest1</span>
+    {
+<span style=color:#a6e22e>        [Fact]</span>
+        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>async</span> Task Test1()
+        {
+            <span style=color:#66d9ef>var</span> myDependency = <span style=color:#66d9ef>new</span> MyDependency();
+            Assert.Equal(<span style=color:#e6db74>&#34;Hello From MyDependency!&#34;</span>, <span style=color:#66d9ef>await</span> myDependency.GetDataFromDatabaseAsync());
+        }
+<span style=color:#a6e22e>        
+</span><span style=color:#a6e22e>        [Fact]</span>
+        <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>async</span> Task Test2()
+        {
+            <span style=color:#66d9ef>var</span> myDependency = A.Fake&lt;IMyDependency&gt;();
+            A.CallTo(() =&gt; myDependency.GetDataFromDatabaseAsync()).Returns(Task.FromResult(<span style=color:#e6db74>&#34;Hello from mocked&#34;</span>));
+            
+            Assert.Equal(<span style=color:#e6db74>&#34;Hello from mocked&#34;</span>, <span style=color:#66d9ef>await</span> myDependency.GetDataFromDatabaseAsync());
+        }
+    }
+}
+</code></pre></div><p>Using the <code>FakeItEasy</code> package we define an instance of the <code>IMyDependency</code> interface using <code>A.Fake</code>. This right now does nothing;
+we have to explicitly define what happens when one of the interface methods gets called, we do that with <code>A.CallTo</code> which accepts a lambda
+of the method in question. I am using <code>Task.FromResult</code> because the method is async. If we run the test we can see that it passes which means that
+we successfully changed the &ldquo;implementation&rdquo; of our dependency. Again, this is what would normally be a repository and a database call changed to
+hard coded data, similar to what would be returned from said database call.</p>
+<h3 id=adding-a-ci-pipeline-with-codecov>Adding a CI pipeline with Codecov<a href=#adding-a-ci-pipeline-with-codecov class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Another thing we could do is add Codecov to get a detailed view of our test coverage. The best way to do that in my
+opinion is to create a Continuous Integration (CI) pipeline on Github that will generate and push code coverage information everytime we update
+the repository.</p>
+<p>First go to Codecov&rsquo;s website and create an account. Get your <code>CODECOV_TOKEN</code> and create a repository secret with its value on your github
+repository, we will be using this later when we push our data to Codecov.</p>
+<p>We also need to create a <code>codecov.yml</code> file with some basic configuration. Here&rsquo;s what I had from a previous project:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#75715e>## codecov.yml</span>
+<span style=color:#f92672>comment</span>: <span style=color:#66d9ef>false</span>
+
+<span style=color:#f92672>ignore</span>:
+  - <span style=color:#e6db74>&#34;^(?!.*Services).*$&#34;</span>
+
+<span style=color:#f92672>coverage</span>:
+  <span style=color:#f92672>status</span>:
+    <span style=color:#f92672>project</span>:
+      <span style=color:#f92672>default</span>:
+        <span style=color:#f92672>target</span>: <span style=color:#ae81ff>auto</span>
+        <span style=color:#f92672>threshold</span>: <span style=color:#ae81ff>1</span><span style=color:#ae81ff>%</span>
+        <span style=color:#f92672>informational</span>: <span style=color:#66d9ef>true</span>
+    <span style=color:#f92672>patch</span>:
+      <span style=color:#f92672>default</span>:
+        <span style=color:#f92672>target</span>: <span style=color:#ae81ff>auto</span>
+        <span style=color:#f92672>threshold</span>: <span style=color:#ae81ff>1</span><span style=color:#ae81ff>%</span>
+        <span style=color:#f92672>informational</span>: <span style=color:#66d9ef>true</span>
+</code></pre></div><p>The only interesting thing about this is that I ignored every folder that does not include <code>Services</code> since that&rsquo;s the only thing we tested.</p>
+<p>Let&rsquo;s create the <code>.github/workflows/dotnet.yml</code> file and use the Github Actions template for .NET apps which includes building and testing.
+We only have to add one more step for codecov to work:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#75715e>## dotnet.yml</span>
+<span style=color:#f92672>name</span>: <span style=color:#ae81ff>.NET</span>
+
+<span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+  <span style=color:#f92672>pull_request</span>:
+    <span style=color:#f92672>branches</span>: [ <span style=color:#ae81ff>master ]</span>
+
+<span style=color:#f92672>jobs</span>:
+  <span style=color:#f92672>build</span>:
+
+    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+
+    <span style=color:#f92672>steps</span>:
+    - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Setup .NET</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-dotnet@v1</span>
+      <span style=color:#f92672>with</span>:
+        <span style=color:#f92672>dotnet-version</span>: <span style=color:#ae81ff>5.0</span><span style=color:#ae81ff>.x</span>
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Restore dependencies</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>dotnet restore</span>
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>dotnet build --no-restore</span>
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Test</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>dotnet test --no-build --verbosity normal --collect:&#34;XPlat Code Coverage&#34; -- IncludeDirectory=&#34;[.]*Services[.]*&#34;</span>
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Codecov</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>codecov/codecov-action@v2</span>
+      <span style=color:#f92672>with</span>:
+        <span style=color:#f92672>token</span>: <span style=color:#ae81ff>${{ secrets.CODECOV_TOKEN }}</span>
+</code></pre></div><p>The <a href=https://github.com/codecov/codecov-action>Codecov action</a> offers a few useful parameters for you to use so if you are interested,
+read their docs!</p>
+<p>With all this done and pushed you just want to wait for the Action to complete. After that&rsquo;s done I can take a look at my coverage</p>
+<p><img src=images/codecov.png#center alt=codecov></p>
+<p>This is very useful to look at when dealing when <em>more than one directory unlike here</em>.</p>
+<p>You can also take a look at the exact spots in your code that you tested/missed</p>
+<p><img src=images/code.png#center alt=code></p>
+<p>And finally (but certainly most importantly), codecov gives you a badge to display on your Github repo to show everyone how well tested your code
+is. What&rsquo;s the point of testing if you don&rsquo;t let everyone know you did after all?</p>
+<h2 id=conclusion>Conclusion<a href=#conclusion class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Testing is basically essential to any application that is not yet another personal project doomed to be abandoned a few weeks after its inception.
+If you decide to test your project I do not see why you wouldn&rsquo;t include coverage reports, whether automated or not. Codecov (and other similar tools)
+allow you to set a lot of rules that would fail your pipeline if not met such as: minimum coverage, a minimum threshold of allowed coverage drop on new
+commits and a lot more.</p>
+<p>I hope you got something out of this post and thanks for reading! :)</p>
+<p>You can find the code <a href=https://github.com/AntoniosBarotsis/TestingAPI>here</a>.</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/>
+<span class=button__icon>←</span>
+<span class=button__text>Zip it and ship it!</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://antoniosbarotsis.github.io/posts/cs_elk/>
+<span class=button__text>C# and the ELK stack</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+<script src=https://utteranc.es/client.js repo=AntoniosBarotsis/Blog issue-term=pathname label=Comment theme=github-dark crossorigin=anonymous async></script>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://antoniosbarotsis.github.io/assets/main.js></script>
+<script src=https://antoniosbarotsis.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

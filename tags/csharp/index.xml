@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Csharp on Tony's Portfolio</title><link>https://antoniosbarotsis.github.io/tags/csharp/</link><description>Recent content in Csharp on Tony's Portfolio</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 29 Jun 2022 18:16:47 +0200</lastBuildDate><atom:link href="https://antoniosbarotsis.github.io/tags/csharp/index.xml" rel="self" type="application/rss+xml"/><item><title>Simple JWT</title><link>https://antoniosbarotsis.github.io/posts/simple_jwt/</link><pubDate>Wed, 29 Jun 2022 18:16:47 +0200</pubDate><guid>https://antoniosbarotsis.github.io/posts/simple_jwt/</guid><description>Simple JWT Authorization with .NET Recently I have been working on a side project that needed a very simple toy-like auth scheme to be implemented. The last few times I implemented JWTs in .NET it was for a full-blown application which means that I made use of things like IdentityModel and UserManager, if you want a look at how I made that work you could take a look at the source code of Demeter.</description><content>&lt;h1 id="simple-jwt-authorization-with-net">Simple JWT Authorization with .NET&lt;/h1>
+&lt;p>Recently I have been working on a side project that needed a very simple toy-like auth
+scheme to be implemented. The last few times I implemented JWTs in .NET it was for a full-blown
+application which means that I made use of things like &lt;code>IdentityModel&lt;/code> and &lt;code>UserManager&lt;/code>,
+if you want a look at how I made that work you could take a look at the source code of
+&lt;a href="https://github.com/AntoniosBarotsis/Demeter">Demeter&lt;/a>.&lt;/p>
+&lt;p>In this case, I did not need &lt;em>Authentication&lt;/em>, just &lt;em>Authorization&lt;/em>. The two are defined as followed
+in the &lt;a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-vs-authorization">MS Docs&lt;/a>.&lt;/p>
+&lt;blockquote>
+&lt;p>Authentication is the process of proving that you are who you say you are. [&amp;hellip;]
+Authorization is the act of granting an authenticated party permission to do something.
+It specifies what data you&amp;rsquo;re allowed to access and what you can do with that data.&lt;/p>
+&lt;/blockquote>
+&lt;p>For my use case, simulating a credential check is enough; I don&amp;rsquo;t need to store and check
+password salted hashes to make sure a user is indeed who he is supposed to be as this is a toy app
+that I am working on with supposedly just one user. All this means that if you are looking for a
+tutorial on how to implement Auth for your new project, this is probably not the article for you,
+it is just a less verbose way of dealing with JWT generation and validation that works for me.&lt;/p>
+&lt;p>That being said, let&amp;rsquo;s get started.&lt;/p>
+&lt;h2 id="setup">Setup&lt;/h2>
+&lt;p>The only package I used is &lt;a href="https://www.nuget.org/packages/JWT.Extensions.AspNetCore">JWT.Extensions&lt;/a>.
+I created 3 classes that make everything work:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>JwtConfig&lt;/code>: Holds the JWT secret which is provided in the &lt;code>application.json&lt;/code> file. Could also be
+used for other pieces of configuration such as the token lifespan&lt;/li>
+&lt;li>&lt;code>Secured&lt;/code>: An attribute that when attached to a controller or a specific endpoint requires a
+valid token to be provided in the request header&lt;/li>
+&lt;li>&lt;code>TokenService&lt;/code>: A very simple interface to the &lt;code>JWT.Extensions&lt;/code> API that helps us create and
+validate tokens.&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-jwtconfig">The &lt;code>JwtConfig&lt;/code>&lt;/h2>
+&lt;p>Let&amp;rsquo;s start with the config class first. The idea with this is pretty simple; have a section in our
+&lt;code>appsettings.json&lt;/code> file where we define crucial security information in plain text, what could
+possibly go wrong! On a more serious note, while this is fine for developing, you should definitely
+use something like &lt;a href="https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&amp;amp;tabs=windows">app secrets&lt;/a>
+or plain old environment variables for this. Once again, my app is not supposed to be secure so I don&amp;rsquo;t
+care.&lt;/p>
+&lt;p>The class itself is pretty simple in my case:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-csharp" data-lang="csharp">&lt;span style="color:#66d9ef">public&lt;/span> record JwtConfig(&lt;span style="color:#66d9ef">string&lt;/span> Secret = &lt;span style="color:#e6db74">&amp;#34;fallback-secret&amp;#34;&lt;/span>);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>And here&amp;rsquo;s my settings file&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-json" data-lang="json">{
+&lt;span style="color:#f92672">&amp;#34;JwtConfig&amp;#34;&lt;/span>: {
+&lt;span style="color:#f92672">&amp;#34;secret&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;jwt-secret&amp;#34;&lt;/span>
+},
+&lt;span style="color:#f92672">&amp;#34;Logging&amp;#34;&lt;/span>: {
+&lt;span style="color:#960050;background-color:#1e0010">...&lt;/span>
+},
+&lt;span style="color:#960050;background-color:#1e0010">...&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now that that&amp;rsquo;s out of the way, let&amp;rsquo;s make sure we use the secret from our settings file in the
+&lt;code>JwtConfig&lt;/code> instances.&lt;/p>
+&lt;p>I made it so the class is registered as a singleton in the DI container, the binding itself is
+pretty simple:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-csharp" data-lang="csharp">&lt;span style="color:#75715e">// Program.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">var&lt;/span> jwtConfig = &lt;span style="color:#66d9ef">new&lt;/span> JwtConfig();
+builder.Configuration.Bind(nameof(jwtConfig), jwtConfig);
+builder.Services.AddSingleton(jwtConfig);
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I used &lt;code>nameof&lt;/code> just because I wanted to be sure that the config file&amp;rsquo;s section is titled the
+exact same as the class itself to avoid confusion, this is just a string so swapping it out for
+&lt;code>&amp;quot;JwtConfig&amp;quot;&lt;/code> would change nothing.&lt;/p>
+&lt;p>Since we are here, let&amp;rsquo;s also configure some basic settings for our tokens&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-csharp" data-lang="csharp">&lt;span style="color:#75715e">// Program.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>builder.Services.AddAuthentication(options =&amp;gt;
+{
+options.DefaultChallengeScheme = JwtAuthenticationDefaults.AuthenticationScheme;
+options.DefaultAuthenticateScheme = JwtAuthenticationDefaults.AuthenticationScheme;
+})
+.AddJwt(options =&amp;gt; { options.Keys = &lt;span style="color:#66d9ef">new&lt;/span>[] { jwtConfig.Secret }; });
+builder.Services.AddSingleton&amp;lt;IAlgorithmFactory&amp;gt;(&lt;span style="color:#66d9ef">new&lt;/span> HMACSHAAlgorithmFactory());
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This is taken straight from their &lt;a href="https://github.com/jwt-dotnet/jwt#register-authentication-handler-to-validate-jwt">documentation&lt;/a>
+so I won&amp;rsquo;t be explaining it too much, just know that we are telling the package to use
+the key we just defined and we are also using the &lt;code>HMACSHA&lt;/code> algorithm.&lt;/p>
+&lt;p>It is worth noting that this throws us a warning as this is no longer considered secure
+and it is recommended to &amp;ldquo;consider switching to RSASSA or ECDSA&amp;rdquo;. Once again, for the purposes
+of my use case, this is not a concern.&lt;/p>
+&lt;h2 id="the-tokenservice">The &lt;code>TokenService&lt;/code>&lt;/h2>
+&lt;p>This is where most of the interesting stuff happens. Let&amp;rsquo;s first create the class, get our
+&lt;code>jwtConfig&lt;/code> secret and assign it to a &lt;code>JwtBuilder&lt;/code> instance which we&amp;rsquo;ll use later.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-csharp" data-lang="csharp">&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">TokenService&lt;/span>
+{
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">readonly&lt;/span> JwtBuilder &lt;span style="color:#ae81ff">_&lt;/span>jwtBuilder;
+&lt;span style="color:#66d9ef">public&lt;/span> TokenService(JwtConfig jwtConfig)
+{
+&lt;span style="color:#ae81ff">_&lt;/span>jwtBuilder = JwtBuilder.Create()
+.WithAlgorithm(&lt;span style="color:#66d9ef">new&lt;/span> HMACSHA512Algorithm())
+.WithSecret(jwtConfig.Secret);
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Creating the token itself is also pretty much copy-pasted from their
+&lt;a href="https://github.com/jwt-dotnet/jwt#register-authentication-handler-to-validate-jwt">docs&lt;/a>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-csharp" data-lang="csharp">&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> Create(&lt;span style="color:#66d9ef">string&lt;/span> username)
+{
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">_&lt;/span>jwtBuilder
+.AddClaim(&lt;span style="color:#e6db74">&amp;#34;exp&amp;#34;&lt;/span>, DateTimeOffset.UtcNow.AddHours(&lt;span style="color:#ae81ff">1&lt;/span>).ToUnixTimeSeconds())
+.AddClaim(&lt;span style="color:#e6db74">&amp;#34;username&amp;#34;&lt;/span>, username)
+.Encode();
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I only use the expiration date and username for claims.&lt;/p>
+&lt;p>Lastly, verification.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-csharp" data-lang="csharp">&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">bool&lt;/span> Verify(&lt;span style="color:#66d9ef">string&lt;/span> token)
+{
+&lt;span style="color:#66d9ef">try&lt;/span>
+{
+&lt;span style="color:#66d9ef">var&lt;/span> json = &lt;span style="color:#ae81ff">_&lt;/span>jwtBuilder
+.MustVerifySignature()
+.Decode(token);
+&lt;span style="color:#66d9ef">return&lt;/span> json &lt;span style="color:#66d9ef">is&lt;/span> not &lt;span style="color:#66d9ef">null&lt;/span>;
+}
+&lt;span style="color:#66d9ef">catch&lt;/span> (Exception)
+{
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>;
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>I only need a true or false return as I don&amp;rsquo;t care why the token was not valid. In case the token is a
+valid JWT but it is expired, &lt;code>json&lt;/code> will be null. If on the other hand, the signature is invalid,
+then an exception will be thrown for whatever reason.&lt;/p>
+&lt;h2 id="the-secured-attribute">The &lt;code>Secured&lt;/code> Attribute&lt;/h2>
+&lt;p>As I mentioned earlier, all this is glued together by the use of attributes. For this to work,
+we need to implement the &lt;code>IAuthorizationFilter&lt;/code> interface. This will make it so our code will be
+executed to determine whether a request should be authorized or not.&lt;/p>
+&lt;p>The code for this is also simple but let&amp;rsquo;s go over it step by step&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-csharp" data-lang="csharp">&lt;span style="color:#a6e22e">[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Secured&lt;/span> : Attribute, IAuthorizationFilter
+{
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> OnAuthorization(AuthorizationFilterContext context)
+{
+&lt;span style="color:#66d9ef">var&lt;/span> jwtConfig = context.HttpContext.RequestServices.GetService&amp;lt;JwtConfig&amp;gt;();
+&lt;span style="color:#66d9ef">if&lt;/span> (jwtConfig == &lt;span style="color:#66d9ef">null&lt;/span>) &lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArgumentNullException();
+&lt;span style="color:#66d9ef">var&lt;/span> tokenService = &lt;span style="color:#66d9ef">new&lt;/span> TokenService(jwtConfig);
+&lt;span style="color:#66d9ef">var&lt;/span> token = context
+.HttpContext
+.Request
+.Headers[&lt;span style="color:#e6db74">&amp;#34;Authorization&amp;#34;&lt;/span>]
+.ToString()
+.Replace(&lt;span style="color:#e6db74">&amp;#34;Bearer &amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>);
+&lt;span style="color:#66d9ef">if&lt;/span> (!tokenService.Verify(token))
+context.Result = &lt;span style="color:#66d9ef">new&lt;/span> JsonResult(&lt;span style="color:#66d9ef">new&lt;/span> { message = &lt;span style="color:#e6db74">&amp;#34;Unauthorized&amp;#34;&lt;/span> })
+{ StatusCode = StatusCodes.Status401Unauthorized };
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>As I mentioned earlier, I want this to apply to both endpoints and entire controllers, hence
+the first line. In order to implement &lt;code>IAuthorizationFilter&lt;/code>, we need to define the &lt;code>OnAuthorization&lt;/code>
+method. We use the &lt;code>IServiceProdiver&lt;/code> to retrieve our &lt;code>JwtConfig&lt;/code> instance and make sure it is not null.
+We then instantiate &lt;code>TokenService&lt;/code> and retrieve the token from the request header. Finally, we make sure
+to throw an Unauthorized message to the user if the token is invalid, otherwise, the request pipeline
+will proceed as expected.&lt;/p>
+&lt;p>And that&amp;rsquo;s it! We can now add our newly created attribute to whichever controller or endpoint we want
+and it will be locked behind a valid JWT requirement.&lt;/p>
+&lt;h2 id="closing">Closing&lt;/h2>
+&lt;p>This pretty much concludes the article! As I mentioned earlier, this is a very specific and lacking
+implementation, the main point of the article was to showcase how you could use your own attributes
+to simplify the process which to me feels simpler (and less verbose) compared to some of my previous
+implementations.&lt;/p>
+&lt;p>This is probably the most boring article I&amp;rsquo;ve written so far but I promise you that the project I am
+going to use this for is interesting. It&amp;rsquo;s also a lot harder than anything I&amp;rsquo;ve tried before so don&amp;rsquo;t
+expect that the be out anytime soon.&lt;/p>
+&lt;p>Till next time :)&lt;/p></content></item><item><title>Zip it and ship it!</title><link>https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/</link><pubDate>Tue, 01 Feb 2022 19:05:19 +0200</pubDate><guid>https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/</guid><description>Introduction I recently started working on a command line tool that uses git hooks to remind you to run your tests and builds before pushing your code among other stuff and I decided to package that and publish it so anyone could use it. The project itself is nothing too impressive or innovative so in this post I will be mostly focusing on the packaging and publication process rather than the project itself but in case you are interested in checking it out, click here and go make some issues :)</description><content>&lt;h1 id="introduction">Introduction&lt;/h1>
+&lt;p>I recently started working on a command line tool that uses git hooks to remind you to run your
+tests and builds before pushing your code among other stuff and I decided to package that and
+publish it so anyone could use it. The project itself is nothing too impressive or innovative
+so in this post I will be mostly focusing on the packaging and publication process rather than
+the project itself but in case you are interested in checking it out, click
+&lt;a href="https://github.com/AntoniosBarotsis/Rember">here&lt;/a> and go make some issues :)&lt;/p>
+&lt;p>I&amp;rsquo;ll be explaining how I published said package and how to make a Github Actions CD workflow
+to publish your new releases automatically.&lt;/p>
+&lt;h2 id="why">Why&lt;/h2>
+&lt;p>I feel like most if not all developers find the idea of making their work available for anyone
+to check out and use an exciting one and I definitely relate to that. I personally really like
+working on things that can be used by other developers specifically and that&amp;rsquo;s the main reasons
+why I started this project and why I decided to make it easily accessible to anyone (unless
+you are not on windows because I was too lazy to check how that would work).&lt;/p>
+&lt;p>I decided early on that I wanted to publish my code on 2 platforms; the package manager of my
+language of choice (in this case, NuGet) and a more general purpose package manager like
+&lt;a href="https://chocolatey.org/">Chocolatey&lt;/a> so that my audience would not be limited to developers
+from my tech stack only.&lt;/p>
+&lt;h2 id="what-did-i-build-exactly">What did I build exactly&lt;/h2>
+&lt;p>The project was built using C# mostly because of &lt;a href="https://www.youtube.com/watch?v=JNDgcBDZPkU">this&lt;/a>
+video I came across (great YouTuber by the way, make sure to check his channel out for C# content). TLDR; C#
+has this thing called &lt;a href="https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools">dotnet tools&lt;/a> which
+are essentially command line applications that are very easy to make and package. The linked video walks you
+through creating one from scratch.&lt;/p>
+&lt;h2 id="uploading-to-nuget">Uploading to NuGet&lt;/h2>
+&lt;h3 id="preparing">Preparing&lt;/h3>
+&lt;p>Once you have your CLI tool up and running there&amp;rsquo;s only that many steps left to push it to NuGet.&lt;/p>
+&lt;p>The mentioned video already guides you through adding most of the stuff that you need in your &lt;code>.csproj&lt;/code>
+file but here&amp;rsquo;s a few more things you might want to add:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>A README file&lt;/p>
+&lt;p>If you want your NuGet package to display the README file you spent hours filling with meaningless
+badges, this is for you. All you have to do is add the following:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;PropertyGroup&amp;gt;&lt;/span>
+...
+&lt;span style="color:#f92672">&amp;lt;PackageReadmeFile&amp;gt;&lt;/span>README.md&lt;span style="color:#f92672">&amp;lt;/PackageReadmeFile&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/PropertyGroup&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;ItemGroup&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;None&lt;/span> &lt;span style="color:#a6e22e">Include=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;../README.md&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">Pack=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;true&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">PackagePath=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;\&amp;#34;&lt;/span> &lt;span style="color:#f92672">/&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;/ItemGroup&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This tells NuGet to use our &lt;code>README.md&lt;/code> file as the package README file but for that to work we must
+make sure that this is packaged into our &lt;code>nupkg&lt;/code> file. This might be different in your project but
+my project has a separate folder for the actual code instead of it also being in the root of the project&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-txt" data-lang="txt">│ README.md
+│ Rember.sln
+│
+├───publish
+│ Rember
+│ Rember.exe
+│
+├───Rember
+│ │ Rember.csproj
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Because of that, my &lt;code>Include&lt;/code> parameter goes a directory up to reference the README file.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Other useful tags might include &lt;code>RepositoryUrl&lt;/code> to link your Github repo and &lt;code>PackageTags&lt;/code>
+to provide a list of space-delimited tags for your package.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>I do also recommend specifying the &lt;code>RuntimeIdentifier&lt;/code> to something like &lt;code>win-x64&lt;/code> although from
+what I understand this is not necessary but better safe than sorry!&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="pushing-the-package">Pushing the Package&lt;/h3>
+&lt;p>That pretty much concludes the needed preparations for NuGet so time to actually push the thing.&lt;/p>
+&lt;p>Run &lt;code>dotnet pack&lt;/code> and you should get something along the lines of &lt;code>Successfully created package 'path/to/package.nupkg'&lt;/code>.&lt;/p>
+&lt;p>Next you want to grab yourself a NuGet API Key from &lt;a href="https://www.nuget.org/account/apikeys">here&lt;/a>
+and run the following command:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">dotnet nuget push path/to/package.nupkg &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;span style="color:#ae81ff">&lt;/span> --api-key &amp;lt;API_KEY&amp;gt; &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;span style="color:#ae81ff">&lt;/span> --source https://api.nuget.org/v3/index.json
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If all goes well your package will be soon available on NuGet! Wasn&amp;rsquo;t that simple?&lt;/p>
+&lt;h2 id="uploading-to-chocolatey">Uploading to Chocolatey&lt;/h2>
+&lt;h3 id="preparing-1">Preparing&lt;/h3>
+&lt;p>Chocolatey requires you to provide a so called &lt;code>nuspec&lt;/code> file which essentially provides some details
+for your package. I personally found their &lt;a href="https://docs.chocolatey.org/en-us/create/create-packages#nuspec">docs&lt;/a>
+a bit confusing so if you get confused perhaps looking over at my repository could help you out more after you&amp;rsquo;ve
+read through them.&lt;/p>
+&lt;p>You will see that most of the stuff we specify are essentially the same as what we specified earlier for NuGet.
+Only thing to note here is that you want to make sure that everything your package needs ends up in the &lt;code>tools&lt;/code>
+folder.&lt;/p>
+&lt;h3 id="compiling">Compiling&lt;/h3>
+&lt;p>Uploading to Choco is a little more complicated. First of all, we need to compile our code to a single
+file that has everything it needs to run bundled inside of it aka, a self contained file. It is also a
+good idea to try and remove anything that is not used in terms of libraries considering how much larger
+this file is going to be compared to the &lt;code>nupkg&lt;/code> file we created earlier. Take a look at the docs for
+&lt;a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish">dotnet publish&lt;/a> but TLDR; our command
+will look something like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">dotnet publish -o tools &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;span style="color:#ae81ff">&lt;/span> --self-contained True &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;span style="color:#ae81ff">&lt;/span> /property:PublishTrimmed&lt;span style="color:#f92672">=&lt;/span>True &lt;span style="color:#ae81ff">\
+&lt;/span>&lt;span style="color:#ae81ff">&lt;/span> /property:PublishSingleFile&lt;span style="color:#f92672">=&lt;/span>True
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The reason why I specify these properties in the arguments of the command instead of in the &lt;code>csproj&lt;/code>
+file is because I would have to keep toggling them on and off depending on whether I was
+targetting NuGet or Choco.&lt;/p>
+&lt;p>I also specify the following in the &lt;code>csproj&lt;/code> file to hopefully cut the executable file size down a
+bit more:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#f92672">&amp;lt;DebugType&amp;gt;&lt;/span>none&lt;span style="color:#f92672">&amp;lt;/DebugType&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;DebugSymbols&amp;gt;&lt;/span>false&lt;span style="color:#f92672">&amp;lt;/DebugSymbols&amp;gt;&lt;/span>
+&lt;span style="color:#f92672">&amp;lt;Configuration&amp;gt;&lt;/span>release&lt;span style="color:#f92672">&amp;lt;/Configuration&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>This should create a &lt;code>.exe&lt;/code> file in the &lt;code>tools&lt;/code> folder.&lt;/p>
+&lt;h3 id="pushing-to-chocolatey">Pushing to Chocolatey&lt;/h3>
+&lt;p>We are almost done! We now only need to run the following:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">choco pack
+choco push --api-key&lt;span style="color:#f92672">=&lt;/span>&amp;lt;API KEY&amp;gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Your API key can be found &lt;a href="https://community.chocolatey.org/account">here&lt;/a> and I do not know why
+navigating to your profile page is so hard on their website.&lt;/p>
+&lt;p>Publications on Chocolatey take way longer than NuGet (around 1-3 hours from personal experience)
+so sit back, go grab yourself some coffee, do some laundry, watch some YouTube, call your friends,
+finish that one side project you abandoned 7 months ago, and check your email every 2 minutes in
+case something goes wrong with the publication.&lt;/p>
+&lt;h2 id="time-to-make-a-workflow">Time to make a Workflow&lt;/h2>
+&lt;p>Workflows are great! They do the boring, repetitive stuff for you automatically so you don&amp;rsquo;t have
+to worry about forgetting them or doing something wrong, your project looks cooler and more serious
+with them but most importantly, from what I understand, they qualify you for DevOps positions which
+pay quite well so that&amp;rsquo;s the main reason why you should care about making them 👍&lt;/p>
+&lt;p>Feel free to check &lt;a href="https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release">Github&amp;rsquo;s docs&lt;/a>.&lt;/p>
+&lt;p>We first start by specifying that we want our workflow to run on a new release publication&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#f92672">on&lt;/span>:
+&lt;span style="color:#f92672">release&lt;/span>:
+&lt;span style="color:#f92672">types&lt;/span>: [&lt;span style="color:#ae81ff">published]&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The release event has a bunch of different types that are explained very nicely in the documentation,
+I personally chose &lt;code>published&lt;/code> which gets triggered for normal as well as pre-releases.&lt;/p>
+&lt;p>The good news is that this is a very simply workflow because we&amp;rsquo;ve already figured out how to do most
+of the work from our terminals!&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#f92672">jobs&lt;/span>:
+&lt;span style="color:#f92672">publish&lt;/span>:
+&lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">windows-latest&lt;/span>
+&lt;span style="color:#f92672">steps&lt;/span>:
+- &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/checkout@v2&lt;/span>
+- &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/setup-dotnet@v1&lt;/span>
+&lt;span style="color:#f92672">with&lt;/span>:
+&lt;span style="color:#f92672">dotnet-version&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;6.0.x&amp;#39;&lt;/span>
+&lt;span style="color:#75715e"># Nuget &lt;/span>
+- &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">dotnet pack&lt;/span>
+- &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">dotnet nuget push .\Rember\nupkg\*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json&lt;/span>
+&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Nuget publish&lt;/span>
+&lt;span style="color:#75715e"># Choco&lt;/span>
+- &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">dotnet publish -o tools --verbosity normal --self-contained True /property:PublishTrimmed=True /property:PublishSingleFile=True &lt;/span>
+- &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">choco pack&lt;/span>
+- &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">choco push --api-key=${{ secrets.CHOCO_API_KEY }}&lt;/span>
+&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Choco publish&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>As you can see, I checkout to my repository and set up Dotnet 6 before running the exact same commands
+I mentioned earlier. The only thing left now is to set the &lt;code>NUGET_API_KEY&lt;/code> and &lt;code>CHOCO_API_KEY&lt;/code> secrets
+in your github repository and create your first release!&lt;/p>
+&lt;h2 id="closing">Closing&lt;/h2>
+&lt;p>Overall, I feel like this was a little less exciting than some of my other posts but to me, the whole process
+of publishing this project was quite exciting and I wanted to write something about it. Hopefully this inspires
+someone to go make his own package or library and make it available, same way Nick&amp;rsquo;s video inspired me to work
+on this project. Till next time!&lt;/p></content></item><item><title>Testing an ASP .NET Core project</title><link>https://antoniosbarotsis.github.io/posts/aspnet_testing/</link><pubDate>Fri, 29 Oct 2021 16:12:35 +0200</pubDate><guid>https://antoniosbarotsis.github.io/posts/aspnet_testing/</guid><description>Introduction Most Web API templates I could find online do not have testing pre configured in them and the official ones do not have it at all so I thought that I would make a post about setting up basic unit tests as well as mocking dependencies.
+I will be using XUnit which is one of the most used testing frameworks for .NET as well as FakeItEasy for mocking. In the end I will also use Coverlet and Codecov for coverage reports.</description><content>&lt;h2 id="introduction">Introduction&lt;/h2>
+&lt;p>Most Web API templates I could find online do not have testing pre configured in them and the official ones do not have it at all so I thought
+that I would make a post about setting up basic unit tests as well as mocking dependencies.&lt;/p>
+&lt;p>I will be using &lt;a href="https://xunit.net/">XUnit&lt;/a> which is one of the most used testing frameworks for .NET as well as
+&lt;a href="https://fakeiteasy.github.io/">FakeItEasy&lt;/a> for mocking. In the end I will also use &lt;a href="https://dotnetfoundation.org/projects/coverlet">Coverlet&lt;/a>
+and &lt;a href="https://about.codecov.io/">Codecov&lt;/a> for coverage reports.&lt;/p>
+&lt;p>The API will be the weather forecast template with the addition of a service layer which is what we will be testing. Let&amp;rsquo;s get started!&lt;/p>
+&lt;h2 id="coding">Coding&lt;/h2>
+&lt;h3 id="creating-the-project">Creating the project&lt;/h3>
+&lt;p>I will be creating a solution with 2 projects, one being the API and the other one being the one for testing.&lt;/p>
+&lt;p>We start by creating a folder for the solution:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">mkdir TestingAPI
+cd TestingAPI
+dotnet new sln
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can now create the API project and add it to our solution:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">dotnet new webapi -n src
+dotnet sln add src/src.csproj
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Similarly for our test project:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">dotnet new xunit -n test
+dotnet sln add test/test.csproj
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Running &lt;code>dotnet run --project src&lt;/code> should spin up the server and sure enough, visiting &lt;code>https://localhost:5001/weatherforecast&lt;/code>
+returns us the expected responce.&lt;/p>
+&lt;h3 id="creating-the-service">Creating the service&lt;/h3>
+&lt;p>I will create a &lt;code>Services&lt;/code> folder and inside it add 2 files: a service interface and its implementation&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// IMyDependency.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> System.Threading.Tasks;
+&lt;span style="color:#66d9ef">namespace&lt;/span> src.Services
+{
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">interface&lt;/span> IMyDependency
+{
+Task&amp;lt;&lt;span style="color:#66d9ef">string&lt;/span>&amp;gt; GetDataFromDatabaseAsync();
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// MyDependency.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> System.Threading.Tasks;
+&lt;span style="color:#66d9ef">namespace&lt;/span> src.Services
+{
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">MyDependency&lt;/span>: IMyDependency
+{
+&lt;span style="color:#66d9ef">public&lt;/span> Task&amp;lt;&lt;span style="color:#66d9ef">string&lt;/span>&amp;gt; GetDataFromDatabaseAsync()
+{
+&lt;span style="color:#66d9ef">return&lt;/span> Task.FromResult(&lt;span style="color:#e6db74">&amp;#34;Hello From MyDependency!&amp;#34;&lt;/span>);
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Let&amp;rsquo;s head to our controller and make use of the service we just created there so we can make sure it works:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// WeatherForecastController.cs
+&lt;/span>&lt;span style="color:#75715e">// ...
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">readonly&lt;/span> ILogger&amp;lt;WeatherForecastController&amp;gt; &lt;span style="color:#ae81ff">_l&lt;/span>ogger;
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">readonly&lt;/span> IMyDependency &lt;span style="color:#ae81ff">_d&lt;/span>ependency;
+&lt;span style="color:#66d9ef">public&lt;/span> WeatherForecastController(ILogger&amp;lt;WeatherForecastController&amp;gt; logger, IMyDependency dependency)
+{
+&lt;span style="color:#ae81ff">_l&lt;/span>ogger = logger;
+&lt;span style="color:#ae81ff">_d&lt;/span>ependency = dependency;
+}
+&lt;span style="color:#75715e">// ...
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#a6e22e">
+&lt;/span>&lt;span style="color:#a6e22e">[HttpGet]&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task&amp;lt;IEnumerable&amp;lt;WeatherForecast&amp;gt;&amp;gt; Get()
+{
+&lt;span style="color:#ae81ff">_l&lt;/span>ogger.LogInformation(&lt;span style="color:#66d9ef">await&lt;/span> &lt;span style="color:#ae81ff">_d&lt;/span>ependency.GetDataFromDatabaseAsync());
+&lt;span style="color:#75715e">// No changes below this
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> rng = &lt;span style="color:#66d9ef">new&lt;/span> Random();
+&lt;span style="color:#66d9ef">return&lt;/span> Enumerable.Range(&lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>).Select(index =&amp;gt; &lt;span style="color:#66d9ef">new&lt;/span> WeatherForecast
+{
+Date = DateTime.Now.AddDays(index),
+TemperatureC = rng.Next(-&lt;span style="color:#ae81ff">20&lt;/span>, &lt;span style="color:#ae81ff">55&lt;/span>),
+Summary = Summaries[rng.Next(Summaries.Length)]
+})
+.ToArray();
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Lastly we head to &lt;code>Startup.cs&lt;/code> to register the implementation&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// Startup.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> ConfigureServices(IServiceCollection services)
+{
+services.AddScoped&amp;lt;IMyDependency, MyDependency&amp;gt;();
+&lt;span style="color:#75715e">// ...
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we now run the app and hit the endpoint we should see &lt;code>Hello From MyDependency!&lt;/code> logged in the console.&lt;/p>
+&lt;h3 id="writing-our-tests">Writing our tests&lt;/h3>
+&lt;p>Let&amp;rsquo;s navigate to our test project and write our first test&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// UnitTest1.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> System.Threading.Tasks;
+&lt;span style="color:#66d9ef">using&lt;/span> FakeItEasy;
+&lt;span style="color:#66d9ef">using&lt;/span> src.Services;
+&lt;span style="color:#66d9ef">using&lt;/span> Xunit;
+&lt;span style="color:#66d9ef">namespace&lt;/span> test
+{
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">UnitTest1&lt;/span>
+{
+&lt;span style="color:#a6e22e"> [Fact]&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task Test1()
+{
+&lt;span style="color:#66d9ef">var&lt;/span> myDependency = &lt;span style="color:#66d9ef">new&lt;/span> MyDependency();
+Assert.Equal(&lt;span style="color:#e6db74">&amp;#34;Hello From MyDependency!&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">await&lt;/span> myDependency.GetDataFromDatabaseAsync());
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here I changed the return type from &lt;code>void&lt;/code> to &lt;code>async Task&lt;/code> since the method we want to test is async. Running the test with
+&lt;code>dotnet test&lt;/code> passes but this is not what we want.&lt;/p>
+&lt;p>In a normal project this method could require a database connection that we probably do not want to make use of in our tests for various reasons.
+This is where mocking comes into play; we can provide a fake implementation to our service methods. It might not be as apparent here why this could
+be useful so let me explain.&lt;/p>
+&lt;p>Usually the way I like to structure my apps is to split them into 3 layers&lt;/p>
+&lt;ul>
+&lt;li>Controllers: handle http requests, call service layer&lt;/li>
+&lt;li>Services: business logic, call repository layer&lt;/li>
+&lt;li>Repositories: Handle database queries&lt;/li>
+&lt;/ul>
+&lt;p>Coming from a Spring Boot background, my terminology might be a bit different than what is normally used for .NET projects but the idea is the same;
+split your logic into layers and use dependency injection to interact between them.&lt;/p>
+&lt;p>The most important layer to test is the service layer since that&amp;rsquo;s where all the actual &amp;ldquo;programming&amp;rdquo; is. In order to test that I would have to mock
+my repository interface and have it return arbitrary fake data without actually using the database. You can imagine how bad of an idea it would be
+if someone was to test creations, updates or deletions while using the actual database&amp;hellip;&lt;/p>
+&lt;p>There are some other options such as using a different, in memory database for testing but we will not be covering that in this post.&lt;/p>
+&lt;p>So back to our test, how do we mock the dependency?&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// UnitTest1.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> System.Threading.Tasks;
+&lt;span style="color:#66d9ef">using&lt;/span> FakeItEasy;
+&lt;span style="color:#66d9ef">using&lt;/span> src.Services;
+&lt;span style="color:#66d9ef">using&lt;/span> Xunit;
+&lt;span style="color:#66d9ef">namespace&lt;/span> test
+{
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">UnitTest1&lt;/span>
+{
+&lt;span style="color:#a6e22e"> [Fact]&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task Test1()
+{
+&lt;span style="color:#66d9ef">var&lt;/span> myDependency = &lt;span style="color:#66d9ef">new&lt;/span> MyDependency();
+Assert.Equal(&lt;span style="color:#e6db74">&amp;#34;Hello From MyDependency!&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">await&lt;/span> myDependency.GetDataFromDatabaseAsync());
+}
+&lt;span style="color:#a6e22e">
+&lt;/span>&lt;span style="color:#a6e22e"> [Fact]&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task Test2()
+{
+&lt;span style="color:#66d9ef">var&lt;/span> myDependency = A.Fake&amp;lt;IMyDependency&amp;gt;();
+A.CallTo(() =&amp;gt; myDependency.GetDataFromDatabaseAsync()).Returns(Task.FromResult(&lt;span style="color:#e6db74">&amp;#34;Hello from mocked&amp;#34;&lt;/span>));
+Assert.Equal(&lt;span style="color:#e6db74">&amp;#34;Hello from mocked&amp;#34;&lt;/span>, &lt;span style="color:#66d9ef">await&lt;/span> myDependency.GetDataFromDatabaseAsync());
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Using the &lt;code>FakeItEasy&lt;/code> package we define an instance of the &lt;code>IMyDependency&lt;/code> interface using &lt;code>A.Fake&lt;/code>. This right now does nothing;
+we have to explicitly define what happens when one of the interface methods gets called, we do that with &lt;code>A.CallTo&lt;/code> which accepts a lambda
+of the method in question. I am using &lt;code>Task.FromResult&lt;/code> because the method is async. If we run the test we can see that it passes which means that
+we successfully changed the &amp;ldquo;implementation&amp;rdquo; of our dependency. Again, this is what would normally be a repository and a database call changed to
+hard coded data, similar to what would be returned from said database call.&lt;/p>
+&lt;h3 id="adding-a-ci-pipeline-with-codecov">Adding a CI pipeline with Codecov&lt;/h3>
+&lt;p>Another thing we could do is add Codecov to get a detailed view of our test coverage. The best way to do that in my
+opinion is to create a Continuous Integration (CI) pipeline on Github that will generate and push code coverage information everytime we update
+the repository.&lt;/p>
+&lt;p>First go to Codecov&amp;rsquo;s website and create an account. Get your &lt;code>CODECOV_TOKEN&lt;/code> and create a repository secret with its value on your github
+repository, we will be using this later when we push our data to Codecov.&lt;/p>
+&lt;p>We also need to create a &lt;code>codecov.yml&lt;/code> file with some basic configuration. Here&amp;rsquo;s what I had from a previous project:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#75715e">## codecov.yml&lt;/span>
+&lt;span style="color:#f92672">comment&lt;/span>: &lt;span style="color:#66d9ef">false&lt;/span>
+&lt;span style="color:#f92672">ignore&lt;/span>:
+- &lt;span style="color:#e6db74">&amp;#34;^(?!.*Services).*$&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">coverage&lt;/span>:
+&lt;span style="color:#f92672">status&lt;/span>:
+&lt;span style="color:#f92672">project&lt;/span>:
+&lt;span style="color:#f92672">default&lt;/span>:
+&lt;span style="color:#f92672">target&lt;/span>: &lt;span style="color:#ae81ff">auto&lt;/span>
+&lt;span style="color:#f92672">threshold&lt;/span>: &lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#ae81ff">%&lt;/span>
+&lt;span style="color:#f92672">informational&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;span style="color:#f92672">patch&lt;/span>:
+&lt;span style="color:#f92672">default&lt;/span>:
+&lt;span style="color:#f92672">target&lt;/span>: &lt;span style="color:#ae81ff">auto&lt;/span>
+&lt;span style="color:#f92672">threshold&lt;/span>: &lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#ae81ff">%&lt;/span>
+&lt;span style="color:#f92672">informational&lt;/span>: &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The only interesting thing about this is that I ignored every folder that does not include &lt;code>Services&lt;/code> since that&amp;rsquo;s the only thing we tested.&lt;/p>
+&lt;p>Let&amp;rsquo;s create the &lt;code>.github/workflows/dotnet.yml&lt;/code> file and use the Github Actions template for .NET apps which includes building and testing.
+We only have to add one more step for codecov to work:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#75715e">## dotnet.yml&lt;/span>
+&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">.NET&lt;/span>
+&lt;span style="color:#f92672">on&lt;/span>:
+&lt;span style="color:#f92672">push&lt;/span>:
+&lt;span style="color:#f92672">branches&lt;/span>: [ &lt;span style="color:#ae81ff">master ]&lt;/span>
+&lt;span style="color:#f92672">pull_request&lt;/span>:
+&lt;span style="color:#f92672">branches&lt;/span>: [ &lt;span style="color:#ae81ff">master ]&lt;/span>
+&lt;span style="color:#f92672">jobs&lt;/span>:
+&lt;span style="color:#f92672">build&lt;/span>:
+&lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">ubuntu-latest&lt;/span>
+&lt;span style="color:#f92672">steps&lt;/span>:
+- &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/checkout@v2&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Setup .NET&lt;/span>
+&lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/setup-dotnet@v1&lt;/span>
+&lt;span style="color:#f92672">with&lt;/span>:
+&lt;span style="color:#f92672">dotnet-version&lt;/span>: &lt;span style="color:#ae81ff">5.0&lt;/span>&lt;span style="color:#ae81ff">.x&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Restore dependencies&lt;/span>
+&lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">dotnet restore&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Build&lt;/span>
+&lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">dotnet build --no-restore&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Test&lt;/span>
+&lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">dotnet test --no-build --verbosity normal --collect:&amp;#34;XPlat Code Coverage&amp;#34; -- IncludeDirectory=&amp;#34;[.]*Services[.]*&amp;#34;&lt;/span>
+- &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Codecov&lt;/span>
+&lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">codecov/codecov-action@v2&lt;/span>
+&lt;span style="color:#f92672">with&lt;/span>:
+&lt;span style="color:#f92672">token&lt;/span>: &lt;span style="color:#ae81ff">${{ secrets.CODECOV_TOKEN }}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;a href="https://github.com/codecov/codecov-action">Codecov action&lt;/a> offers a few useful parameters for you to use so if you are interested,
+read their docs!&lt;/p>
+&lt;p>With all this done and pushed you just want to wait for the Action to complete. After that&amp;rsquo;s done I can take a look at my coverage&lt;/p>
+&lt;p>&lt;img src="images/codecov.png#center" alt="codecov">&lt;/p>
+&lt;p>This is very useful to look at when dealing when &lt;em>more than one directory unlike here&lt;/em>.&lt;/p>
+&lt;p>You can also take a look at the exact spots in your code that you tested/missed&lt;/p>
+&lt;p>&lt;img src="images/code.png#center" alt="code">&lt;/p>
+&lt;p>And finally (but certainly most importantly), codecov gives you a badge to display on your Github repo to show everyone how well tested your code
+is. What&amp;rsquo;s the point of testing if you don&amp;rsquo;t let everyone know you did after all?&lt;/p>
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>Testing is basically essential to any application that is not yet another personal project doomed to be abandoned a few weeks after its inception.
+If you decide to test your project I do not see why you wouldn&amp;rsquo;t include coverage reports, whether automated or not. Codecov (and other similar tools)
+allow you to set a lot of rules that would fail your pipeline if not met such as: minimum coverage, a minimum threshold of allowed coverage drop on new
+commits and a lot more.&lt;/p>
+&lt;p>I hope you got something out of this post and thanks for reading! :)&lt;/p>
+&lt;p>You can find the code &lt;a href="https://github.com/AntoniosBarotsis/TestingAPI">here&lt;/a>.&lt;/p></content></item><item><title>C# and the ELK stack</title><link>https://antoniosbarotsis.github.io/posts/cs_elk/</link><pubDate>Thu, 28 Oct 2021 22:04:54 +0200</pubDate><guid>https://antoniosbarotsis.github.io/posts/cs_elk/</guid><description>What is the ELK stack? With today&amp;rsquo;s applications growing in complexity rapidly, debugging and efficiently digesting logs have become crucial. That is the problem that the ELK stack is trying to solve.
+The ELK stack consists of:
+Elasticsearch: A distributed search engine with highly refined analytics capabilities Logstash: A data-processing pipeline that collects data and delivers it to Elasticsearch Kibana: A visualization platform built expressly for Elasticsearch These three together make for a great way of digesting aggregated logs from your application through visualisations.</description><content>&lt;h2 id="what-is-the-elk-stack">What is the ELK stack?&lt;/h2>
+&lt;p>With today&amp;rsquo;s applications growing in complexity rapidly, debugging and efficiently digesting logs have become crucial.
+That is the problem that the &lt;a href="https://www.elastic.co/what-is/elk-stack">ELK stack&lt;/a> is trying to solve.&lt;/p>
+&lt;p>The ELK stack consists of:&lt;/p>
+&lt;ul>
+&lt;li>Elasticsearch: A distributed search engine with highly refined analytics capabilities&lt;/li>
+&lt;li>Logstash: A data-processing pipeline that collects data and delivers it to Elasticsearch&lt;/li>
+&lt;li>Kibana: A visualization platform built expressly for Elasticsearch&lt;/li>
+&lt;/ul>
+&lt;p>These three together make for a great way of digesting aggregated logs from your application through visualisations.&lt;/p>
+&lt;h2 id="what-will-we-be-creating">What will we be creating?&lt;/h2>
+&lt;p>We will be making a simple API (the default weather forecast template), have it produce logs using Serilog into elasticsearch and viewing them
+through kibana.&lt;/p>
+&lt;p>For this post I will be assuming you have used C## before and thus you have a ready-to-go set up on your machine.&lt;/p>
+&lt;h2 id="coding">Coding&lt;/h2>
+&lt;p>Let&amp;rsquo;s first make our project using the dotnet cli, I will name mine &lt;code>elk&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">dotnet new webapi -n elk
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Verify that everything is working fine by running the API&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">dotnet run
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>and visiting &lt;code>https://localhost:5001/weatherforecast&lt;/code>. I am using &lt;a href="https://insomnia.rest/">Insomnia&lt;/a> for my http client but Postman or your browser
+would also work.&lt;/p>
+&lt;img src="https://antoniosbarotsis.github.io/img/cs_elk/helloWorld.jpg" class="center" style="border-radius: 8px;" />
+&lt;h3 id="setting-up-middleware">Setting up middleware&lt;/h3>
+&lt;p>I will be setting up middleware to handle logging as it is a cleaner solution than logging in each request. You can read more about middleware
+&lt;a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-5.0">here&lt;/a>.&lt;/p>
+&lt;p>I created the following file:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// MyMiddleware.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> System.Threading.Tasks;
+&lt;span style="color:#66d9ef">using&lt;/span> Microsoft.AspNetCore.Http;
+&lt;span style="color:#66d9ef">using&lt;/span> Microsoft.Extensions.Logging;
+&lt;span style="color:#66d9ef">namespace&lt;/span> elk
+{
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">MyMiddleware&lt;/span>
+{
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">readonly&lt;/span> ILogger&amp;lt;MyMiddleware&amp;gt; &lt;span style="color:#ae81ff">_l&lt;/span>ogger;
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">readonly&lt;/span> RequestDelegate &lt;span style="color:#ae81ff">_&lt;/span>next;
+&lt;span style="color:#66d9ef">public&lt;/span> MyMiddleware(RequestDelegate next, ILogger&amp;lt;MyMiddleware&amp;gt; logger)
+{
+&lt;span style="color:#ae81ff">_&lt;/span>next = next;
+&lt;span style="color:#ae81ff">_l&lt;/span>ogger = logger;
+}
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task InvokeAsync(HttpContext context)
+{
+&lt;span style="color:#ae81ff">_l&lt;/span>ogger.LogInformation(&lt;span style="color:#e6db74">&amp;#34;Hello from middleware&amp;#34;&lt;/span>);
+&lt;span style="color:#66d9ef">await&lt;/span> &lt;span style="color:#ae81ff">_&lt;/span>next(context);
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>and added the following line to the &lt;code>Configure&lt;/code> method in &lt;code>Startup.cs&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// Startup.cs -&amp;gt; Configure
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>app.UseMiddleware&amp;lt;MyMiddleware&amp;gt;();
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we now run the app and make a request to our endpoint we can see &lt;code>Hello from middleware&lt;/code> logged to the console.&lt;/p>
+&lt;p>Knowing that that works lets change the middleware a bit so it can catch and handle exceptions&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// MyMiddleware.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">using&lt;/span> System;
+&lt;span style="color:#66d9ef">using&lt;/span> System.Threading.Tasks;
+&lt;span style="color:#66d9ef">using&lt;/span> Microsoft.AspNetCore.Http;
+&lt;span style="color:#66d9ef">using&lt;/span> Microsoft.AspNetCore.Mvc;
+&lt;span style="color:#66d9ef">using&lt;/span> Microsoft.Extensions.Logging;
+&lt;span style="color:#66d9ef">namespace&lt;/span> elk
+{
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">MyMiddleware&lt;/span>
+{
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">readonly&lt;/span> ILogger&amp;lt;MyMiddleware&amp;gt; &lt;span style="color:#ae81ff">_l&lt;/span>ogger;
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">readonly&lt;/span> RequestDelegate &lt;span style="color:#ae81ff">_&lt;/span>next;
+&lt;span style="color:#66d9ef">public&lt;/span> MyMiddleware(RequestDelegate next, ILogger&amp;lt;MyMiddleware&amp;gt; logger)
+{
+&lt;span style="color:#ae81ff">_&lt;/span>next = next;
+&lt;span style="color:#ae81ff">_l&lt;/span>ogger = logger;
+}
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">async&lt;/span> Task InvokeAsync(HttpContext context)
+{
+&lt;span style="color:#66d9ef">try&lt;/span>
+{
+&lt;span style="color:#66d9ef">await&lt;/span> &lt;span style="color:#ae81ff">_&lt;/span>next(context);
+}
+&lt;span style="color:#66d9ef">catch&lt;/span> (Exception exception)
+{
+&lt;span style="color:#ae81ff">_l&lt;/span>ogger.LogError(exception, &lt;span style="color:#e6db74">&amp;#34;Something went wrong&amp;#34;&lt;/span>);
+&lt;span style="color:#66d9ef">await&lt;/span> HandleExceptionAsync(context, exception);
+}
+}
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> Task HandleExceptionAsync(HttpContext context, Exception ex)
+{
+context.Response.StatusCode = &lt;span style="color:#ae81ff">500&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> context.Response.WriteAsync(&lt;span style="color:#e6db74">&amp;#34;An exception occured&amp;#34;&lt;/span>);
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we now run the app again we should see nothing logged in the console. If we add a &lt;code>throw new Exception();&lt;/code> statement in our controller
+we should get a &lt;code>500&lt;/code> Response back saying that an exception occured and also see the exception logged in the terminal.&lt;/p>
+&lt;p>I am going to add the following to the controller so we get errors at random from the endpoint&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#66d9ef">if&lt;/span> (rng.Next(&lt;span style="color:#ae81ff">0&lt;/span>, &lt;span style="color:#ae81ff">10&lt;/span>) &amp;lt; &lt;span style="color:#ae81ff">2&lt;/span>)
+&lt;span style="color:#66d9ef">throw&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Exception();
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="setting-up-the-elasticsearch-and-kibana-containers">Setting up the Elasticsearch and Kibana containers&lt;/h3>
+&lt;p>I will be using Docker to run Elasticsearch and Kibana so first thing I want to do is make a &lt;code>docker-compose.yml&lt;/code> file.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yml" data-lang="yml">&lt;span style="color:#75715e">## docker-compose.yml&lt;/span>
+&lt;span style="color:#f92672">version&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;2.4&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">services&lt;/span>:
+&lt;span style="color:#f92672">es&lt;/span>:
+&lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">docker.elastic.co/elasticsearch/elasticsearch:7.14.2&lt;/span>
+&lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">es&lt;/span>
+&lt;span style="color:#f92672">ports&lt;/span>:
+- &lt;span style="color:#e6db74">&amp;#34;9200:9200&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">cpu_count&lt;/span>: &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;span style="color:#f92672">mem_limit&lt;/span>: &lt;span style="color:#ae81ff">4g&lt;/span>
+&lt;span style="color:#f92672">ulimits&lt;/span>:
+&lt;span style="color:#f92672">memlock&lt;/span>:
+&lt;span style="color:#f92672">soft&lt;/span>: -&lt;span style="color:#ae81ff">1&lt;/span>
+&lt;span style="color:#f92672">hard&lt;/span>: -&lt;span style="color:#ae81ff">1&lt;/span>
+&lt;span style="color:#f92672">nofile&lt;/span>:
+&lt;span style="color:#f92672">soft&lt;/span>: &lt;span style="color:#ae81ff">65536&lt;/span>
+&lt;span style="color:#f92672">hard&lt;/span>: &lt;span style="color:#ae81ff">65536&lt;/span>
+&lt;span style="color:#f92672">environment&lt;/span>:
+- &lt;span style="color:#ae81ff">cluster.name=es-docker&lt;/span>
+- &lt;span style="color:#ae81ff">cluster.initial_master_nodes=node1&lt;/span>
+- &lt;span style="color:#ae81ff">node.name=node1&lt;/span>
+- &lt;span style="color:#ae81ff">bootstrap.memory_lock=true&lt;/span>
+- &lt;span style="color:#e6db74">&amp;#34;ES_JAVA_OPTS=-Xms2g -Xmx2g&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">kib&lt;/span>:
+&lt;span style="color:#f92672">image&lt;/span>: &lt;span style="color:#ae81ff">docker.elastic.co/kibana/kibana:7.14.2&lt;/span>
+&lt;span style="color:#f92672">container_name&lt;/span>: &lt;span style="color:#ae81ff">kib&lt;/span>
+&lt;span style="color:#f92672">ports&lt;/span>:
+- &lt;span style="color:#e6db74">&amp;#34;5601:5601&amp;#34;&lt;/span>
+&lt;span style="color:#f92672">depends_on&lt;/span>:
+- &lt;span style="color:#ae81ff">es&lt;/span>
+&lt;span style="color:#f92672">cpu_count&lt;/span>: &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;span style="color:#f92672">mem_limit&lt;/span>: &lt;span style="color:#ae81ff">4g&lt;/span>
+&lt;span style="color:#f92672">environment&lt;/span>:
+&lt;span style="color:#f92672">ELASTICSEARCH_URL&lt;/span>: &lt;span style="color:#ae81ff">http://es:9200&lt;/span>
+&lt;span style="color:#f92672">ELASTICSEARCH_HOSTS&lt;/span>: &lt;span style="color:#ae81ff">http://es:9200&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>A few things about this;&lt;/p>
+&lt;ul>
+&lt;li>It seems that at the time of writing this, version 3 does not support resource limits without using swarm hence the downgrade to 2.4
+(please use resource limits if you want your computer to be usable)&lt;/li>
+&lt;li>The &lt;code>cluster.initial_master_nodes&lt;/code> and &lt;code>node.name&lt;/code> must have the same value as I want to use a one node cluster&lt;/li>
+&lt;li>The &lt;code>ELASTICSEARCH_URL&lt;/code> and &lt;code>ELASTICSEARCH_HOSTS&lt;/code> params are needed since by default these will try to find the elasticsearch server at
+&lt;code>http://localhost:9200&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;h3 id="setting-up-serilog">Setting up Serilog&lt;/h3>
+&lt;p>We will be using the &lt;code>Serilog.AspNetCore&lt;/code> (for logging), &lt;code>Serilog.Sinks.Elasticsearch&lt;/code> (for pushing our logs to elastic) and
+&lt;code>Serilog.Enricher.Environment&lt;/code> (for adding properties from System.Environment) packages.&lt;/p>
+&lt;p>Once you have those installed, go to the &lt;code>appsettings.json&lt;/code> file, remove the Logging section and add the following:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-json" data-lang="json">&lt;span style="color:#e6db74">&amp;#34;Serilog&amp;#34;&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">:&lt;/span> {
+&lt;span style="color:#f92672">&amp;#34;MinimumLevel&amp;#34;&lt;/span>: {
+&lt;span style="color:#f92672">&amp;#34;Default&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;Information&amp;#34;&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;Override&amp;#34;&lt;/span>: {
+&lt;span style="color:#f92672">&amp;#34;Microsoft&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;Information&amp;#34;&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;System&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;Warning&amp;#34;&lt;/span>
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We need to make some changes in our &lt;code>Program.cs&lt;/code> file both for logging in the terminal as well as pushing our logs to Elastic.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// Program.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> IHostBuilder CreateHostBuilder(&lt;span style="color:#66d9ef">string&lt;/span>[] args)
+{
+&lt;span style="color:#66d9ef">return&lt;/span> Host.CreateDefaultBuilder(args)
+.UseSerilog((context, configuration) =&amp;gt;
+{
+configuration
+.Enrich.FromLogContext()
+.Enrich.WithMachineName()
+.WriteTo.Console()
+.WriteTo.Elasticsearch(
+&lt;span style="color:#66d9ef">new&lt;/span> ElasticsearchSinkOptions(&lt;span style="color:#66d9ef">new&lt;/span> Uri(context.Configuration[&lt;span style="color:#e6db74">&amp;#34;ElasticConfig:url&amp;#34;&lt;/span>]))
+{
+IndexFormat = &lt;span style="color:#e6db74">$&amp;#34;{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}-&amp;#34;&lt;/span> +
+&lt;span style="color:#e6db74">$&amp;#34;{context.Configuration[&amp;#34;&lt;/span>ASPNETCORE_ENVIRONMENT&lt;span style="color:#e6db74">&amp;#34;].ToLower()}_{DateTime.UtcNow:yyyy-MM-dd}&amp;#34;&lt;/span>,
+AutoRegisterTemplate = &lt;span style="color:#66d9ef">true&lt;/span>
+})
+.Enrich.WithProperty(&lt;span style="color:#e6db74">&amp;#34;Environment&amp;#34;&lt;/span>, context.HostingEnvironment.EnvironmentName)
+.ReadFrom.Configuration(context.Configuration);
+})
+.ConfigureWebHostDefaults(webBuilder =&amp;gt; { webBuilder.UseStartup&amp;lt;Startup&amp;gt;(); });
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Most of this you can find online but for as a short explanation:&lt;/p>
+&lt;ul>
+&lt;li>We enrich our logs with the log context, machine name and the environment (dev/prod)&lt;/li>
+&lt;li>We push our logs both to the console and to elastic&lt;/li>
+&lt;li>The logs in elastic will have the format &lt;code>appname-dev/prod_date&lt;/code>. Something to keep in mind for this is that it looks like some characters
+like &lt;code>:&lt;/code> do not work in these patterns or at least didn&amp;rsquo;t work for me hence the underscore.&lt;/li>
+&lt;/ul>
+&lt;p>What&amp;rsquo;s cool about this is that we do not have to change our existing logger related code! We can also however use Serilog directly:&lt;/p>
+&lt;ul>
+&lt;li>Change the &lt;code>using Microsoft.Extensions.Logging;&lt;/code> import to &lt;code>using Serilog;&lt;/code>&lt;/li>
+&lt;li>Remove the generic from the &lt;code>ILogger&lt;/code>s&lt;/li>
+&lt;li>Change &lt;code>_logger.LogError&lt;/code> to &lt;code>_logger.Error&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>Another thing we can do is edit the Exception data and log some debugging critical parameter.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// WeatherForecastController.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">if&lt;/span> (rng.Next(&lt;span style="color:#ae81ff">0&lt;/span>, &lt;span style="color:#ae81ff">10&lt;/span>) &amp;lt; &lt;span style="color:#ae81ff">2&lt;/span>)
+{
+&lt;span style="color:#66d9ef">var&lt;/span> myException = &lt;span style="color:#66d9ef">new&lt;/span> Exception();
+myException.Data.Add(&lt;span style="color:#e6db74">&amp;#34;someVeryImportantAttribute&amp;#34;&lt;/span>, &lt;span style="color:#ae81ff">42&lt;/span>);
+&lt;span style="color:#66d9ef">throw&lt;/span> myException;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-cs" data-lang="cs">&lt;span style="color:#75715e">// MyMiddleware.cs
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">catch&lt;/span> (Exception exception)
+{
+&lt;span style="color:#ae81ff">_l&lt;/span>ogger.Error(exception, &lt;span style="color:#e6db74">&amp;#34;Something went wrong, {message}&amp;#34;&lt;/span>, exception.Data[&lt;span style="color:#e6db74">&amp;#34;someVeryImportantAttribute&amp;#34;&lt;/span>]);
+&lt;span style="color:#66d9ef">await&lt;/span> HandleExceptionAsync(context, exception);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>If we now run the app logs will start getting pushed to elastic (make sure to also make a few requests so you get some errors!).&lt;/p>
+&lt;h3 id="kibana">Kibana&lt;/h3>
+&lt;p>We can now visit &lt;code>http://localhost:5601&lt;/code> to access kibana.&lt;/p>
+&lt;p>Once there, go to &lt;code>Spaces &amp;gt; Manage Spaces&lt;/code> from the top right and select default. On the left you should see &lt;code>Index patterns&lt;/code> and if you go there
+you can essentially define the log pattern that you want kibana to consider, in my case that is &lt;code>elk-development_*&lt;/code>. We can then go to
+&lt;code>Analytics &amp;gt; Discover&lt;/code> and voilà!&lt;/p>
+&lt;img src="https://antoniosbarotsis.github.io/img/cs_elk/logs.jpg" class="center" style="border-radius: 8px;" />
+&lt;p>If you made the Exception data change mentioned earlier you should be able to see that as well&lt;/p>
+&lt;img src="https://antoniosbarotsis.github.io/img/cs_elk/data.jpg" class="center" style="border-radius: 8px;" />
+&lt;p>The true power of this comes from how you can query your logs. You could for example query for &lt;code>level: Error&lt;/code> to get all your error logs&lt;/p>
+&lt;img src="https://antoniosbarotsis.github.io/img/cs_elk/errors.jpg" class="center" style="border-radius: 8px;" />
+&lt;p>You could also make queries like &lt;code>fields.ElapsedMilliseconds &amp;gt; 10&lt;/code> or &lt;code>fields.RequestPath: /weatherforecast&lt;/code>, you can read more about the
+possible queries &lt;a href="https://www.elastic.co/guide/en/kibana/current/kuery-query.html">here&lt;/a>.&lt;/p>
+&lt;p>One thing I always love spending way too much time on is visualizations and I can definitely see this being the most powerful feature in
+Kibana&lt;/p>
+&lt;img src="https://antoniosbarotsis.github.io/img/cs_elk/plots.jpg" class="center" style="border-radius: 8px;" />
+&lt;h2 id="conclusion">Conclusion&lt;/h2>
+&lt;p>Overall I think this was a pretty cool learning experience for me as I had never done proper error handling or used middleware before in
+C## (or used docker hardware limits but we do not talk about that). I think that although I definitely see the ELK stack being invaluable
+to a big company, I feel like I will not be using or recommend others to use if for small or personal projects as it is relatively hard
+to set up locally and expensive to host (especially if before this you just had a single app instance running).&lt;/p>
+&lt;p>Long story short; it is definitely pretty cool but like normal logging should be enough for the majority of cases 👍.&lt;/p>
+&lt;p>And of course by no means will implementing all of this compensate for bad error handling.&lt;/p>
+&lt;p>Thanks for reading!&lt;/p>
+&lt;p>You can find the code &lt;a href="https://github.com/AntoniosBarotsis/elk">here&lt;/a>.&lt;/p></content></item></channel></rss>

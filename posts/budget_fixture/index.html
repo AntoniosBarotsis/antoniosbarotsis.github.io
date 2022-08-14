@@ -1,0 +1,691 @@
+<!doctype html><html lang=en>
+<head>
+<title>BudgetFixture :: Tony's Portfolio</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="A Proof of Concept AutoFixture Clone in java.">
+<meta name=keywords content="Java,Testing,Reflection">
+<meta name=robots content="noodp">
+<link rel=canonical href=https://antoniosbarotsis.github.io/posts/budget_fixture/>
+<link rel=stylesheet href=https://antoniosbarotsis.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://antoniosbarotsis.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://antoniosbarotsis.github.io/img/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content>
+<meta name=twitter:creator content>
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BudgetFixture">
+<meta property="og:description" content="A Proof of Concept AutoFixture Clone in java.">
+<meta property="og:url" content="https://antoniosbarotsis.github.io/posts/budget_fixture/">
+<meta property="og:site_name" content="Tony's Portfolio">
+<meta property="og:image" content="https://antoniosbarotsis.github.io/img/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-07-12 22:11:09 +0200 +0200">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+Tony's Portfolio
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/>Home</a></li>
+<li><a href=/posts>Posts</a></li>
+<li><a href=/about>About</a></li>
+<li><a href=https://github.com/AntoniosBarotsis>Github</a></li>
+<li><a href=https://twitter.com/Tony_Barotsis>Twitter</a></li>
+<li><a href=https://www.linkedin.com/in/antonios-barotsis-5a26a0199/>LinkedIn</a></li>
+<li><a href=mailto:antonios.barotsis@pm.me>Email</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://antoniosbarotsis.github.io/posts/budget_fixture/>BudgetFixture</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-07-12
+</span>
+<span class=post-reading-time>:: 19 min read (3897 words)</span>
+&nbsp;|&nbsp;<a href=https://github.com/AntoniosBarotsis/Blog/tree/master/content/posts/budget_fixture.md rel="noopener noreferrer" target=_blank>View Source</a>
+</div>
+<span class=post-tags>
+#<a href=https://antoniosbarotsis.github.io/tags/coding/>Coding</a>&nbsp;
+#<a href=https://antoniosbarotsis.github.io/tags/java/>Java</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#what-is-autofixture>What is AutoFixture</a></li>
+<li><a href=#how-did-this-start>How Did This Start?</a></li>
+<li><a href=#what-did-i-want-to-build>What Did I Want To Build?</a></li>
+<li><a href=#end-result>End Result?</a></li>
+<li><a href=#the-plan>The Plan</a></li>
+<li><a href=#getting-started-with-the-generator>Getting Started with the Generator</a></li>
+<li><a href=#creating-the-fixture-class>Creating the Fixture Class</a>
+<ul>
+<li><a href=#dealing-with-the-generators>Dealing with the Generators</a></li>
+</ul>
+</li>
+<li><a href=#generating-class-instances>Generating Class Instances</a></li>
+<li><a href=#closing>Closing</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<h1 id=budgetfixture>BudgetFixture<a href=#budgetfixture class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>BudgetFixture is a very minimal (budget one could say), proof of concept - clone of the
+<a href=https://github.com/AutoFixture/AutoFixture>AutoFixture</a> package in Java.</p>
+<p>My repository can be found <a href=https://github.com/AntoniosBarotsis/BudgetFixture>here</a>.</p>
+<h2 id=what-is-autofixture>What is AutoFixture<a href=#what-is-autofixture class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>AutoFixture is a very handy .NET library that is</p>
+<blockquote>
+<p>&ldquo;designed to minimize the &lsquo;Arrange&rsquo; phase of your unit
+tests in order to maximize maintainability. Its primary goal is to allow developers to focus on what
+is being tested rather than how to setup the test scenario, by making it easier to create object
+graphs containing test data.&rdquo;</p>
+</blockquote>
+<p>What does that mean? In essence, it provides a neat interface for creating class instances for your
+tests with random data.</p>
+<p>In their README they provide the following example:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cs data-lang=cs><span style=color:#a6e22e>[Fact]</span>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> IntroductoryTest()
+{
+    <span style=color:#75715e>// Arrange
+</span><span style=color:#75715e></span>    Fixture fixture = <span style=color:#66d9ef>new</span> Fixture();
+
+    <span style=color:#66d9ef>int</span> expectedNumber = fixture.Create&lt;<span style=color:#66d9ef>int</span>&gt;();
+    MyClass sut = fixture.Create&lt;MyClass&gt;();
+    <span style=color:#75715e>// Act
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>int</span> result = sut.Echo(expectedNumber);
+    <span style=color:#75715e>// Assert
+</span><span style=color:#75715e></span>    Assert.Equal(expectedNumber, result);
+}
+</code></pre></div><p>For comparison, this is what I ended up with:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Main</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        Fixture<span style=color:#f92672>.</span><span style=color:#a6e22e>registerGenerators</span><span style=color:#f92672>();</span>
+
+        var test <span style=color:#f92672>=</span> Fixture<span style=color:#f92672>.</span><span style=color:#a6e22e>Generate</span><span style=color:#f92672>(</span>Person<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span>test<span style=color:#f92672>);</span>
+        <span style=color:#75715e>// Person[id=fe4c38b1-aefc-4f6d-a60c-ca4918a3ad79, name=Random string]
+</span><span style=color:#75715e></span>    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Although these two admittedly look deceivingly similar, I regret to remind you that
+I dropped the project at a very early &ldquo;proof of concept&rdquo; stage, meaning that it is
+very much lacking a lot of features and configuration options, some of which would
+cause certain issues in your tests.</p>
+<p>This project was more about seeing if something similar to this was even possible
+rather than creating a useful library I&rsquo;m afraid.</p>
+<p>That said, there&rsquo;s some interesting bit of reflection involved which not too many
+people care enough about so you might still find it interesting!</p>
+<h2 id=how-did-this-start>How Did This Start?<a href=#how-did-this-start class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>A friend of mine recently started working on his own <a href=https://en.wikipedia.org/wiki/Fuzzing>Fuzzer</a>
+which can be found <a href=https://github.com/martinmladenov/fuzzer>here</a>, go give it a star!</p>
+<p>The idea is simple: Create certain blueprint classes (he called them Reference classes)
+which</p>
+<p>For example, the following method would generate and print 100 random URIs;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> String <span style=color:#a6e22e>getDemoUris</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> seed<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    URIReference symbol <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> URIReference<span style=color:#f92672>();</span>
+
+    StringBuilder sb <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> StringBuilder<span style=color:#f92672>();</span>
+    Random rnd <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Random<span style=color:#f92672>(</span>seed<span style=color:#f92672>);</span>
+
+    <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> 100<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+        sb<span style=color:#f92672>.</span><span style=color:#a6e22e>append</span><span style=color:#f92672>(</span>i<span style=color:#f92672>).</span><span style=color:#a6e22e>append</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;: &#34;</span><span style=color:#f92672>);</span>
+        symbol<span style=color:#f92672>.</span><span style=color:#a6e22e>generate</span><span style=color:#f92672>(</span>sb<span style=color:#f92672>,</span> rnd<span style=color:#f92672>);</span>
+        sb<span style=color:#f92672>.</span><span style=color:#a6e22e>append</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;\n&#34;</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+    <span style=color:#66d9ef>return</span> sb<span style=color:#f92672>.</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Me being me, I started thinking about how this would work in the context of a library.</p>
+<p>Having used <a href=https://jqwik.net/>Jqwik</a> in the past, I liked their idea of defining
+<code>Providers</code> which were functions that would leverage the library and generate
+random output with potential useful constraints.</p>
+<p>For instance, here&rsquo;s an example they include in their docs;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#a6e22e>@Provide</span>
+Arbitrary<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>divisibleBy3</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+  <span style=color:#66d9ef>return</span> Arbitraries
+      <span style=color:#f92672>.</span><span style=color:#a6e22e>integers</span><span style=color:#f92672>()</span>               <span style=color:#75715e>// an arbitrary integer
+</span><span style=color:#75715e></span>      <span style=color:#f92672>.</span><span style=color:#a6e22e>between</span><span style=color:#f92672>(</span>1<span style=color:#f92672>,</span> 100<span style=color:#f92672>)</span>          <span style=color:#75715e>// between 1 and 100
+</span><span style=color:#75715e></span>      <span style=color:#f92672>.</span><span style=color:#a6e22e>filter</span><span style=color:#f92672>(</span>i <span style=color:#f92672>-&gt;</span> i <span style=color:#f92672>%</span> 3 <span style=color:#f92672>==</span> 0<span style=color:#f92672>);</span> <span style=color:#75715e>// that is also divisible by 3
+</span><span style=color:#75715e></span><span style=color:#f92672>}</span>
+</code></pre></div><p>This deviates a bit from what I wanted to do but at the same time, it&rsquo;s not like
+I had a very clear image of what I wanted to achieve in the first place.</p>
+<h2 id=what-did-i-want-to-build>What Did I Want To Build?<a href=#what-did-i-want-to-build class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>In my case, it would make more sense to have a let&rsquo;s say <code>intProvider</code>
+or a <code>UriProvider</code> instead of a <code>intThatIsDivisibleBy3</code>, although it would be nice to
+allow the tester to override an <code>intProvider</code> with a <code>intThatIsDivisibleBy3</code> in a specific
+test because why not, which is ironic for me to say considering the aforementioned feature
+is left as an exercise to the reader.</p>
+<p>I instead decided to go for simple data type providers and use those to build up any complex
+type. In the <code>Person</code> example from the beginning of the post, for example, I defined <code>UUID</code> and
+<code>String</code> providers (or generators as I ended up calling them) in separate files and used those
+behind the scenes to create a <code>Person</code> instance.</p>
+<p>My idea was to worry about how this could look as a library rather than how the generation
+itself would work which is why as you will see I didn&rsquo;t really add any features around it.</p>
+<h2 id=end-result>End Result?<a href=#end-result class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>I&rsquo;m pretty happy with how this ended up looking. Most of this is taken from my repo&rsquo;s
+<a href=https://github.com/AntoniosBarotsis/BudgetFixture>README</a>.</p>
+<p>For this example, let&rsquo;s create a <code>Person</code> record which we&rsquo;ll try to generate automatically
+later:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Person.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> record <span style=color:#a6e22e>Person</span><span style=color:#f92672>(</span>UUID id<span style=color:#f92672>,</span> String name<span style=color:#f92672>)</span> <span style=color:#f92672>{}</span>
+</code></pre></div><p>This class has 2 different classes in its fields, namely a <code>UUID</code> and a <code>String</code> so let&rsquo;s
+create <code>Generator</code>s for both of them:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// UuidGenerator.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>UuidGenerator</span> <span style=color:#66d9ef>extends</span> Generator<span style=color:#f92672>&lt;</span>UUID<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+    <span style=color:#a6e22e>@Override</span>
+    <span style=color:#66d9ef>public</span> UUID <span style=color:#a6e22e>call</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> UUID<span style=color:#f92672>.</span><span style=color:#a6e22e>randomUUID</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+<span style=color:#75715e>// StringGenerator.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>StringGenerator</span> <span style=color:#66d9ef>extends</span> Generator<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+    <span style=color:#a6e22e>@Override</span>
+    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>call</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;Random string&#34;</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>The contents themselves are not important for the sake of the example, hence the <code>"Random String"</code>.</p>
+<p>Heading back to our <code>Main</code> method, running the following piece of code</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Main.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Main</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// register UuidGenerator.java &amp; StringGenerator.java
+</span><span style=color:#75715e></span>        Fixture<span style=color:#f92672>.</span><span style=color:#a6e22e>registerGenerators</span><span style=color:#f92672>();</span>
+
+        <span style=color:#75715e>// Generate a Person instance
+</span><span style=color:#75715e></span>        var test <span style=color:#f92672>=</span> Fixture<span style=color:#f92672>.</span><span style=color:#a6e22e>Generate</span><span style=color:#f92672>(</span>Person<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+
+        <span style=color:#75715e>// Check the results
+</span><span style=color:#75715e></span>        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span>test<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Would print something like this:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>Person[id=fe4c38b1-aefc-4f6d-a60c-ca4918a3ad79, name=Random string]
+</code></pre></div><p>I mentioned my <a href=https://github.com/martinmladenov/fuzzer>friend&rsquo;s Fuzzer</a> earlier as, if that was
+also a library, we could use the <code>Reference</code> classes provided by it for our generators to very easily
+produce complex and randomised attributes for our tests.</p>
+<h2 id=the-plan>The Plan<a href=#the-plan class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Reiterating the previous paragraph but more concretely this time;</p>
+<p>The plan is to fulfill the following:</p>
+<ul>
+<li>easily define a generator for a given data type</li>
+<li>register generators manually (and potentially override default)</li>
+<li>have a way to &ldquo;discover&rdquo; the generators automatically without the tester
+needing to manually write them out one by one</li>
+<li>have a very simple way of generating new classes</li>
+</ul>
+<h2 id=getting-started-with-the-generator>Getting Started with the Generator<a href=#getting-started-with-the-generator class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<blockquote>
+<p>Why does Java have Type Erasure? :(</p>
+</blockquote>
+<p>This right here was the main reason why I wanted to give this project a shot <em>again</em>.
+Java implements <a href=https://docs.oracle.com/javase/tutorial/java/generics/erasure.html>Type Erasure</a>.</p>
+<p>Having picked up reflection and Metaprogramming in general from C#, this was weird to me initially.
+Well, turns out that Java doesn&rsquo;t like reflection as much as C# does <em>and this is terribly apparent in
+any framework/library comparison between the 2 languages</em>.</p>
+<p>But I&rsquo;m getting sidetracked here. Type erasure is a pretty big problem for this project. To fully
+understand why I&rsquo;ll explain how I would be implementing this in a language that does not use
+type erasure (say C#). I&rsquo;ll be using pseudo-ish code so don&rsquo;t take it char by char for this example.</p>
+<p>It would be possible to have a map (or dictionary depending on your language) of type
+<code>&lt;Class&lt;T>, Callable&lt;T>></code> where we are essentially mapping a class to some function that
+generates an instance of that class. Sounds simple enough right? Well since that <code>T</code> would get
+erased at runtime, we&rsquo;d have no way of using our map as it would essentially get turned into
+<code>&lt;Class, Callable></code>. This would make many things easier (and safer) but since it&rsquo;s not available
+we&rsquo;ll go with the next best thing: using the class' string representation as the Key.</p>
+<p>Since we got that explanation out of the way, let&rsquo;s see how we could create our Generator class then</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Generator.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Generator</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> T <span style=color:#a6e22e>call</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Pretty simple so far, we have a class of some generic type <code>T</code> that also has a method <code>call</code> that
+returns something of that type <code>T</code>. I wanted both the class itself and the <code>call</code> method to be abstract
+so that concrete generators inherit from a class which will be important later when we try to detect
+them.</p>
+<p>Coming back to the example from earlier, if we wanted a <code>StringGenerator</code> then that would be a
+<code>Generator&lt;String></code> type and <code>call</code> would return a <code>String</code>.</p>
+<p>Unfortunately, with Java being Java, getting that <code>T</code> is somewhat cumbersome so we&rsquo;ll add a
+method to help us with that here</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Generator</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> T <span style=color:#a6e22e>call</span><span style=color:#f92672>();</span>
+
+    <span style=color:#66d9ef>final</span> Class<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getType</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// Cast result to a generic class
+</span><span style=color:#75715e></span>        ParameterizedType superclass <span style=color:#f92672>=</span> 
+          <span style=color:#f92672>(</span>ParameterizedType<span style=color:#f92672>)</span> getClass<span style=color:#f92672>().</span><span style=color:#a6e22e>getGenericSuperclass</span><span style=color:#f92672>();</span>
+
+        <span style=color:#75715e>// Return first generic type (T)
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>Class<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;)</span> superclass<span style=color:#f92672>.</span><span style=color:#a6e22e>getActualTypeArguments</span><span style=color:#f92672>()[</span>0<span style=color:#f92672>];</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Calling this <code>getType</code> method on our <code>StringGenerator</code> would return <code>java.lang.String</code>.</p>
+<p>Notice that <code>call</code> is declared <code>public</code> so that it can be overriden by the tester while
+<code>getType</code> is both <code>final</code> (so it can&rsquo;t be overriden) and also package-private.</p>
+<p>To recap, we somewhat found a way around Java&rsquo;s type erasure using the text representation of the
+classes instead of the classes themselves and we also made a wrapper abstract class to use for this.
+Now, all we have to do is literally everything else!</p>
+<h2 id=creating-the-fixture-class>Creating the Fixture Class<a href=#creating-the-fixture-class class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Second step into the project and here comes the first decision I later regretted: turning this class
+into a Singleton.</p>
+<p>Test runners nowadays (JUnit included) play around with state scope a lot when running your tests.
+Your tests might be ran in parallel, certain objects involved in your tests might get an instance
+assigned to them for one single test or a group of tests, and so on. All these are usually fine
+if you are dealing with non-static classes. The pitfall of using static classes is that any
+change in the underlying configuration options that you provide might produce unexpected
+behavior if it takes place halfway through your test execution.</p>
+<p>You will see later as I dive through my code that I have a <code>ConstructorFinder</code> interface, this is
+using the strategy pattern to abstract away how I choose a class constructor (I could either pick
+the one with the most attributes or the default one for example). I made this because, depending on
+your use case, you might want to configure your class attributes through the constructor instead of the
+setters or the other way around and I wanted the tester to be able to choose. This would be fine if
+you could choose this option in an individual Fixture instance instead of a singleton. You should
+generally try to avoid anything static in your tests and this is exactly why.</p>
+<p>As an example, say that all of the entities you use in your tests have full arg constructors
+which you want to use when instantiating them, except for this one class which for some reason
+uses a no-arg constructor only for which you need to use the setters for. Were you to tell my
+fixture class &ldquo;Hey, I want to use the no-arg constructor for this test&rdquo; the class would <em>do</em> that
+and also use that behavior for all the remaining tests which is more than likely, undesirable.</p>
+<p>Don&rsquo;t get me wrong, using a singleton somewhere is a good idea for this unless you want every
+new Fixture instance to rescan half your package hierarchy. What I should have done instead however
+is have the Singleton be some sort of configuration/builder object that would create the actual
+Fixture instance which would not be a singleton. This way, the state would not be shared between tests
+and that would not cause issues.</p>
+<p>With that out of the way, let&rsquo;s see what my Fixture class looks like.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Fixture</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> ConstructorFinder constructorFinder <span style=color:#f92672>=</span> 
+        <span style=color:#66d9ef>new</span> LongestConstructorStrategy<span style=color:#f92672>&lt;&gt;();</span>
+        
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>final</span> HashMap<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> Generator<span style=color:#f92672>&lt;?&gt;&gt;</span> map <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;();</span>
+
+    <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>Fixture</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span> <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> HashMap<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> Generator<span style=color:#f92672>&lt;?&gt;&gt;</span> getMap<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> map<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Nothing weird going on with the map as I explained my reasoning earlier. Let&rsquo;s go on a small tangent
+and check the <code>ConstructorFinder</code> class before moving further down</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// ConstructorFinder.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>ConstructorFinder</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+    Constructor<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>(</span>Class<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> obj<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> NoSuchMethodException<span style=color:#f92672>;</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Similar to the <code>Generator</code> class from earlier, the idea is to, given a class <code>T</code>, return a
+constructor with generic type <code>T</code> which means a constructor that creates an instance of <code>T</code>.</p>
+<p>As I mentioned earlier, I made 2 implementations of this interface as seen below:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// DefaultConstructorStrategy.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DefaultConstructorStrategy</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>implements</span> ConstructorFinder<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;{</span>
+    <span style=color:#a6e22e>@Override</span>
+    <span style=color:#66d9ef>public</span> Constructor<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>(</span>Class<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> obj<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> NoSuchMethodException <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> obj<span style=color:#f92672>.</span><span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+<span style=color:#75715e>// LongestConstructorStrategy.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LongestConstructorStrategy</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>implements</span> ConstructorFinder<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+    <span style=color:#a6e22e>@Override</span>
+    <span style=color:#66d9ef>public</span> Constructor<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>(</span>Class<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> obj<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// Get class constroctors
+</span><span style=color:#75715e></span>        var ctors <span style=color:#f92672>=</span> obj<span style=color:#f92672>.</span><span style=color:#a6e22e>getConstructors</span><span style=color:#f92672>();</span>
+
+        <span style=color:#75715e>// Find the one with the most parameters
+</span><span style=color:#75715e></span>        var tmp <span style=color:#f92672>=</span> Arrays<span style=color:#f92672>.</span><span style=color:#a6e22e>stream</span><span style=color:#f92672>(</span>ctors<span style=color:#f92672>)</span>
+            <span style=color:#f92672>.</span><span style=color:#a6e22e>max</span><span style=color:#f92672>(</span>Comparator<span style=color:#f92672>.</span><span style=color:#a6e22e>comparingInt</span><span style=color:#f92672>(</span>x <span style=color:#f92672>-&gt;</span> x<span style=color:#f92672>.</span><span style=color:#a6e22e>getParameterTypes</span><span style=color:#f92672>().</span><span style=color:#a6e22e>length</span><span style=color:#f92672>));</span>
+
+        <span style=color:#75715e>// tmp is an optional so we need .get()
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>Constructor<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;)</span> tmp<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>These definitely look safe and don&rsquo;t have half a dozen things that could go wrong in a more
+realistic code base so let&rsquo;s move on!</p>
+<p>Small note here, currently the map allows overrides; if a specific Generator exists and is registered
+at runtime, nothing is preventing you from specifying another Generator for the same type, effectively
+overriding the previous one. This isn&rsquo;t necessarily bad as you may want to make that override for a
+particular test (assuming again, the concerns I listed earlier about singletons are taken care of)
+which would look like this;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Using a Generator we have already
+</span><span style=color:#75715e>// declared in a separate file
+</span><span style=color:#75715e></span>Fixture<span style=color:#f92672>.</span><span style=color:#a6e22e>Register</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> UuidGenerator<span style=color:#f92672>());</span>
+
+<span style=color:#75715e>// Or declaring one inline
+</span><span style=color:#75715e></span>Fixture<span style=color:#f92672>.</span><span style=color:#a6e22e>Register</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> Generator<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>&gt;()</span> <span style=color:#f92672>{</span>
+    <span style=color:#a6e22e>@Override</span>
+    <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>call</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;very cool random text&#34;</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>});</span>
+</code></pre></div><p>And another small note, I have moved some of these methods to a helper class <code>Util</code> to declutter
+the original one, I&rsquo;ll be adding the filename at the top to avoid confusion!</p>
+<p>I&rsquo;ve also defined a <code>Tuple</code> class which looks like this:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Tuple.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> record Tuple<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>,</span> K<span style=color:#f92672>&gt;(</span>T _1<span style=color:#f92672>,</span> K _2<span style=color:#f92672>)</span> <span style=color:#f92672>{}</span>
+</code></pre></div><h3 id=dealing-with-the-generators>Dealing with the Generators<a href=#dealing-with-the-generators class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>As I mentioned earlier, I wanted a way to dynamically find all the declared generators and
+use them without the user needing to specify them.</p>
+<p>To do that we first need to get all classes in the relevant package. I decided to consider
+the &ldquo;relevant package&rdquo; to be the package that calls the <code>registerGenerators</code> (which is the
+method that we are building up to). A nice addition here would be to include a configuration
+option (or a function overload) that allows the tester to specify the package where the generators
+are defined to save up some time on startup and to allow them to specify a different package.</p>
+<p>Anyway, this is the method I ended up with</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Util.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> List<span style=color:#f92672>&lt;</span>Tuple<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> String<span style=color:#f92672>&gt;&gt;</span> <span style=color:#a6e22e>listAllClassesFromPackage</span><span style=color:#f92672>(</span>String packageName<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#75715e>// Get resource stream for given package
+</span><span style=color:#75715e></span>    InputStream stream <span style=color:#f92672>=</span> ClassLoader
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>getSystemClassLoader</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>getResourceAsStream</span><span style=color:#f92672>(</span>packageName<span style=color:#f92672>);</span>
+
+    <span style=color:#75715e>// If stream is null -&gt; return empty list
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>stream <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> List<span style=color:#f92672>.</span><span style=color:#a6e22e>of</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#75715e>// Turn stream into a list
+</span><span style=color:#75715e></span>    BufferedReader reader <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> BufferedReader<span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> InputStreamReader<span style=color:#f92672>(</span>stream<span style=color:#f92672>));</span>
+    var list <span style=color:#f92672>=</span> reader<span style=color:#f92672>.</span><span style=color:#a6e22e>lines</span><span style=color:#f92672>().</span><span style=color:#a6e22e>toList</span><span style=color:#f92672>();</span>
+
+    <span style=color:#75715e>// Resulting list will be a list of
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// &lt;className, packageName&gt; tuples
+</span><span style=color:#75715e></span>    var res <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LinkedList<span style=color:#f92672>&lt;</span>Tuple<span style=color:#f92672>&lt;</span>String<span style=color:#f92672>,</span> String<span style=color:#f92672>&gt;&gt;();</span>
+
+    <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span>String s <span style=color:#f92672>:</span> list<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// If s is a class
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>s<span style=color:#f92672>.</span><span style=color:#a6e22e>endsWith</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;.class&#34;</span><span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+            <span style=color:#75715e>// Add to res
+</span><span style=color:#75715e></span>            res<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> Tuple<span style=color:#f92672>&lt;&gt;(</span>s<span style=color:#f92672>,</span> packageName<span style=color:#f92672>));</span>
+        <span style=color:#f92672>}</span>
+
+        <span style=color:#75715e>// Recursively add nested package
+</span><span style=color:#75715e></span>        res<span style=color:#f92672>.</span><span style=color:#a6e22e>addAll</span><span style=color:#f92672>(</span>listAllClassesFromPackage<span style=color:#f92672>(</span>packageName <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;/&#34;</span> <span style=color:#f92672>+</span> s<span style=color:#f92672>));</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>return</span> res<span style=color:#f92672>;</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>We first need to get the resource stream of the passed package which might be null if there&rsquo;s nothing
+left, in which case we return an empty list. If not, we turn that into a list and iterate through it.
+Classes do end in <code>.class</code> so we can easily filter those out and add them to the result list (res) along
+with the full package name so far. If the current element is not a class (and is, therefore, a package)
+we recursively call the same method again only with an updated package name. Finally, we return the list.</p>
+<p>But where does this <code>packageName</code> initially come from? The following method retrieves it</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Fixture.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> String <span style=color:#a6e22e>getPackageName</span><span style=color:#f92672>()</span> <span style=color:#66d9ef>throws</span> ClassNotFoundException <span style=color:#f92672>{</span>
+    <span style=color:#75715e>// Get stacktrace
+</span><span style=color:#75715e></span>    StackTraceElement<span style=color:#f92672>[]</span> stacktrace <span style=color:#f92672>=</span> Thread<span style=color:#f92672>.</span><span style=color:#a6e22e>currentThread</span><span style=color:#f92672>().</span><span style=color:#a6e22e>getStackTrace</span><span style=color:#f92672>();</span>
+
+    <span style=color:#75715e>// This corresponds to the context that called this method
+</span><span style=color:#75715e></span>    StackTraceElement e <span style=color:#f92672>=</span> stacktrace<span style=color:#f92672>[</span>3<span style=color:#f92672>];</span>
+
+    <span style=color:#75715e>// Load class and get its package name
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>return</span> ClassLoader
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>getSystemClassLoader</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>loadClass</span><span style=color:#f92672>(</span>e<span style=color:#f92672>.</span><span style=color:#a6e22e>getClassName</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>getPackageName</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>replaceAll</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;\\.&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;/&#34;</span><span style=color:#f92672>);</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>This is quite self-explanatory except for the stack trace stuff, what&rsquo;s that all about? This was
+<em>borrowed</em> from <a href=https://stackoverflow.com/a/4065546/12756474>this</a> StackOverflow post. Instead of
+the <code>2</code>, I am using <code>3</code> since this get&rsquo;s called from inside another method which adds another
+entry to the stack.</p>
+<p>Moving back to the Util class, I also made a small wrapper method to get the class given the path to it
+which is the following;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Util.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> Class<span style=color:#f92672>&lt;?&gt;</span> getClass<span style=color:#f92672>(</span>String className<span style=color:#f92672>,</span> String packageName<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    var newClassName <span style=color:#f92672>=</span> 
+        <span style=color:#75715e>// package
+</span><span style=color:#75715e></span>        packageName<span style=color:#f92672>.</span><span style=color:#a6e22e>replaceAll</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;/&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;.&#34;</span><span style=color:#f92672>)</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;.&#34;</span> <span style=color:#f92672>+</span>
+        <span style=color:#75715e>// className (without .class)
+</span><span style=color:#75715e></span>        className<span style=color:#f92672>.</span><span style=color:#a6e22e>substring</span><span style=color:#f92672>(</span>0<span style=color:#f92672>,</span> className<span style=color:#f92672>.</span><span style=color:#a6e22e>lastIndexOf</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#39;.&#39;</span><span style=color:#f92672>));</span>
+
+    <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// Retrieve class using the class name
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> Class<span style=color:#f92672>.</span><span style=color:#a6e22e>forName</span><span style=color:#f92672>(</span>newClassName<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>ClassNotFoundException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Class &#34;</span> <span style=color:#f92672>+</span> newClassName <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; was not found&#34;</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Nothing interesting happening here, just including it to avoid confusion later.</p>
+<p>Finally, we get to the more interesting stuff. Combining the previous methods together,
+we get the following:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Util.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>static</span> Set<span style=color:#f92672>&lt;</span>Class<span style=color:#f92672>&lt;?&gt;&gt;</span> findAllGenerators<span style=color:#f92672>(</span>String packageName<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#75715e>// Get all classes for the given package
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// lines is a List&lt;Tuple&lt;className, packageName&gt;&gt;
+</span><span style=color:#75715e></span>    var lines <span style=color:#f92672>=</span> listAllClassesFromPackage<span style=color:#f92672>(</span>packageName<span style=color:#f92672>);</span>
+
+    <span style=color:#66d9ef>return</span> lines<span style=color:#f92672>.</span><span style=color:#a6e22e>stream</span><span style=color:#f92672>()</span>
+        <span style=color:#75715e>// Sanity check - filter for classes
+</span><span style=color:#75715e></span>        <span style=color:#f92672>.</span><span style=color:#a6e22e>filter</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>_1</span><span style=color:#f92672>().</span><span style=color:#a6e22e>endsWith</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;.class&#34;</span><span style=color:#f92672>))</span>
+        <span style=color:#75715e>// Map to actual classes
+</span><span style=color:#75715e></span>        <span style=color:#f92672>.</span><span style=color:#a6e22e>map</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> Util<span style=color:#f92672>.</span><span style=color:#a6e22e>getClass</span><span style=color:#f92672>(</span>el<span style=color:#f92672>.</span><span style=color:#a6e22e>_1</span><span style=color:#f92672>(),</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>_2</span><span style=color:#f92672>()))</span>
+        <span style=color:#75715e>// Filter for
+</span><span style=color:#75715e></span>        <span style=color:#f92672>.</span><span style=color:#a6e22e>filter</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span>
+            <span style=color:#75715e>// Classes with the Generator as a superclass
+</span><span style=color:#75715e></span>            el<span style=color:#f92672>.</span><span style=color:#a6e22e>getSuperclass</span><span style=color:#f92672>()</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span>
+            el<span style=color:#f92672>.</span><span style=color:#a6e22e>getSuperclass</span><span style=color:#f92672>().</span><span style=color:#a6e22e>equals</span><span style=color:#f92672>(</span>Generator<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>)</span> <span style=color:#f92672>&amp;&amp;</span>
+            <span style=color:#75715e>// Classes that are not a Main class
+</span><span style=color:#75715e></span>            Util<span style=color:#f92672>.</span><span style=color:#a6e22e>isNotMain</span><span style=color:#f92672>(</span>el<span style=color:#f92672>)</span>
+        <span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>collect</span><span style=color:#f92672>(</span>Collectors<span style=color:#f92672>.</span><span style=color:#a6e22e>toSet</span><span style=color:#f92672>());</span>
+<span style=color:#f92672>}</span>
+
+<span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isNotMain</span><span style=color:#f92672>(</span>Class<span style=color:#f92672>&lt;?&gt;</span> el<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// These would have &#34;$[number]&#34; for some reason,
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// remove those
+</span><span style=color:#75715e></span>        var newName <span style=color:#f92672>=</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>().</span><span style=color:#a6e22e>replaceAll</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;\\$\\d+&#34;</span><span style=color:#f92672>,</span> <span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>);</span>
+        <span style=color:#75715e>// Try to get main method, if there is no main method
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// this throws an exception
+</span><span style=color:#75715e></span>        el<span style=color:#f92672>.</span><span style=color:#a6e22e>getClassLoader</span><span style=color:#f92672>().</span><span style=color:#a6e22e>loadClass</span><span style=color:#f92672>(</span>newName<span style=color:#f92672>).</span><span style=color:#a6e22e>getMethod</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;main&#34;</span><span style=color:#f92672>,</span> String<span style=color:#f92672>[].</span><span style=color:#a6e22e>class</span><span style=color:#f92672>);</span>
+        <span style=color:#75715e>// If this didn&#39;t crash then it is a main method
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>NoSuchMethodException ignored<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// if the method doesn&#39;t exist then it&#39;s not main
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>ClassNotFoundException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>e<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Using the list generated from the <code>listAllClassesFromPackage</code>, we have a sanity check filter
+for the classes followed by a map that uses the <code>getClass</code> method I just mentioned. Now that
+we have a stream of Classes we can check to see if they inherit from <code>Generator</code>. Now, for some
+reason I did not figure out, that would also include the Main class which is why I also make sure
+that the current class does not have the <code>Main</code> method.</p>
+<p>Let&rsquo;s recap really quick because that is a lot to take in;</p>
+<ul>
+<li>we have a way of getting the package name of the file that called a specific method we made</li>
+<li>we also have a way to scan that package for all classes that inherit from the <code>Generator</code> class we
+created earlier</li>
+</ul>
+<p>This means that we can now finally build the <code>registerGenerators</code> method!</p>
+<p>This method had way too many exceptions to catch so let&rsquo;s look at it without the try-catch
+blocks first;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Fixture.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>registerGenerators</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#75715e>// Get all generator classes
+</span><span style=color:#75715e></span>    var res <span style=color:#f92672>=</span> Util<span style=color:#f92672>.</span><span style=color:#a6e22e>findAllGenerators</span><span style=color:#f92672>(</span>getPackageName<span style=color:#f92672>());</span>
+
+    <span style=color:#75715e>// Instantiate and register the new generator
+</span><span style=color:#75715e></span>    res<span style=color:#f92672>.</span><span style=color:#a6e22e>forEach</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
+        Register<span style=color:#f92672>((</span>Generator<span style=color:#f92672>&lt;?&gt;)</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>().</span><span style=color:#a6e22e>newInstance</span><span style=color:#f92672>());</span>
+    <span style=color:#f92672>});</span>
+<span style=color:#f92672>}</span>
+
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>Register</span><span style=color:#f92672>(</span>Generator<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> callable<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#75715e>// Put new generator in the map
+</span><span style=color:#75715e></span>    getMap<span style=color:#f92672>().</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>callable<span style=color:#f92672>.</span><span style=color:#a6e22e>getType</span><span style=color:#f92672>().</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>(),</span> callable<span style=color:#f92672>);</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>Well that seems simple! We call <code>findAllGenerators</code> with the relevant package name and then
+for each class in the resulting list, we call the <code>Register</code> method you can see right after
+which just adds them to the Fixture HashMap.</p>
+<p>The real method looks more like this</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Fixture.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>registerGenerators</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+        var res <span style=color:#f92672>=</span> Util<span style=color:#f92672>.</span><span style=color:#a6e22e>findAllGenerators</span><span style=color:#f92672>(</span>getPackageName<span style=color:#f92672>());</span>
+        res<span style=color:#f92672>.</span><span style=color:#a6e22e>forEach</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+                <span style=color:#75715e>// I know this is a mess, the actual code is here
+</span><span style=color:#75715e></span>                Register<span style=color:#f92672>((</span>Generator<span style=color:#f92672>&lt;?&gt;)</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>().</span><span style=color:#a6e22e>newInstance</span><span style=color:#f92672>());</span>
+                <span style=color:#75715e>// cheers
+</span><span style=color:#75715e></span>            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>NoSuchMethodException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;No constructor was found for class &#34;</span> <span style=color:#f92672>+</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>());</span>
+            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>IllegalAccessException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+                    <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Constructor &#34;</span> <span style=color:#f92672>+</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>()</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; is not public&#34;</span><span style=color:#f92672>);</span>
+                <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>NoSuchMethodException ignored<span style=color:#f92672>)</span> <span style=color:#f92672>{}</span>  <span style=color:#75715e>// already caught above
+</span><span style=color:#75715e></span>            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>InstantiationException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;The class &#34;</span> <span style=color:#f92672>+</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>()</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; could not be instantiated&#34;</span><span style=color:#f92672>);</span>
+            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>InvocationTargetException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>e<span style=color:#f92672>);</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>});</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>ClassNotFoundException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>e<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>It is worth noting that you should probably break this logic and error-catching down as this is
+way too many try-catches for one method but oh well, not my problem, if it works, it works eh?</p>
+<h2 id=generating-class-instances>Generating Class Instances<a href=#generating-class-instances class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>Now that we have a way to dynamically find the declared generators and add them to our
+<code>&lt;dataType, Generator></code> map, it is time we start generating some class instances.</p>
+<p>I&rsquo;ll take this backward this time and show you the finished method before the parts that make it up
+because I want you to see how simple it actually was</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Fixture.java
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> T <span style=color:#a6e22e>Generate</span><span style=color:#f92672>(</span>Class<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> obj<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// Get class constructor
+</span><span style=color:#75715e></span>        var ctor <span style=color:#f92672>=</span> <span style=color:#f92672>(</span>Constructor<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;)</span> constructorFinder<span style=color:#f92672>.</span><span style=color:#a6e22e>getConstructor</span><span style=color:#f92672>(</span>obj<span style=color:#f92672>);</span>
+
+        <span style=color:#75715e>// Generate a new instance using our generators
+</span><span style=color:#75715e></span>        T res <span style=color:#f92672>=</span> ctor<span style=color:#f92672>.</span><span style=color:#a6e22e>newInstance</span><span style=color:#f92672>(</span>getConstructorParams<span style=color:#f92672>(</span>ctor<span style=color:#f92672>));</span>
+
+        <span style=color:#75715e>// Also use the setters to populate the attributes 
+</span><span style=color:#75715e></span>        useSetters<span style=color:#f92672>(</span>res<span style=color:#f92672>);</span>
+
+        <span style=color:#66d9ef>return</span> res<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>Exception e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>e<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>That&rsquo;s it! We want to get a constructor of the provided class (using our strategy from earlier),
+create a new instance using that constructor (this uses our generators behind the scenes)
+and finally (technically also optionally), use our generators on all relevant setters.</p>
+<p>Technically speaking, if this was an actual library you would want to let the tester decide whether
+or not you should use either the constructor, the setters or both. Perhaps this decision should be
+connected to the constructor finder strategy as in, default constructor & setters or
+big constructor and no setters. In any case, that is beyond the scope of what I wanted to achieve
+so I didn&rsquo;t do much with it.</p>
+<p>But enough with that, let&rsquo;s take a look at the <code>getConstructorParams</code> method;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> Object<span style=color:#f92672>[]</span> <span style=color:#a6e22e>getConstructorParams</span><span style=color:#f92672>(</span>Constructor<span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> ctor<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> Arrays<span style=color:#f92672>.</span><span style=color:#a6e22e>stream</span><span style=color:#f92672>(</span>ctor<span style=color:#f92672>.</span><span style=color:#a6e22e>getParameters</span><span style=color:#f92672>())</span> <span style=color:#75715e>// Get constructor params
+</span><span style=color:#75715e></span>        <span style=color:#f92672>.</span><span style=color:#a6e22e>map</span><span style=color:#f92672>(</span>Parameter<span style=color:#f92672>::</span>getType<span style=color:#f92672>)</span>               <span style=color:#75715e>// Get param type
+</span><span style=color:#75715e></span>        <span style=color:#f92672>.</span><span style=color:#a6e22e>map</span><span style=color:#f92672>(</span>Class<span style=color:#f92672>::</span>getName<span style=color:#f92672>)</span>                   <span style=color:#75715e>// Get class name
+</span><span style=color:#75715e></span>        <span style=color:#f92672>.</span><span style=color:#a6e22e>map</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> getMap<span style=color:#f92672>().</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>el<span style=color:#f92672>).</span><span style=color:#a6e22e>call</span><span style=color:#f92672>())</span>    <span style=color:#75715e>// Call appropriate generator
+</span><span style=color:#75715e></span>        <span style=color:#f92672>.</span><span style=color:#a6e22e>toArray</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>For this, we want to basically do the exact opposite of what the <code>Register</code> method from
+earlier does; get the type class names, retrieve and call their corresponding Generators from our
+map.</p>
+<p>With all this done, we have now created our class instance! As I mentioned earlier, stopping here
+would be fine (especially if we assumed that an all-arg constructor is always present) but as I
+mentioned earlier, I wanted to fiddle around with setters as well so let&rsquo;s now take a look at
+<code>useSetters</code>;</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#f92672>&lt;</span>T<span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>useSetters</span><span style=color:#f92672>(</span>T res<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#75715e>// Create Map&lt;fieldName, fieldType&gt;
+</span><span style=color:#75715e></span>    var fieldTypes <span style=color:#f92672>=</span> Arrays<span style=color:#f92672>.</span><span style=color:#a6e22e>stream</span><span style=color:#f92672>(</span>res<span style=color:#f92672>.</span><span style=color:#a6e22e>getClass</span><span style=color:#f92672>().</span><span style=color:#a6e22e>getDeclaredFields</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>collect</span><span style=color:#f92672>(</span>Collectors<span style=color:#f92672>.</span><span style=color:#a6e22e>toMap</span><span style=color:#f92672>(</span>Field<span style=color:#f92672>::</span>getName<span style=color:#f92672>,</span> Field<span style=color:#f92672>::</span>getType<span style=color:#f92672>));</span>
+
+    <span style=color:#75715e>// Get all setters
+</span><span style=color:#75715e></span>    var setters <span style=color:#f92672>=</span> Arrays<span style=color:#f92672>.</span><span style=color:#a6e22e>stream</span><span style=color:#f92672>(</span>res<span style=color:#f92672>.</span><span style=color:#a6e22e>getClass</span><span style=color:#f92672>().</span><span style=color:#a6e22e>getDeclaredMethods</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>filter</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>().</span><span style=color:#a6e22e>toLowerCase</span><span style=color:#f92672>(</span>Locale<span style=color:#f92672>.</span><span style=color:#a6e22e>ROOT</span><span style=color:#f92672>).</span><span style=color:#a6e22e>contains</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;set&#34;</span><span style=color:#f92672>)).</span><span style=color:#a6e22e>toList</span><span style=color:#f92672>();</span>
+
+    <span style=color:#75715e>// for each field
+</span><span style=color:#75715e></span>    fieldTypes<span style=color:#f92672>.</span><span style=color:#a6e22e>forEach</span><span style=color:#f92672>((</span>fieldName<span style=color:#f92672>,</span> fieldType<span style=color:#f92672>)</span> <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>// Find related setter if exists
+</span><span style=color:#75715e></span>        var setter <span style=color:#f92672>=</span> setters<span style=color:#f92672>.</span><span style=color:#a6e22e>stream</span><span style=color:#f92672>()</span>
+            <span style=color:#f92672>.</span><span style=color:#a6e22e>filter</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> el<span style=color:#f92672>.</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>().</span><span style=color:#a6e22e>toLowerCase</span><span style=color:#f92672>(</span>Locale<span style=color:#f92672>.</span><span style=color:#a6e22e>ROOT</span><span style=color:#f92672>).</span><span style=color:#a6e22e>contains</span><span style=color:#f92672>(</span>fieldName<span style=color:#f92672>))</span>
+            <span style=color:#f92672>.</span><span style=color:#a6e22e>findFirst</span><span style=color:#f92672>();</span>
+
+        <span style=color:#75715e>// If a setter was found
+</span><span style=color:#75715e></span>        setter<span style=color:#f92672>.</span><span style=color:#a6e22e>ifPresent</span><span style=color:#f92672>(</span>el <span style=color:#f92672>-&gt;</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>try</span> <span style=color:#f92672>{</span>
+                <span style=color:#75715e>// Find generator for given field type
+</span><span style=color:#75715e></span>                var generator <span style=color:#f92672>=</span> getMap<span style=color:#f92672>().</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>fieldType<span style=color:#f92672>.</span><span style=color:#a6e22e>getName</span><span style=color:#f92672>());</span>
+
+                <span style=color:#75715e>// Pass generator output to setter
+</span><span style=color:#75715e></span>                el<span style=color:#f92672>.</span><span style=color:#a6e22e>invoke</span><span style=color:#f92672>(</span>res<span style=color:#f92672>,</span> generator<span style=color:#f92672>.</span><span style=color:#a6e22e>call</span><span style=color:#f92672>());</span>
+            <span style=color:#f92672>}</span> <span style=color:#66d9ef>catch</span> <span style=color:#f92672>(</span>IllegalAccessException <span style=color:#f92672>|</span> InvocationTargetException e<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> RuntimeException<span style=color:#f92672>(</span>e<span style=color:#f92672>);</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>});</span>
+    <span style=color:#f92672>});</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>This first creates a map of all the class field names and types which we&rsquo;ll use later.
+It then finds all methods that contain &ldquo;set&rdquo; in their method name (so hopefully all setters).
+Then for each field, we try to find a setter that contains the field name in its name and if
+we do find it we try and get a generator for the current field through our map. Finally, we
+invoke the setter with whatever the generator call gives us.</p>
+<h2 id=closing>Closing<a href=#closing class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>All in all, I&rsquo;m glad I have this idea a shot again. I tried one or two more times in the past
+but got stuck somewhere and dropped the project in favor of something else (preferably not Java)
+so it was definitely refreshing paying this a visit again after getting some new ideas from here
+and there.</p>
+<p>This definitely was one way of spending the last 2 afternoons.</p>
+<p>Till next time!</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button next">
+<a href=https://antoniosbarotsis.github.io/posts/simple_jwt/>
+<span class=button__text>Simple JWT</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+<script src=https://utteranc.es/client.js repo=AntoniosBarotsis/Blog issue-term=pathname label=Comment theme=github-dark crossorigin=anonymous async></script>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://antoniosbarotsis.github.io/assets/main.js></script>
+<script src=https://antoniosbarotsis.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>
