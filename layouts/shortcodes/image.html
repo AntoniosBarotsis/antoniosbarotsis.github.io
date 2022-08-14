@@ -1,0 +1,3 @@
+{{ if .Get "src" }}
+  <img src="{{ .Get "src" | safeURL }}"  class="{{ with .Get "position"}}{{ . }}{{ else -}} center {{- end }}" style="{{ with .Get "style"}}{{ . }}{{ else -}} border-radius: 8px; {{- end }}" />
+{{ end }}
