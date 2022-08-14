@@ -1,0 +1,6 @@
+{
+  "yaml.schemas": {
+    "https://squidfunk.github.io/mkdocs-material/schema.json": "mkdocs.yml",
+    "https://json.schemastore.org/github-workflow.json": "file:///c%3A/Users/anton/Documents/Github/antoniosbarotsis.github.io/.github/workflows/deploy.yml"
+  }
+}
