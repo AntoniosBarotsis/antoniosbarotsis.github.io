@@ -32,24 +32,26 @@ project idea which I work on for some time and then the cycle repeats.
 - *Junior Backend Developer* at GILO Technologies `from September to December 2021`.
 - *Student Mentor* for Postman API Fest 2022 `26th to 29th January 2022`.
 - Received a *Letter of Appreciation* for performing data analysis and statistical processing of
-  the exam  results from the 2020-2022 academic years for the European Board of Physical
+  the exam  results from the `2020-2022 academic years` for the European Board of Physical
   and Rehabilitation Medicine (EBPRM) `June 2022`.
 
 ### Practical Experience
 
-I've worked with numerous technologies and here's a few broad, important ones that I am
+I've worked with numerous technologies and here's a few broad, important ones that I am very
 comfortable with;
 
-- Java, C#
-- Spring Boot, the .NET ecosystem
+- Java, C#, Rust
+- Spring Boot, .NET Core
 - Docker, automation and CICD
 - SQL Databases
 
-Less general topics (but definitely not less useful!) topics that I have either read about or practiced
-myself are hard to list one by one. For that, refer to the [*My Journey*](#my-journey) paragraph.
+Less general topics (but definitely not less useful!) that I have either read about or practiced
+myself are hard to list one by one. For that, refer to the [*My Journey*](#my-journey) section.
 
 ### Some Cool Projects I've Worked On
 
+- An experimental Compiler written in Rust -
+  [[repo]](https://github.com/AntoniosBarotsis/RustSharp)
 - A testing framework for a compiler written in Scala - 
   [[repo]](https://github.com/pijuskri/Po-Sharp/tree/master/app/src/main/scala/veritas) 
   [[blog]](../posts/posharp)
@@ -150,5 +152,7 @@ project that can be scaled and how to go about doing that.
 I learned a bunch more stuff about parallel and asynchronous programming which I'll be glad to make use 
 of at some point. 
 
-I decided to start learning Rust while building my own Programming language, inspired by my 
+I decided to start learning Rust while building 
+[my own Programming language](https://github.com/AntoniosBarotsis/RustSharp), inspired by my 
 aforementioned friend. Turns out, compilers are rather complicated and LLVM is not any better.
+I looked into syntax highlighting and neat error reporting as well.
