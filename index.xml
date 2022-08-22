@@ -1524,22 +1524,24 @@ project idea which I work on for some time and then the cycle repeats.&lt;/p>
 &lt;li>&lt;em>Junior Backend Developer&lt;/em> at GILO Technologies &lt;code>from September to December 2021&lt;/code>.&lt;/li>
 &lt;li>&lt;em>Student Mentor&lt;/em> for Postman API Fest 2022 &lt;code>26th to 29th January 2022&lt;/code>.&lt;/li>
 &lt;li>Received a &lt;em>Letter of Appreciation&lt;/em> for performing data analysis and statistical processing of
-the exam results from the 2020-2022 academic years for the European Board of Physical
+the exam results from the &lt;code>2020-2022 academic years&lt;/code> for the European Board of Physical
 and Rehabilitation Medicine (EBPRM) &lt;code>June 2022&lt;/code>.&lt;/li>
 &lt;/ul>
 &lt;h3 id="practical-experience">Practical Experience&lt;/h3>
-&lt;p>I&amp;rsquo;ve worked with numerous technologies and here&amp;rsquo;s a few broad, important ones that I am
+&lt;p>I&amp;rsquo;ve worked with numerous technologies and here&amp;rsquo;s a few broad, important ones that I am very
 comfortable with;&lt;/p>
 &lt;ul>
-&lt;li>Java, C#&lt;/li>
-&lt;li>Spring Boot, the .NET ecosystem&lt;/li>
+&lt;li>Java, C#, Rust&lt;/li>
+&lt;li>Spring Boot, .NET Core&lt;/li>
 &lt;li>Docker, automation and CICD&lt;/li>
 &lt;li>SQL Databases&lt;/li>
 &lt;/ul>
-&lt;p>Less general topics (but definitely not less useful!) topics that I have either read about or practiced
-myself are hard to list one by one. For that, refer to the &lt;a href="#my-journey">&lt;em>My Journey&lt;/em>&lt;/a> paragraph.&lt;/p>
+&lt;p>Less general topics (but definitely not less useful!) that I have either read about or practiced
+myself are hard to list one by one. For that, refer to the &lt;a href="#my-journey">&lt;em>My Journey&lt;/em>&lt;/a> section.&lt;/p>
 &lt;h3 id="some-cool-projects-ive-worked-on">Some Cool Projects I&amp;rsquo;ve Worked On&lt;/h3>
 &lt;ul>
+&lt;li>An experimental Compiler written in Rust -
+&lt;a href="https://github.com/AntoniosBarotsis/RustSharp">[repo]&lt;/a>&lt;/li>
 &lt;li>A testing framework for a compiler written in Scala -
 &lt;a href="https://github.com/pijuskri/Po-Sharp/tree/master/app/src/main/scala/veritas">[repo]&lt;/a>
 &lt;a href="../posts/posharp">[blog]&lt;/a>&lt;/li>
@@ -1616,5 +1618,7 @@ scalability and more importantly, how (and when) to build for scale as well as i
 project that can be scaled and how to go about doing that.&lt;/p>
 &lt;p>I learned a bunch more stuff about parallel and asynchronous programming which I&amp;rsquo;ll be glad to make use
 of at some point.&lt;/p>
-&lt;p>I decided to start learning Rust while building my own Programming language, inspired by my
-aforementioned friend. Turns out, compilers are rather complicated and LLVM is not any better.&lt;/p></content></item></channel></rss>
+&lt;p>I decided to start learning Rust while building
+&lt;a href="https://github.com/AntoniosBarotsis/RustSharp">my own Programming language&lt;/a>, inspired by my
+aforementioned friend. Turns out, compilers are rather complicated and LLVM is not any better.
+I looked into syntax highlighting and neat error reporting as well.&lt;/p></content></item></channel></rss>
