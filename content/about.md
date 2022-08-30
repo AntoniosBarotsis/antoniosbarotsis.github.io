@@ -3,6 +3,7 @@ title: "About Me"
 showViewSource: false
 hideComments: true
 readingTime: false
+rss_ignore: true
 ---
 
 ## About Me
