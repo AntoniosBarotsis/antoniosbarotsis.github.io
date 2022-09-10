@@ -51,6 +51,8 @@ myself are hard to list one by one. For that, refer to the [*My Journey*](#my-jo
 
 ### Some Cool Projects I've Worked On
 
+- An RSS feed aggregator that notifies you of new posts via email -
+  [[repo]](https://github.com/AntoniosBarotsis/Rss2Email)
 - An experimental Compiler written in Rust -
   [[repo](https://github.com/AntoniosBarotsis/RustSharp)]
 - A testing framework for a compiler written in Scala - 
@@ -157,3 +159,8 @@ I decided to start learning Rust while building
 [my own Programming language](https://github.com/AntoniosBarotsis/RustSharp), inspired by my 
 aforementioned friend. Turns out, compilers are rather complicated and LLVM is not any better.
 I looked into syntax highlighting and neat error reporting as well.
+
+Some time after that I decided to work on [Rss2Feed](https://github.com/AntoniosBarotsis/Rss2Email) over
+the course of a week or so to extend my Rust knowledge. Having finished it as of writing this, I must say
+I find it quite useful actually! I used some of the stuff I'd learned previously to package the project
+in a slim Docker image and make it easy to host on AWS Lambda.
