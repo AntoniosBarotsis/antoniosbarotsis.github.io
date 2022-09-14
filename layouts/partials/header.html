@@ -10,5 +10,8 @@
   {{ if len $.Site.Menus }}
     {{ partial "menu.html" . }}
   {{ end }}
-  {{ template "_internal/google_analytics.html" . }}
+  {{ if and (hugo.IsProduction) (.Site.Params.googleAnalyticsID) }}
+    {{ template "_internal/google_analytics.html" . }}
+    {{ template "_internal/google_analytics_async.html" . }}
+  {{ end }}
 </header>
