@@ -7,8 +7,6 @@
 <meta name=keywords content="Csharp,Elasticsearch,Kibana,Monitoring,ELK">
 <meta name=robots content="noodp">
 <link rel=canonical href=https://antoniosbarotsis.github.io/posts/cs_elk/>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SPZ8W960YL"></script>
-<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-SPZ8W960YL',{anonymize_ip:!1})}</script>
 <link rel=stylesheet href=https://antoniosbarotsis.github.io/assets/style.css>
 <link rel=apple-touch-icon href=https://antoniosbarotsis.github.io/img/apple-touch-icon-192x192.png>
 <link rel="shortcut icon" href=https://antoniosbarotsis.github.io/img/favicon.ico>
@@ -117,7 +115,7 @@ through kibana.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>dotnet run
 </code></pre></div><p>and visiting <code>https://localhost:5001/weatherforecast</code>. I am using <a href=https://insomnia.rest/>Insomnia</a> for my http client but Postman or your browser
 would also work.</p>
-<img src=/img/cs_elk/helloWorld.jpg class=center style=border-radius:8px>
+<img src=/img/cs_elk/helloWorld.jpg class=center>
 <h3 id=setting-up-middleware>Setting up middleware<a href=#setting-up-middleware class=hanchor arialabel=Anchor>&#8983;</a> </h3>
 <p>I will be setting up middleware to handle logging as it is a cleaner solution than logging in each request. You can read more about middleware
 <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-5.0">here</a>.</p>
@@ -313,16 +311,16 @@ like <code>:</code> do not work in these patterns or at least didn&rsquo;t work 
 <p>Once there, go to <code>Spaces > Manage Spaces</code> from the top right and select default. On the left you should see <code>Index patterns</code> and if you go there
 you can essentially define the log pattern that you want kibana to consider, in my case that is <code>elk-development_*</code>. We can then go to
 <code>Analytics > Discover</code> and voilà!</p>
-<img src=/img/cs_elk/logs.jpg class=center style=border-radius:8px>
+<img src=/img/cs_elk/logs.jpg class=center>
 <p>If you made the Exception data change mentioned earlier you should be able to see that as well</p>
-<img src=/img/cs_elk/data.jpg class=center style=border-radius:8px>
+<img src=/img/cs_elk/data.jpg class=center>
 <p>The true power of this comes from how you can query your logs. You could for example query for <code>level: Error</code> to get all your error logs</p>
-<img src=/img/cs_elk/errors.jpg class=center style=border-radius:8px>
+<img src=/img/cs_elk/errors.jpg class=center>
 <p>You could also make queries like <code>fields.ElapsedMilliseconds > 10</code> or <code>fields.RequestPath: /weatherforecast</code>, you can read more about the
 possible queries <a href=https://www.elastic.co/guide/en/kibana/current/kuery-query.html>here</a>.</p>
 <p>One thing I always love spending way too much time on is visualizations and I can definitely see this being the most powerful feature in
 Kibana</p>
-<img src=/img/cs_elk/plots.jpg class=center style=border-radius:8px>
+<img src=/img/cs_elk/plots.jpg class=center>
 <h2 id=conclusion>Conclusion<a href=#conclusion class=hanchor arialabel=Anchor>&#8983;</a> </h2>
 <p>Overall I think this was a pretty cool learning experience for me as I had never done proper error handling or used middleware before in
 C## (or used docker hardware limits but we do not talk about that). I think that although I definitely see the ELK stack being invaluable
