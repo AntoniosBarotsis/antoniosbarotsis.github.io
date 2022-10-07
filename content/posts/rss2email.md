@@ -870,6 +870,23 @@ My key takeaways from this are:
 Both of these indicate that adding asynchronicity would be a great performance improvement
 and hence, will be something I'll do soon.
 
+## The Future
+
+The project is definitely working as is and I don't have any specific ideas for brand-new
+features in mind. That said, some small modifications are planned, namely;
+
+- Improving the docs and getting started pages
+- [Some more testing](https://github.com/AntoniosBarotsis/Rss2Email/issues/9)
+- Adding async support
+- [Prettier emails](https://github.com/AntoniosBarotsis/Rss2Email/issues/6)
+- [Using environment variables for easier configuration](https://github.com/AntoniosBarotsis/Rss2Email/issues/7)
+
+I linked to the issues associated with some of these, the other 2 will probably be tackled by
+me after the other 3 have been closed.
+
+You are more than welcome to
+[open issues](https://github.com/AntoniosBarotsis/Rss2Email/issues/new/choose) if you have any ideas!
+
 ## Closing
 
 This was a fantastic learning experience for me and the end result is something that I have
