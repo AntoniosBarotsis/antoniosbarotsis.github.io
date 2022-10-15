@@ -18,7 +18,7 @@ googleAnalytics = "G-SPZ8W960YL"
   themeColor = "orange"
 
   # if you set this to 0, only submenu trigger will be visible
-  showMenuItems = 7
+  showMenuItems = 4
 
   # show selector to switch language
   showLanguageSelector = false
@@ -79,13 +79,14 @@ googleAnalytics = "G-SPZ8W960YL"
     owner = "Antonios Barotsis"
     keywords = "Antonios,Barotsis,Antonios Barotsis,Tony,AntoniosBarotsis,Portfolio,Blog"
     copyright = ""
-    menuMore = "Show More"
     readMore = "Read more"
     readOtherPosts = "Read other posts"
     newerPosts = "Newer posts"
     olderPosts = "Older posts"
     missingContentMessage = "Page not found..."
     missingBackButtonLabel = "Back to home page"
+
+    menuMore = "My Socials"
 
     [languages.en.params.logo]
       logoText = "Tony's Portfolio"
@@ -102,33 +103,33 @@ googleAnalytics = "G-SPZ8W960YL"
         name = "Posts"
         url = "/posts"
         weight = 2
-      # [[languages.en.menu.main]]
-      #   identifier = "showcase"
-      #   name = "Showcase"
-      #   url = "/showcase"
-      #   weight = 2
+      [[languages.en.menu.main]]
+        identifier = "tags"
+        name = "Tags"
+        url = "/tags"
+        weight = 3
       [[languages.en.menu.main]]
         identifier = "about"
         name = "About"
         url = "/about"
-        weight = 3
+        weight = 4
       [[languages.en.menu.main]]
         identifier = "github"
         name = "Github"
         url = "https://github.com/AntoniosBarotsis"
-        weight = 4
+        weight = 5
       [[languages.en.menu.main]]
         identifier = "twitter"
         name = "Twitter"
         url = "https://twitter.com/Tony_Barotsis"
-        weight = 5
+        weight = 6
       [[languages.en.menu.main]]
         identifier = "linkedin"
         name = "LinkedIn"
         url = "https://www.linkedin.com/in/antonios-barotsis-5a26a0199/"
-        weight = 6
+        weight = 7
       [[languages.en.menu.main]]
         identifier = "email"
         name = "Email"
         url = "mailto:antonios.barotsis@pm.me"
-        weight = 7
+        weight = 8
