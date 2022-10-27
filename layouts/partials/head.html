@@ -5,9 +5,8 @@
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="{{ .Permalink }}" />
 
-{{ if and (hugo.IsProduction) (.Site.Params.googleAnalyticsID) }}
-  {{ template "_internal/google_analytics.html" . }}
-  {{ template "_internal/google_analytics_async.html" . }}
+{{ if and (hugo.IsProduction) }}
+  <script async defer data-website-id="ea391566-ca76-40ff-9626-d4c655650015" src="https://umami-production-f3bf.up.railway.app/umami.js"></script>
 {{ end }}
 
 <!-- Theme CSS -->
