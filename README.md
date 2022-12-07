@@ -22,6 +22,12 @@ sudo apt-get install hugo
 snap install hugo
 ```
 
+After cloning the repo, make sure you install the submodules with
+
+```sh
+git submodule update --init --recursive
+```
+
 Run: `hugo serve --buildDrafts` (or `./Start.ps1`) to serve the file at http://localhost:1313/.
 
 The webpage is updated automatically through Github Actions.
