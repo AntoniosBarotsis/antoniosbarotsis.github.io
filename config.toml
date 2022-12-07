@@ -8,6 +8,8 @@ paginate = 5
   hideComments = false
   showViewSource = true
 
+  umamiId = "a3f95e57-7d8f-46e4-a7e3-07888fbcfb05"
+  umamiUrl = "https://umami-umami-pr-2.up.railway.app/umami.js"
 
   # dir name of your main content (default is `content/posts`).
   # the list of set content will show up on your index page (baseurl).

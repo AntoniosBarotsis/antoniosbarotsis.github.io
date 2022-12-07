@@ -6,7 +6,7 @@
 <link rel="canonical" href="{{ .Permalink }}" />
 
 {{ if and (hugo.IsProduction) }}
-  <script async defer data-website-id="ea391566-ca76-40ff-9626-d4c655650015" src="https://umami-production-f3bf.up.railway.app/umami.js"></script>
+  <script async defer data-website-id="{{$.Site.Params.umamiId}}" src="{{$.Site.Params.umamiUrl}}"></script>
 {{ end }}
 
 <!-- Theme CSS -->
