@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tony's Blog</title><link>https://antoniosbarotsis.github.io/tags/year-recap/</link><description>Recent content in Year Recap on Tony's Portfolio</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 01 Jan 2023 13:20:00 +0200</lastBuildDate><item><title>2022 Recapped</title><link>https://antoniosbarotsis.github.io/posts/2022-recapped/</link><pubDate>Sun, 01 Jan 2023 13:20:00 +0200</pubDate><description>A look back at another year of progress.</description><summary>Introduction Early this year I tweeted the following;
+My 2022 goals
+- finish Demeter
+- work on at least one cool, low level project with .NET IoT
+- create and publish a Nuget package that does something useful
+- build an ORM
+- join some sort of student research team in the next academic year
+- learn kubernetes basics
+&amp;mdash; AntoniosBarotsis (@Tony_Barotsis) January 3, 2022 I listed a few things I wanted to work towards over this now past year.</summary></item></channel></rss>
