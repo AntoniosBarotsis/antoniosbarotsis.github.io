@@ -38,7 +38,7 @@ then the cycle repeats.
 
 ### Some Cool Projects I've Worked On
 
-- A QR Code generator library exposed over as a web server written in Rust. Built for
+- A QR Code generator library exposed as a web server and CLI written in Rust. Built for
   [Delft's GDSC](https://gdsc.community.dev/delft-university-of-technology/) - 
   [[repo]](https://github.com/AntoniosBarotsis/qr-rs) 
 - An RSS feed aggregator that notifies you of new posts via email -
