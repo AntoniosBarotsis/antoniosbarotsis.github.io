@@ -4,8 +4,8 @@ description: "Creating and publishing a Python package written in Rust."
 tags: ["Rust", "Python", "Coding", "Deployment"]
 keywords: ["Deployment", "GitHub Actions", "CD", "Publish", "rust", "python", "package", "PyPI",
   "call", "wheel"]
-date: 2023-02-12T21:47:35+02:00
-draft: true
+date: 2023-02-25T02:12:37+01:00
+draft: false
 ---
 
 ## Introduction
