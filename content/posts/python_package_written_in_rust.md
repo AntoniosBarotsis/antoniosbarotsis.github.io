@@ -86,20 +86,30 @@ crate-type = ["cdylib"]
 pyo3 = { version = "0.18.1", features = [ "extension-module" ] }
 ```
 
-> Notice 3 things here
+Notice 3 things here
+
+The `name` is actually the name of the *Python* module we will specify later. This does not
+necessarily need to be the same as your crate name. This is what you'll use in your Python code
+imports when we eventually call our code from Python (`import ascii_grid_parser`).
+
+The `crate-type` is for specifying that *"a dynamic system library will be
+produced. This is used when compiling a dynamic library to be loaded from another language."*
+[[source]](https://doc.rust-lang.org/reference/linkage.html).
+
+> Fun fact, if you ever try to import your code from another Rust module (say, a benchmark for
+> instance), it won't be discoverable because you need to *also* compile it as a Rust library. You
+> can get that to work by adding 
 >
-> The `name` is actually the name of the *Python* module we will specify later. This does not
-> necessarily need to be the same as your crate name. This is what you'll use in your Python code
-> imports when we eventually call our code from Python (`import ascii_grid_parser`).
+> ```toml
+> crate-type = ["cdylib", "rlib"]
+> ```
 >
-> The `crate-type` is for specifying that *"a dynamic system library will be
-> produced. This is used when compiling a dynamic library to be loaded from another language."*
-> \- [[source]](https://doc.rust-lang.org/reference/linkage.html).
->
-> We are also including the `extension-module` feature, this is for telling `PyO3` that we are
-> building [Python extension modules](https://docs.python.org/3/extending/extending.html) which are
-> what allows us to interact with Python through `C`. 
-> \- [[source]](https://pyo3.rs/v0.18.1/building_and_distribution#linking)
+> instead!
+
+We are also including the `extension-module` feature, this is for telling `PyO3` that we are
+building [Python extension modules](https://docs.python.org/3/extending/extending.html) which are
+what allows us to interact with Python through `C`. 
+[[source]](https://pyo3.rs/v0.18.1/building_and_distribution#linking)
 
 Now we need to tell `PyO3` what we want to be able to use in Python, that includes both our `parse`
 function and the `AsciiGrid` struct. This is perhaps unsurprisingly easy to do with the power of
@@ -262,6 +272,10 @@ waste on this. Instead, seeing as how I am quite familiar with GitHub Actions by
 do all the building there instead.
 
 ### Deploying Through GitHub Actions
+
+> Note: I later simplified the workflow and made it spawn way less jobs and its overall much less
+> messy thanks to some feedback I got on twitter. I'll leave the old version as well and I'll
+> mention the cleanup in the next section.
 
 I like using `on_workflow` triggers for any sort of release I do using GitHub actions. Some people
 like pushing tags or commits with special messages but I always found that a bit messy.
@@ -459,6 +473,78 @@ though.
 > `Cargo.toml`, atlhough *weird* version names (i.e. not just `X.Y.Z`) might change a bit.
 > In my case, my `Cargo.toml` version was set to `0.0.1-alpha.4` but `PyPi`'s was `0.0.1a4`.
 
+#### Cleaning Up the Workflow
+
+Thanks to [@messense](https://twitter.com/messense) for his reply :)
+
+{{< tweet user="messense" id="1630811663103586304" >}}
+
+Turns out we can indeed specify multiple interpreters instead of spawning one task per version.
+This, in my case, makes the workflow a bit slower which is to be expected since less work is
+parallelized. It still only took about 2 minutes extra however and for most people, spawning
+that many jobs is much bigger of a bottleneck than waiting an additional few minutes.
+
+We can make the following changes (both windows and Linux are essentially the same again):
+
+```yml
+  windows:
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        target: [ x64, x86 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7 - 3.11'                                   # <---
+          architecture: ${{ matrix.target }}
+
+      - uses: dtolnay/rust-toolchain@nightly
+
+      - name: Build wheels
+        uses: PyO3/maturin-action@v1
+        with:
+          target: ${{ matrix.target }}
+          args: --release --out dist --interpreter 3.7 3.8 3.9 3.10 3.11 # <---
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+```
+
+and for Mac we can remove the matrix all together and shorten it significantly:
+
+```yml
+  macos:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7 - 3.11'                                    # <---
+          architecture: x64
+
+      - uses: dtolnay/rust-toolchain@nightly
+
+      - name: Build wheels - x86_64
+        uses: PyO3/maturin-action@v1
+        with:
+          target: x86_64
+          args: --release --out dist --interpreter 3.7 3.8 3.9 3.10 3.11  # <---
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+```
+
 ## What Did We Learn?
 
 Let's revisit the questions we asked at the beginning of all of this.
@@ -498,6 +584,15 @@ There's a good chance that you will get a "free" performance boost by writing pa
 in Rust, assuming of course your code is sound. In my case, I parsed through my data
 5.3 times faster (42s vs 8.8s) with the Rust implementation compared to a reference Python parser I
 stole [from a blog post](https://scipython.com/blog/processing-uk-ordnance-survey-terrain-data/).
+
+In fact, I managed to get it down to only 4.1s (11.7 times faster!) by applying the following to my
+`Cargo.toml`:
+
+```toml
+[profile.release]
+lto = true
+codegen-units = 1
+```
 
 Of course, both definitely have massive room for optimization so this isn't necessarily a fair
 comparison. In my case, I parsed over 2858 files that total at around 160mb so there is a lot of
