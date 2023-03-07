@@ -98,6 +98,17 @@ If you already vaguely know what you're looking for, I'd recommend the following
 > GitHub, filtered for Rust repositories and very quickly found
 > [`fst`](https://github.com/BurntSushi/fst).
 
+### Community Curated Lists of Crates
+
+There exist curated lists of crates such as [`blessed.rs`](https://blessed.rs/crates) and
+[`awesome-rust`](https://github.com/rust-unofficial/awesome-rust).
+
+There's also numerous websites in the form of `arewe___yet` which include crates and information
+on resources targeted at a particular field (for instance 
+[`arewewebyet.org`](https://www.arewewebyet.org/)) which unsurprisingly mentions the most common
+crates one would use for a web project. You can find a list of this type of websites in
+[this](https://github.com/UgurcanAkkok/AreWeRustYet) GitHub repository.
+
 ## Discovering Crates
 
 There are a few ways to passively discover interesting crates without actively looking for them.
