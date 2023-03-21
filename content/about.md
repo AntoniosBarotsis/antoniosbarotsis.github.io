@@ -20,21 +20,21 @@ then the cycle repeats.
 
 ### Interests
 
-- Software & Backend Development
+- Concurrency and high-performance Software
 - Software Architecture, System Design & DevOps
 - DevTools, Libraries & Frameworks
 - Rust
 
 ### Professional Experience
 
-- *Junior Backend Developer* at GILO Technologies `from September to December 2021`.
-- *Student Mentor* for Postman API Fest 2022 `26th to 29th January 2022`.
-- Received a *Letter of Appreciation* for performing data analysis and statistical processing of
-  the exam results from the `2020-2022 academic years` for the European Board of Physical
-  and Rehabilitation Medicine (EBPRM) `June 2022`.
 - *Member of the tech core team* in
   [Delft's Google Student Developer Club](https://gdsc.community.dev/delft-university-of-technology/)
   `from December 2022`
+- Received a *Letter of Appreciation* for performing data analysis and statistical processing of
+  the exam results from the `2020-2022 academic years` for the European Board of Physical
+  and Rehabilitation Medicine (EBPRM) `June 2022`.
+- *Student Mentor* for Postman API Fest 2022 `26th to 29th January 2022`.
+- *Junior Backend Developer* at GILO Technologies `from September to December 2021`.
 
 ### Some Cool Projects I've Worked On
 
@@ -88,14 +88,17 @@ underpriced, you should go read it) which influenced some of my design choices f
 for the project.
 
 Following the "contributing to open source" goal I set for myself for the year, I started opening
-some small pull requests including
-[fixing windows builds](https://github.com/sharkdp/hyperfine/pull/596),
-[bumping versions](https://github.com/erwanvivien/fast_qr/pull/11) and
-[setting up CI workflows](https://github.com/Jim-Hodapp-Coaching/ambi-rs/pull/13) in Rust projects.
-These are small and simple contributions but I am planning on working my way up in
+[various pull requests](https://github.com/pulls?q=is%3Apr+author%3AAntoniosBarotsis+archived%3Afalse+sort%3Aupdated-desc+is%3Amerged+-user%3AAntoniosBarotsis+created%3A%3E%3D2022-10+), mostly in Rust
+projects. These are small and simple contributions but I am planning on working my way up in
 terms of complexity over the rest of the year and you have to start somewhere :)
 
-<!-- TODO Selling rust presentation -->
+I decided to spend some time writing a few more "*useful*" blog posts such as
+[`Python with a bit of Rust`](../posts/python_package_written_in_rust/) and
+[`Finding Rust crates`](../posts/finding_rust_crates/) which combined gathered around 1000 reads
+over 3 weeks!
+
+I started experimenting with a flexible Text Search Engine written in Rust. It is still at quite
+an early stage but hopefully, I'll be able to share more about it soon!
 
 ### 2022
 
