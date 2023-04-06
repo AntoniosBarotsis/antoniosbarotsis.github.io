@@ -76,7 +76,6 @@ So how *do* we call this from Python? Enter [`PyO3`](https://github.com/PyO3/pyo
 Let's add `PyO3` to our `Cargo.toml` file
 
 ```toml
-
 [lib]
 name = "ascii_grid_parser"
 path = "src/lib.rs"
