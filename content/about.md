@@ -90,7 +90,10 @@ for the project.
 Following the "contributing to open source" goal I set for myself for the year, I started opening
 [various pull requests](https://github.com/pulls?q=is%3Apr+author%3AAntoniosBarotsis+archived%3Afalse+sort%3Aupdated-desc+is%3Amerged+-user%3AAntoniosBarotsis+created%3A%3E%3D2022-10+), mostly in Rust
 projects. These are small and simple contributions but I am planning on working my way up in
-terms of complexity over the rest of the year and you have to start somewhere :)
+terms of complexity over the rest of the year and you have to start somewhere :) A nice step up was
+[a small patch I created](https://gitlab.com/veloren/veloren/-/merge_requests/3853) for
+[Veloren](https://veloren.net/) which was my first contribution to a *really* big, production
+codebase (over 200k lines of code) without any particular guidance.
 
 I decided to spend some time writing a few more "*useful*" blog posts such as
 [`Python with a bit of Rust`](../posts/python_package_written_in_rust/) and
