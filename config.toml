@@ -102,14 +102,14 @@ paginate = 5
         url = "/posts"
         weight = 2
       [[languages.en.menu.main]]
-        identifier = "tags"
-        name = "Tags"
-        url = "/tags"
-        weight = 3
-      [[languages.en.menu.main]]
         identifier = "about"
         name = "About"
         url = "/about"
+        weight = 3
+      [[languages.en.menu.main]]
+        identifier = "tags"
+        name = "Tags"
+        url = "/tags"
         weight = 4
       [[languages.en.menu.main]]
         identifier = "github"
