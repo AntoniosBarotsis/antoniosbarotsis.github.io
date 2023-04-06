@@ -8,6 +8,7 @@ theme with some ideas from the [Papermod](https://github.com/adityatelange/hugo-
 ## Running Locally
 
 Make sure you have Hugo [installed](https://gohugo.io/getting-started/installing/)
+(extended, >v0.90.0).
 
 ```sh
 # Windows
