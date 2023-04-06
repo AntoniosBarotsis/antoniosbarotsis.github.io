@@ -1,6 +1,6 @@
 {{ if (.Params.showViewSource | default true) }}
 {{- $fileUrlPath := path.Join .File.Path }}
-{{- if or .Params.author $.Site.Params.author (.Param "ShowReadingTime") (not .Date.IsZero) .IsTranslated }}&nbsp;|&nbsp;{{- end -}}
+{{- if or .Params.author $.Site.Params.author (.Param "ShowReadingTime") (not .Date.IsZero) .IsTranslated }}|&nbsp;{{- end -}}
 <a href="{{ .Params.viewSource.URL | default .Site.Params.viewSource.URL }}{{ if .Params.viewSource.appendFilePath | default ( .Site.Params.viewSource.appendFilePath | default false ) }}/{{ $fileUrlPath }}{{ end }}" rel="noopener noreferrer" target="_blank">
     {{- .Params.viewSource.Text | default (.Site.Params.viewSource.Text | default (i18n "edit_post" | default "Edit")) -}}
 </a>
