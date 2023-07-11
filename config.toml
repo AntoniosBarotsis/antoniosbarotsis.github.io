@@ -72,10 +72,10 @@ paginate = 5
 [languages]
   [languages.en]
     languageName = "English"
-    title = "Tony's Portfolio"
-    subtitle = "Antonios Barotsis Portfolio Website"
+    title = "Tony's Personal Webiste"
+    subtitle = "My personal website and blog where I write about my programming endeavours."
     owner = "Antonios Barotsis"
-    keywords = "Antonios,Barotsis,Antonios Barotsis,Tony,AntoniosBarotsis,Portfolio,Blog"
+    keywords = "Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust"
     copyright = ""
     readMore = "Read more"
     readOtherPosts = "Read other posts"
