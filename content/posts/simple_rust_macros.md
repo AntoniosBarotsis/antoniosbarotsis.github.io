@@ -1,10 +1,11 @@
 ---
 title: "Simple Rust Function Macros"
 description: "Sometimes, repeating yourself is not that bad, as long as macros do it for you."
-tags: ["Coding", "Rust"]
 keywords: ["Rust", "macro"]
 date: 2023-07-17T00:42:43+02:00
 draft: false
+taxonomies:
+  tags: ["Coding", "Rust"]
 ---
 
 ## Introduction
@@ -144,7 +145,8 @@ error[E0277]: the trait bound `[f64; N]: SimdArray` is not satisfied
    --> src\implementations\simd.rs:149:10
     |
 149 |   point: Simd<[f64; N]>,
-    |          ^^^^^^^^^^^^^^ the trait `SimdArray` is not implemented for `[f64; N]`
+    |          ^^^^^^^^^^^^^^ the trait `SimdArray` is not implemented for 
+                              `[f64; N]`
     |
     = help: the following other types implement trait `SimdArray`:
               [isize; 2]
@@ -215,8 +217,8 @@ error[E0599]: no function or associated item named `splat` found for struct
    --> src\implementations\simd.rs:158:33
     |
 158 |   let tmp_1 = Simd::<[f64; N]>::splat(new_top - new_bottom);
-    |                                 ^^^^^ function or associated item not found in 
-                                            `Simd<[f64; N]>`
+    |                                 ^^^^^ function or associated item not found
+    |                                       in `Simd<[f64; N]>`
     |
     = note: the function or associated item was found for
             - `packed_simd::Simd<[i8; 2]>`

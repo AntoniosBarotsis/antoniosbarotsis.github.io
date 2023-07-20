@@ -1,10 +1,11 @@
 ---
 title: "2022 Recapped"
 description: "A look back at another year of progress."
-tags: ["Year Recap"]
 keywords: ["2022", "Recap"]
 date: 2023-01-01T13:20:00+02:00
 draft: false
+taxonomies:
+  tags: ["Year Recap"]
 ---
 
 ## Introduction
@@ -12,7 +13,7 @@ draft: false
 Early this year I [tweeted](https://twitter.com/Tony_Barotsis/status/1478046558490927112)
 the following;
 
-{{< tweet user="Tony_Barotsis" id="1478046558490927112" >}}
+{{ tweet(url="https://twitter.com/Tony_Barotsis/status/1478046558490927112") }}
 
 I listed a few things I wanted to work towards over this now past year. I had this tweet pinned
 to remind myself of these goals, to reflect on them once the year was past and to come up with
@@ -26,7 +27,7 @@ programming as a whole (which is always a good thing) so let's talk about that!
 I came across the following image through a retweet (which got deleted for some reason) which I
 feel perfectly summarizes this past year for me.
 
-{{< image src="/img/2022-recapped/progress.jpg" href="https://twitter.com/flaviocopes/status/1417007331930423298" >}}
+{{ image(src="/img/2022-recapped/progress.jpg", href="https://twitter.com/flaviocopes/status/1417007331930423298") }}
 
 I spent most of the first half of 2022 looking into "enterprise software development" or in other
 words, learning a bunch of design patterns and different abstractions in Java and C#. 
@@ -146,7 +147,7 @@ sometime in January which I'm super excited about!
 After having talked about all this stuff, I want to come back to these goals again and talk about
 them a little bit.
 
-{{< tweet user="Tony_Barotsis" id="1478046558490927112" >}}
+{{ tweet(url="https://twitter.com/Tony_Barotsis/status/1478046558490927112") }}
 
 - ❌ `finish Demeter`: Demeter was this toy project I started to get some more experience with C#
   and enterprise-ish concepts which I ended up dropping pretty soon. I got my experience from
@@ -237,6 +238,6 @@ work so, only time will tell!
 Learning from the previous year, I tried **not** to include specific projects this year
 although I do have some in mind already, some combine multiple items from my list which is nice.
 
-{{< tweet user="Tony_Barotsis" id="1609131868984860673" >}}
+{{ tweet(url="https://twitter.com/Tony_Barotsis/status/1609131868984860673") }}
 
 Till next year by when I will have hopefully completed all of these!

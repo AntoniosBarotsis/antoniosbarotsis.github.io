@@ -1,10 +1,11 @@
 ---
 title: "Testing an ASP .NET Core project"
 description: "Tests and automated coverage reports with .NET and Github actions."
-tags: ["Coding", "Csharp"]
 keywords: ["Csharp", "CI", "Testing", "Github Actions"]
 date: 2021-10-29T16:12:35+02:00
 draft: false
+taxonomies:
+  tags: ["Coding", "Csharp"]
 ---
 
 ## Introduction

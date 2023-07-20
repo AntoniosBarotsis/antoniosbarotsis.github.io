@@ -1,11 +1,11 @@
 ---
 title: "BudgetFixture"
 description: "A Proof of Concept AutoFixture Clone in java."
-tags: ["Coding", "Java"]
 keywords: ["Java", "Testing", "Reflection"]
 date: 2022-07-12T22:11:09+02:00
 draft: false
-# cover: "/img/budget_fixture.png"
+taxonomies:
+  tags: ["Coding", "Java"]
 ---
 
 # BudgetFixture

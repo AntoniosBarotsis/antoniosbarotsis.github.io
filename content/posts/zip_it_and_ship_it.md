@@ -1,10 +1,11 @@
 ---
 title: "Zip it and ship it!"
 description: "How I published a CLI tool in Chocolatey and Nuget."
-tags: ["Coding", "Csharp", "Deployment"]
 keywords: ["Deployment", "GitHub Actions", "CD"]
 date: 2022-02-01T19:05:19+02:00
 draft: false
+taxonomies:
+  tags: ["Coding", "Csharp", "Deployment"]
 ---
 
 # Introduction

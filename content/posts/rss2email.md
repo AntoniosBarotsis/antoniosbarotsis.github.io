@@ -1,10 +1,11 @@
 ---
 title: "Rss2Email"
 description: "My introduction to Rust."
-tags: ["Coding", "Rust"]
 keywords: ["Rust", "Email", "SendGrid", "RSS", "AWS", "Lambda", "Benchmark", "Criterion", "Docker"]
 date: 2022-10-07T18:47:04+02:00
 draft: false
+taxonomies:
+  tags: ["Coding", "Rust"]
 ---
 
 ## Introduction
@@ -822,7 +823,7 @@ you can check it out yourself
 The first thing I wanted to benchmark as a test and to get Criterion all set up was the
 method that maps the `Blog`s to HTML.
 
-{{< image src="/img/rss2email/map_to_html.svg" style="max-width:120%;margin-left:-10%;margin-right:-10%" >}}
+{{ image(src="/img/rss2email/map_to_html.svg", style="max-width:120%;margin-left:-10%;margin-right:-10%") }}
 
 Not exciting as turns out, code is fast.
 
@@ -830,7 +831,7 @@ Not exciting as turns out, code is fast.
 
 Criterion generated the following plot.
 
-{{< image src="/img/rss2email/download_blogs.svg" style="max-width:120%;margin-left:-10%;margin-right:-10%" >}}
+{{ image(src="/img/rss2email/download_blogs.svg", style="max-width:120%;margin-left:-10%;margin-right:-10%") }}
 
 We can see that this is a bit faster than the 13 seconds that I mentioned earlier which
 is most likely because I was running in debug mode while Criterion uses Release by default.
@@ -849,7 +850,7 @@ exactly like how long these links are but it's not particularly important to act
 be able to read them. These links are the feeds I am currently following so feel free
 to manually search them and see if you find them interesting I guess.
 
-{{< image src="/img/rss2email/get_page.svg" style="max-width:120%;margin-left:-10%;margin-right:-10%" >}}
+{{ image(src="/img/rss2email/get_page.svg", style="max-width:120%;margin-left:-10%;margin-right:-10%") }}
 
 Unexpectedly, I was actually right, one of these takes way longer than average and as I
 explained previously, this does bring down performance quite a bit.
