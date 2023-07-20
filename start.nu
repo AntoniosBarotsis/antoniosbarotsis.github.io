@@ -1,1 +1,1 @@
-hugo serve --buildDrafts
+zola serve --drafts

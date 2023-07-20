@@ -7,10 +7,11 @@ def main [name: string] {
   let text = $"---
 title: "($name)"
 description: ""
-tags: []
 keywords: []
 date: ($date)
 draft: true
+taxonomies:
+  tags: []
 ---
 
 "

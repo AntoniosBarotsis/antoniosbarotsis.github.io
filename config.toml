@@ -1,133 +1,59 @@
-baseurl = "https://antoniosbarotsis.github.io/"
-languageCode = "en-us"
-theme = "terminal"
-paginate = 5
+title = "Tony's Blog"
+base_url = "https://antoniosbarotsis.github.io"
+description = "My personal website and blog where I write about my programming endeavours."
 
-[params]
-  draft = false
-  hideComments = false
-  showViewSource = true
+theme = "terminimal"
 
-  # dir name of your main content (default is `content/posts`).
-  # the list of set content will show up on your index page (baseurl).
-  contentTypeName = "posts"
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
 
-  # ["orange", "blue", "red", "green", "pink"]
-  themeColor = "orange"
+generate_feed = true
+feed_filename = "index.xml"
 
-  # if you set this to 0, only submenu trigger will be visible
-  showMenuItems = 4
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
 
-  # show selector to switch language
-  showLanguageSelector = false
+taxonomies = [
+    {name = "tags"},
+]
 
-  # set theme to full screen width
-  fullWidthTheme = false
+[slugify]
+paths = "off"
 
-  # center theme with default width
-  centerTheme = true
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+highlight_theme = "ayu-dark"
 
-  # if your resource directory contains an image called `cover.(jpg|png|webp)`,
-  # then the file will be used as a cover automatically.
-  # With this option you don't have to put the `cover` param in a front-matter.
-  autoCover = false
+[extra]
+logo_text = "Tony's Blog"
+keywords = "Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust"
 
-  # set post to show the last updated
-  # If you use git, you can set `enableGitInfo` to `true` and then post will automatically get the last updated
-  showLastUpdated = false
+accent_color = "orange-auto"
+background_color = "orange"
 
-  # set a custom favicon (default is a `themeColor` square)
-  favicon = "/img/favicon.ico"
+# Whether to show links to earlier and later posts
+# on each post page (defaults to true).
+enable_post_view_navigation = true
 
-  # Provide a string as a prefix for the last update date. By default, it looks like this: 2020-xx-xx [Updated: 2020-xx-xx] :: Author
-  # updatedDatePrefix = "Updated"
+# The text shown at the bottom of a post,
+# before earlier/later post links.
+# Defaults to "Thanks for reading! Read other posts?"
+post_view_navigation_prompt = "Read more"
 
-  # set all headings to their default size (depending on browser settings)
-  # oneHeadingSize = true # default
-
-  # whether to show a page's estimated reading time
-  readingTime = true # default
-
-  # whether to show a table of contents
-  # can be overridden in a page's front-matter
-  Toc = true # default
-
-  # set title for the table of contents
-  # can be overridden in a page's front-matter
-  # TocTitle = "Table of Contents" # default
+page_titles = "main_only"
 
 
-[params.twitter]
-  # set Twitter handles for Twitter cards
-  # see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started#card-and-content-attribution
-  # do not include @
-  creator = "Tony_Barotsis"
-  site = ""
+# menu is enabled by adding menu_items (optional)
+menu_items = [
+    {name = "Home", url = "$BASE_URL"},
+    {name = "Posts", url = "$BASE_URL/posts"},
+    {name = "Tags", url = "$BASE_URL/tags"},
+    {name = "About", url = "$BASE_URL/about"},
+    {name = "Github", url = "https://github.com/AntoniosBarotsis", newtab = true},
+    {name = "Twitter", url = "https://twitter.com/Tony_Barotsis", newtab = true},
+    {name = "LinkedIn", url = "https://www.linkedin.com/in/antonios-barotsis-5a26a0199/", newtab = true},
+    {name = "Email", url = "mailto:antonios.barotsis@pm.me", newtab = true},
+]
 
-[params.viewSource]
-  URL = "https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/tree/master/content"
-  Text = "View Source"
-  appendFilePath = true
-
-[languages]
-  [languages.en]
-    languageName = "English"
-    title = "Tony's Personal Webiste"
-    subtitle = "My personal website and blog where I write about my programming endeavours."
-    owner = "Antonios Barotsis"
-    keywords = "Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust"
-    copyright = ""
-    readMore = "Read more"
-    readOtherPosts = "Read other posts"
-    newerPosts = "Newer posts"
-    olderPosts = "Older posts"
-    missingContentMessage = "Page not found..."
-    missingBackButtonLabel = "Back to home page"
-
-    menuMore = "My Socials"
-
-    [languages.en.params.logo]
-      logoText = "Tony's Portfolio"
-      logoHomeLink = "/"
-
-    [languages.en.menu]
-      [[languages.en.menu.main]]
-        identifier = "home"
-        name = "Home"
-        url = "/"
-        weight = 1
-      [[languages.en.menu.main]]
-        identifier = "posts"
-        name = "Posts"
-        url = "/posts"
-        weight = 2
-      [[languages.en.menu.main]]
-        identifier = "about"
-        name = "About"
-        url = "/about"
-        weight = 3
-      [[languages.en.menu.main]]
-        identifier = "tags"
-        name = "Tags"
-        url = "/tags"
-        weight = 4
-      [[languages.en.menu.main]]
-        identifier = "github"
-        name = "Github"
-        url = "https://github.com/AntoniosBarotsis"
-        weight = 5
-      [[languages.en.menu.main]]
-        identifier = "twitter"
-        name = "Twitter"
-        url = "https://twitter.com/Tony_Barotsis"
-        weight = 6
-      [[languages.en.menu.main]]
-        identifier = "linkedin"
-        name = "LinkedIn"
-        url = "https://www.linkedin.com/in/antonios-barotsis-5a26a0199/"
-        weight = 7
-      [[languages.en.menu.main]]
-        identifier = "email"
-        name = "Email"
-        url = "mailto:antonios.barotsis@pm.me"
-        weight = 8

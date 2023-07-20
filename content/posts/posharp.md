@@ -1,10 +1,11 @@
 ---
 title: "Veritas"
 description: "My attempt at a testing framework."
-tags: ["Coding", "Scala"]
 keywords: ["Scala", "Github Actions", "CI", "Testing", "Reflection", "Parallel Programming"]
 date: 2022-03-06T22:29:48+01:00
 draft: false
+taxonomies:
+  tags: ["Coding", "Scala"]
 ---
 
 ## What is Veritas
@@ -292,7 +293,7 @@ jobs:
 
 About a month and a half had passed since I started working on Veritas before I finally saw this 
 
-{{< image src="/img/posharp/tests.png" >}}
+{{ image(src="/img/posharp/tests.png") }}
 
 and this
 

@@ -4,6 +4,11 @@ showViewSource: false
 hideComments: true
 readingTime: false
 rss_ignore: true
+path: about
+extra:
+  hide_word_count: true
+  hide_reading_time: true
+  hide_toc: false
 ---
 
 ## About Me

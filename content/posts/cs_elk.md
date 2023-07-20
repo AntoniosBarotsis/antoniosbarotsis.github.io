@@ -1,10 +1,11 @@
 ---
 title: "C# and the ELK stack"
 description: "Integrating the ELK stack with C#."
-tags: ["Coding", "Csharp"]
 keywords: ["Csharp", "Elasticsearch", "Kibana", "Monitoring", "ELK"]
 date: 2021-10-28T22:04:54+02:00
 draft: false
+taxonomies:
+  tags: ["Coding", "Csharp"]
 ---
 
 ## What is the ELK stack?
@@ -43,7 +44,7 @@ dotnet run
 and visiting `https://localhost:5001/weatherforecast`. I am using [Insomnia](https://insomnia.rest/) for my http client but Postman or your browser
 would also work.
 
-{{< image src="/img/cs_elk/helloWorld.jpg" >}}
+{{ image(src="/img/cs_elk/helloWorld.jpg") }}
 
 ### Setting up middleware
 
@@ -284,15 +285,15 @@ Once there, go to `Spaces > Manage Spaces` from the top right and select default
 you can essentially define the log pattern that you want kibana to consider, in my case that is `elk-development_*`. We can then go to
 `Analytics > Discover` and voilà!
 
-{{< image src="/img/cs_elk/logs.jpg" >}}
+{{ image(src="/img/cs_elk/logs.jpg") }}
 
 If you made the Exception data change mentioned earlier you should be able to see that as well
 
-{{< image src="/img/cs_elk/data.jpg" >}}
+{{ image(src="/img/cs_elk/data.jpg") }}
 
 The true power of this comes from how you can query your logs. You could for example query for `level: Error` to get all your error logs
 
-{{< image src="/img/cs_elk/errors.jpg" >}}
+{{ image(src="/img/cs_elk/errors.jpg") }}
 
 You could also make queries like `fields.ElapsedMilliseconds > 10` or `fields.RequestPath: /weatherforecast`, you can read more about the
 possible queries [here](https://www.elastic.co/guide/en/kibana/current/kuery-query.html).
@@ -300,7 +301,7 @@ possible queries [here](https://www.elastic.co/guide/en/kibana/current/kuery-que
 One thing I always love spending way too much time on is visualizations and I can definitely see this being the most powerful feature in
 Kibana
 
-{{< image src="/img/cs_elk/plots.jpg" >}}
+{{ image(src="/img/cs_elk/plots.jpg") }}
 
 ## Conclusion
 

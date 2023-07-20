@@ -1,10 +1,11 @@
 ---
 title: "Finding Rust crates"
 description: "A beginner's guide on discovering the right Rust crates for the job."
-tags: ["Rust", "No Coding"]
 keywords: ["Crate", "Discover", "Ecosystem", "crates.io"]
 date: 2023-03-06T23:42:39+01:00
 draft: false
+taxonomies:
+  tags: ["Rust", "No Coding"]
 ---
 
 ## Introduction

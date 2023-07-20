@@ -1,0 +1,127 @@
+@font-face {
+  font-display: swap;
+  font-family: 'Fira Code';
+  font-style:  normal;
+  font-weight: 400;
+  src: url("../fonts/FiraCode-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Fira Code';
+  font-style:  normal;
+  font-weight: 800;
+  src: url("../fonts/FiraCode-Bold.woff") format("woff");
+}
+
+
+* {
+  font-family: 'Fira Code';
+}
+
+.post-title {
+  font-weight: bold !important;
+}
+
+button,
+.button,
+a.button {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.framed {
+  border: 1px solid var(--accent);
+  padding: 20px;
+  padding-top: 0px;
+}
+
+a.read-more,
+a.read-more:hover,
+a.read-more:active {
+  color: var(--accent);
+}
+
+.footer {
+  padding: 0px 0;
+}
+
+.post {
+  &-title {
+    --border: 3px dotted var(--accent) !important;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      display: block;
+      width: 100%;
+      border-bottom: var(--border);
+    }
+  }
+
+  ul {
+    li:before {
+      content: '-' !important;
+    }
+  }
+}
+
+blockquote  {
+  p:first-of-type::before {
+      content: '>' !important;
+  }
+
+  p::before {
+    content: '' !important;
+  }
+}
+
+:not(pre) > code {
+  color: #FFA86A !important;
+}
+
+code {
+  table {
+    table-layout: auto;
+  }
+
+  table, th, td {
+    border: 0px dashed var(--accent);
+    padding: 0px 0px 0px 10px !important;
+    margin: 0px;
+  }
+  
+  td:nth-of-type(2) {
+    padding: 0px 0px 0px 0px !important;
+  }
+}
+
+pre {
+  padding: 1rem;
+  overflow: auto;
+}
+// The line numbers already provide some kind of left/right padding
+pre[data-linenos] {
+  padding: 1rem 0;
+}
+pre table td {
+  padding: 0;
+}
+// The line number cells
+pre table td:nth-of-type(1) {
+  text-align: center;
+  user-select: none;
+}
+pre mark {
+  // If you want your highlights to take the full width.
+  display: block;
+  // The default background colour of a mark is bright yellow
+  background-color: rgba(254, 252, 232, 0.9);
+
+  color: inherit;
+}
+pre table {
+  width: 100%;
+  border-collapse: collapse;
+}

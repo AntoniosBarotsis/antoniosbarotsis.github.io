@@ -1,10 +1,11 @@
 ---
 title: "Simple JWT"
 description: "A simple JWT authorization scheme."
-tags: ["Coding", "Csharp"]
 keywords: ["Csharp", "Authorization"]
 date: 2022-06-29T18:16:47+02:00
 draft: false
+taxonomies:
+  tags: ["Coding", "Csharp"]
 ---
 
 # Simple JWT Authorization with .NET
@@ -53,7 +54,7 @@ care.
 
 The class itself is pretty simple in my case:
 
-```csharp
+```cs
 public record JwtConfig(string Secret = "fallback-secret");
 ```
 
@@ -77,7 +78,7 @@ Now that that's out of the way, let's make sure we use the secret from our setti
 I made it so the class is registered as a singleton in the DI container, the binding itself is
 pretty simple:
 
-```csharp
+```cs
 // Program.cs
 var jwtConfig = new JwtConfig();
 builder.Configuration.Bind(nameof(jwtConfig), jwtConfig);
@@ -90,7 +91,7 @@ exact same as the class itself to avoid confusion, this is just a string so swap
 
 Since we are here, let's also configure some basic settings for our tokens 
 
-```csharp
+```cs
 // Program.cs
 builder.Services.AddAuthentication(options =>
     {
@@ -115,7 +116,7 @@ of my use case, this is not a concern.
 This is where most of the interesting stuff happens. Let's first create the class, get our
 `jwtConfig` secret and assign it to a `JwtBuilder` instance which we'll use later.
 
-```csharp
+```cs
 public class TokenService
 {
     private readonly JwtBuilder _jwtBuilder;
@@ -132,7 +133,7 @@ public class TokenService
 Creating the token itself is also pretty much copy-pasted from their 
 [docs](https://github.com/jwt-dotnet/jwt#register-authentication-handler-to-validate-jwt).
 
-```csharp
+```cs
 public string Create(string username)
 {
     return _jwtBuilder
@@ -146,7 +147,7 @@ I only use the expiration date and username for claims.
 
 Lastly, verification. 
 
-```csharp
+```cs
 public bool Verify(string token)
 {
     try
@@ -176,7 +177,7 @@ executed to determine whether a request should be authorized or not.
 
 The code for this is also simple but let's go over it step by step
 
-```csharp
+```cs
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class Secured : Attribute, IAuthorizationFilter
 {

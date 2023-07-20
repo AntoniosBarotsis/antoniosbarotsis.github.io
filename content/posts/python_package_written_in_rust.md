@@ -1,11 +1,12 @@
 ---
 title: "Python with a bit of Rust"
 description: "Creating and publishing a Python package written in Rust."
-tags: ["Rust", "Python", "Coding", "Deployment"]
 keywords: ["Deployment", "GitHub Actions", "CD", "Publish", "rust", "python", "package", "PyPI",
   "call", "wheel"]
 date: 2023-02-25T02:12:37+01:00
 draft: false
+taxonomies:
+  tags: ["Rust", "Python", "Coding", "Deployment"]
 ---
 
 ## Introduction
@@ -476,7 +477,7 @@ though.
 
 Thanks to [@messense](https://twitter.com/messense) for his reply :)
 
-{{< tweet user="messense" id="1630811663103586304" >}}
+{{ tweet(url="https://twitter.com/messense/status/1630811663103586304") }}
 
 Turns out we can indeed specify multiple interpreters instead of spawning one task per version.
 This, in my case, makes the workflow a bit slower which is to be expected since less work is
