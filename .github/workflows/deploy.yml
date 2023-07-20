@@ -6,7 +6,7 @@ on:
    - master
 
 jobs:
-  build:
+  deploy:
     name: Publish site
     runs-on: ubuntu-latest
     steps:
