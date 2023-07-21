@@ -12,6 +12,8 @@
 </script>
 
 <html lang="{%- if config.default_language -%}{{ config.default_language }}{%- else -%}en{%- endif -%}">
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/ttf/FiraCode-Regular.ttf" as="font" crossorigin="anonymous">
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/ttf/FiraCode-Bold.ttf" as="font" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ get_url(path="index.css", trailing_slash=false) | safe }}">
 
 <head>
