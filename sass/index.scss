@@ -1,3 +1,30 @@
+:root {
+  @media (prefers-color-scheme: dark) {
+    --accent: rgb(255,168,106) !important;
+    --accent-alpha-70: rgba(255,168,106,.7) !important;
+    --accent-alpha-20: rgba(255,168,106,.2) !important;
+  
+    --background: #222129 !important;
+    --color: white !important;
+    --border-color: rgba(255, 255, 255, .1) !important;
+  }
+
+  @media (prefers-color-scheme: light) {
+    --accent: rgb(240,128,48) !important;
+    --accent-alpha-70: rgba(240,128,48,.7) !important;
+    --accent-alpha-20: rgba(240,128,48,.2) !important;
+  
+    --background: white !important;
+    --color: #201030 !important;
+    --border-color: rgba(0,0,16,.125) !important;
+
+    div.logo {
+      color: white !important;
+    }
+  }
+}
+
+
 @font-face {
   font-display: swap;
   font-family: 'Fira Code';
@@ -16,7 +43,7 @@
 
 
 * {
-  font-family: 'Fira Code' monospace !important;
+  font-family: 'Fira Code' !important;
 }
 
 .post-title {
