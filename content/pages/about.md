@@ -43,6 +43,8 @@ then the cycle repeats.
 
 ### Some Cool Projects I've Worked On
 
+- A Mandelbrot renderer that leverages multi-threading and SIMD instructions - 
+  [[repo]](https://github.com/AntoniosBarotsis/mandelbrot)
 - A QR Code generator library exposed as a web server and CLI written in Rust. Built for
   [Delft's GDSC](https://gdsc.community.dev/delft-university-of-technology/) - 
   [[repo]](https://github.com/AntoniosBarotsis/qr-rs) 
@@ -56,7 +58,7 @@ then the cycle repeats.
 - A proof of concept - clone of the C# AutoFixture package in Java - 
   [[repo](https://github.com/AntoniosBarotsis/BudgetFixture)]
   [[blog](../posts/budget_fixture)]
-- A CLI interface to Git-Hooks through `yml` files - 
+- A CLI tool to Git-Hooks through `yml` files - 
   [[repo](https://github.com/AntoniosBarotsis/Rember)]
   [[blog](../posts/zip_it_and_ship_it)]
 - A Discord bot that generates graphs on Covid data - 
@@ -64,19 +66,6 @@ then the cycle repeats.
 
 You can find a few more on
 [my Github](https://github.com/AntoniosBarotsis?tab=repositories&q=&type=source&language=&sort=).
-
-### Practical Experience
-
-I've worked with numerous technologies and here are a few broad, important ones that I am very
-comfortable with;
-
-- Java, C#, Rust
-- Spring Boot, .NET Core
-- Docker, automation and CICD
-- SQL Databases
-
-Less general topics (but definitely not less useful!) that I have either read about or practiced
-myself are hard to list one by one. For that, refer to the [*My Journey*](#my-journey) section.
 
 ## My Journey
 
@@ -88,9 +77,8 @@ Carrying over some of the things I learned developing
 [Rss2Email](https://github.com/AntoniosBarotsis/Rss2Email), I worked on a QR Code generator API
 for the aforementioned student club to avoid being dependent on third-party software for generating
 any QR codes needed for our events. I started reading Jon Gjengset's 
-[Rust for Rustaceans](https://rust-for-rustaceans.com/) (which is a great book and criminally
-underpriced, you should go read it) which influenced some of my design choices for the crate I built
-for the project.
+[Rust for Rustaceans](https://rust-for-rustaceans.com/) (great book and criminally underpriced, you
+should go read it) which influenced some of my design choices for the crate I built for the project.
 
 Following the "contributing to open source" goal I set for myself for the year, I started opening
 [various pull requests](https://github.com/pulls?q=is%3Apr+author%3AAntoniosBarotsis+archived%3Afalse+sort%3Aupdated-desc+is%3Amerged+-user%3AAntoniosBarotsis+created%3A%3E%3D2022-10+), mostly in Rust
@@ -105,8 +93,39 @@ I decided to spend some time writing a few more "*useful*" blog posts such as
 [`Finding Rust crates`](../posts/finding_rust_crates/) which combined gathered around 1000 reads
 over 3 weeks!
 
-I started experimenting with a flexible Text Search Engine written in Rust. It is still at quite
-an early stage but hopefully, I'll be able to share more about it soon!
+<!-- I started experimenting with a flexible Text Search Engine written in Rust. It is still at quite
+an early stage but hopefully, I'll be able to share more about it soon! -->
+
+Having finished Rust for Rustaceans, I started reading the brilliant 
+[Rust Atomics and Locks](https://marabos.nl/atomics/) by Mara Bos. This has been very insightful
+both when it comes to low-level concurrency but also unsafe and more advanced Rust, definitely
+recommended!
+
+The book proved useful in a few areas of my Software Project where for 2 months, I and 5
+other colleagues worked together in "*developing a cheap little robot to teach children and students
+alike robotics and computer vision called [Mirte](https://www.mirte.org/docs/)*". The project aimed
+to both get the robot to drive around a [model city](https://www.duckietown.org/) on
+[very limited hardware](https://www.orangepi.com/index.php?route=product/product&product_id=844)
+and to create interfaces of varying complexity to our code and the robot directly so as to allow
+the users to implement the self-driving algorithms themselves.
+
+The project was a success and it was really interesting to work on. Conveniently for me, we used
+Rust so I felt at home! Being more experienced in the language (and in projects) than my colleagues,
+I took responsibility for architecting key areas of the project as well as identifying various areas
+and problems that needed to be tackled early to avoid time sinks in the future.
+
+Apart from learning a lot of new things while working on the project, it was really cool to see
+how a lot of things I had learned over time through my side projects contributed to this one
+(even [that Scala testing framework](../posts/posharp/) I had made
+for a friend's compiler turned out to be useful). There was also one instance where I removed a bunch
+of unsafe, raw pointer code with 2-3 safe method calls which I was very proud of.
+
+After all that was done and settled, I made a
+[Mandelbrot set renderer](https://github.com/AntoniosBarotsis/mandelbrot) which I think looks
+pretty cool. I also finally got around to looking into SIMD instructions to make it faster, dove
+a bit into constant generics and macros and wrote a
+[blog post](../posts/simple_rust_macros/) about them which surprisingly amassed over 500 reads!
+
 
 ### 2022
 
