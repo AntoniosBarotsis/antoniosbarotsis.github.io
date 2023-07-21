@@ -27,6 +27,7 @@ highlight_code = true
 highlight_theme = "ayu-dark"
 
 [extra]
+favicon = "/favicon.ico"
 logo_text = "Tony's Blog"
 keywords = "Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust"
 
