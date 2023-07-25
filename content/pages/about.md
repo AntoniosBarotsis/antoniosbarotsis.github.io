@@ -124,7 +124,7 @@ After all that was done and settled, I made a
 [Mandelbrot set renderer](https://github.com/AntoniosBarotsis/mandelbrot) which I think looks
 pretty cool. I also finally got around to looking into SIMD instructions to make it faster, dove
 a bit into constant generics and macros and wrote a
-[blog post](../posts/simple_rust_macros/) about them which surprisingly amassed over 500 reads!
+[blog post](../posts/simple_rust_macros/) about them which surprisingly amassed over 1300 reads!
 
 
 ### 2022
