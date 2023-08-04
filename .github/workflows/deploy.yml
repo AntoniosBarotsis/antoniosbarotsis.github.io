@@ -18,4 +18,5 @@ jobs:
     - name: Build and deploy
       uses: shalzz/zola-deploy-action@master
       env:
+        env: prod
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
