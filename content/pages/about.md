@@ -1,7 +1,5 @@
 ---
 title: "About Me"
-showViewSource: false
-readingTime: false
 rss_ignore: true
 path: about
 extra:
