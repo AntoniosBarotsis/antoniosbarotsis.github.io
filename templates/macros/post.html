@@ -88,14 +88,17 @@
             </div>
         </div>
     {% endif -%}
-    <script src="https://utteranc.es/client.js"
-        repo="AntoniosBarotsis/antoniosbarotsis.github.io"
-        issue-term="pathname"
-        label="Comment"
-        theme="github-dark"
-        crossorigin="anonymous"
-        async>
-    </script>
+    
+    {% if not page.extra.hide_comments %}
+        <script src="https://utteranc.es/client.js"
+            repo="AntoniosBarotsis/antoniosbarotsis.github.io"
+            issue-term="pathname"
+            label="Comment"
+            theme="github-dark"
+            crossorigin="anonymous"
+            async>
+        </script>
+    {% endif %}
 {% endmacro earlier_later %}
 
 
