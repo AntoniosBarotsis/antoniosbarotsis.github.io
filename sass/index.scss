@@ -1,5 +1,16 @@
 :root {
   @media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.8);
+      background-color: rgba(255, 255, 255, .1);
+    }
+
     --accent: rgb(255,168,106) !important;
     --accent-alpha-70: rgba(255,168,106,.7) !important;
     --accent-alpha-20: rgba(255,168,106,.2) !important;
