@@ -26,7 +26,7 @@ then the cycle repeats.
 - Concurrency and high-performance Software
 - Software Architecture, System Design & DevOps
 - DevTools, Libraries & Frameworks
-- Rust
+- Rust 🦀
 
 ### Professional Experience
 
@@ -41,6 +41,9 @@ then the cycle repeats.
 
 ### Some Cool Projects I've Worked On
 
+- A library that provides a couple of Unicode utilities for dealing with Unicode 
+  confusables/homoglyphs - 
+  [[repo]](https://github.com/AntoniosBarotsis/confusables)
 - A Mandelbrot renderer that leverages multi-threading and SIMD instructions - 
   [[repo]](https://github.com/AntoniosBarotsis/mandelbrot)
 - A QR Code generator library exposed as a web server and CLI written in Rust. Built for
@@ -66,6 +69,8 @@ You can find a few more on
 [my Github](https://github.com/AntoniosBarotsis?tab=repositories&q=&type=source&language=&sort=).
 
 ## My Journey
+
+This will get quite lengthy :)
 
 ### 2023
 
@@ -124,6 +129,13 @@ pretty cool. I also finally got around to looking into SIMD instructions to make
 a bit into constant generics and macros and wrote a
 [blog post](../posts/simple_rust_macros/) about them which surprisingly amassed over 1300 reads!
 
+A while after having watched 
+[Dylan Beattie's talk called "Plain Text"](https://youtu.be/_mZBa3sqTrI), I decided to dig into
+Unicode a bit more. The first time I encountered issues related to Unicode confusables was during
+my first internship, specifically with different double quote characters. As I often want to learn
+about multiple things per project, I decided to explore compile-time evaluation and parsing with
+Rust as well as creating bindings for JavaScript's Node runtime. It was quite a fun project to
+work on which you can find [here](https://github.com/AntoniosBarotsis/confusables).
 
 ### 2022
 
