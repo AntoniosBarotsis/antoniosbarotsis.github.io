@@ -51,19 +51,20 @@ then the cycle repeats.
   [[repo]](https://github.com/AntoniosBarotsis/qr-rs) 
 - An RSS feed aggregator that notifies you of new posts via email -
   [[repo]](https://github.com/AntoniosBarotsis/Rss2Email)
+  [[blog]](../posts/rss2email)
 - An experimental Compiler written in Rust -
-  [[repo](https://github.com/AntoniosBarotsis/RustSharp)]
+  [[repo]](https://github.com/AntoniosBarotsis/RustSharp)
 - A testing framework for a compiler written in Scala - 
-  [[repo](https://github.com/pijuskri/Po-Sharp/tree/master/app/src/main/scala/veritas)] 
-  [[blog](../posts/posharp)]
+  [[repo]](https://github.com/pijuskri/Po-Sharp/tree/master/app/src/main/scala/veritas)
+  [[blog]](../posts/posharp)
 - A proof of concept - clone of the C# AutoFixture package in Java - 
-  [[repo](https://github.com/AntoniosBarotsis/BudgetFixture)]
-  [[blog](../posts/budget_fixture)]
+  [[repo]](https://github.com/AntoniosBarotsis/BudgetFixture)
+  [[blog]](../posts/budget_fixture)
 - A CLI tool to Git-Hooks through `yml` files - 
-  [[repo](https://github.com/AntoniosBarotsis/Rember)]
-  [[blog](../posts/zip_it_and_ship_it)]
+  [[repo]](https://github.com/AntoniosBarotsis/Rember)
+  [[blog]](../posts/zip_it_and_ship_it)
 - A Discord bot that generates graphs on Covid data - 
-  [[repo](https://github.com/AntoniosBarotsis/coronaBot)]
+  [[repo]](https://github.com/AntoniosBarotsis/coronaBot)
 
 You can find a few more on
 [my Github](https://github.com/AntoniosBarotsis?tab=repositories&q=&type=source&language=&sort=).
