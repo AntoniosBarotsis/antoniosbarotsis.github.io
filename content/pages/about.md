@@ -46,7 +46,7 @@ then the cycle repeats.
   [[repo]](https://github.com/AntoniosBarotsis/confusables)
 - A Mandelbrot renderer that leverages multi-threading and SIMD instructions - 
   [[repo]](https://github.com/AntoniosBarotsis/mandelbrot)
-- A QR Code generator library exposed as a web server and CLI written in Rust. Built for
+- A QR Code generator library exposed as a web server and CLI. Built for
   [Delft's GDSC](https://gdsc.community.dev/delft-university-of-technology/) - 
   [[repo]](https://github.com/AntoniosBarotsis/qr-rs) 
 - An RSS feed aggregator that notifies you of new posts via email -
