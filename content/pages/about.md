@@ -28,6 +28,8 @@ then the cycle repeats.
 - DevTools, Libraries & Frameworks
 - Rust 🦀
 
+> "*I realized I want to work for other devs and not clients directly*"
+
 ### Professional Experience
 
 - *Member of the tech core team* in
