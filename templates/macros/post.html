@@ -1,21 +1,22 @@
-{% macro content(page, summary) %}
+{% macro content(page, show_only_description) %}
     {% if page.keywords %}
         <meta name="keywords" content="{{page.keywords}}"/>
     {% else %}
         <meta name="keywords" content="{{config.extra.keywords}}"/>
     {% endif %}
     
-    {%- if summary and page.description %}
+    <!-- /posts -->
+    {%- if show_only_description and page.description %}
         <div class="post-content">
             {{ page.description | safe }}
         </div>
         <div>
-            <!-- &#xFE0E; -- force text style - some devices render this as emoji -->
             <a class="read-more button" href="{{ page.permalink | safe }}">
                 <span class="button__text">Read more</span>&nbsp;
                 <span class="button__icon">→</span>
             </a>
         </div>
+    <!-- /post -->
     {% else %}
         <div class="post-content">
             {{ post_macros::toc() }}

@@ -84,7 +84,7 @@
 
             {%- for page in show_pages %}
                 <div class="framed">
-                    {{ post_macros::content(page=page, summary=true) }}
+                    {{ post_macros::content(page=page, show_only_description=true) }}
                 </div>
             {% endfor -%}
             <div class="pagination">
