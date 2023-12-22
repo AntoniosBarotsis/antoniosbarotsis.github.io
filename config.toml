@@ -57,4 +57,3 @@ menu_items = [
     {name = "LinkedIn", url = "https://www.linkedin.com/in/antonios-barotsis-5a26a0199/", newtab = true},
     {name = "Email", url = "mailto:antonios.barotsis@pm.me", newtab = true},
 ]
-
