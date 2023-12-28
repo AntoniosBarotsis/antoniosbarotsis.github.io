@@ -34,6 +34,8 @@ keywords = "Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust"
 accent_color = "orange-auto"
 background_color = "orange"
 
+remove_hack_font = true
+
 # Whether to show links to earlier and later posts
 # on each post page (defaults to true).
 enable_post_view_navigation = true
