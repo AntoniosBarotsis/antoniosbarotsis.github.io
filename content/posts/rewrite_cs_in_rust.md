@@ -3,7 +3,7 @@ title: "Rewriting it in Rust"
 description: "Like the joke but for real this time."
 keywords: ["Rust"]
 date: 2023-12-31T20:56:22+02:00
-draft: true
+draft: false
 taxonomies:
   tags: ["Coding", "Rust"]
 ---
