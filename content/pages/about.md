@@ -43,6 +43,8 @@ then the cycle repeats.
 
 ### Some Cool Projects I've Worked On
 
+- A real-time, transparent chart of your controller trigger inputs - 
+  [[repo]](https://github.com/AntoniosBarotsis/controller-trigger-recorder)
 - A library that provides a couple of Unicode utilities for dealing with Unicode 
   confusables/homoglyphs - 
   [[repo]](https://github.com/AntoniosBarotsis/confusables)
