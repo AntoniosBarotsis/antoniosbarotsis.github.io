@@ -32,14 +32,15 @@ then the cycle repeats.
 
 ### Professional Experience
 
+- Received a *Letter of Appreciation* for performing data analysis and statistical processing of
+  the exam results for the European Board of Physical and Rehabilitation Medicine (EBPRM)
+  `2020-2024 academic years`.
+- *Junior Backend Developer* at GILO Technologies `from September to December 2021`.
 - *Member of the tech core team* in
   [Delft's Google Student Developer Club](https://gdsc.community.dev/delft-university-of-technology/)
-  `from December 2022`
-- Received a *Letter of Appreciation* for performing data analysis and statistical processing of
-  the exam results from the `2020-2022 academic years` for the European Board of Physical
-  and Rehabilitation Medicine (EBPRM) `June 2022`.
+  `2022-2023 academic years`
 - *Student Mentor* for Postman API Fest 2022 `26th to 29th January 2022`.
-- *Junior Backend Developer* at GILO Technologies `from September to December 2021`.
+- Official maintainer of the [Resend Rust SDK](https://resend.com/docs/send-with-rust) `from May 2024`
 
 ### Some Cool Projects I've Worked On
 
