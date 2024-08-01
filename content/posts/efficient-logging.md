@@ -116,7 +116,7 @@ log message in a vector for instance and only print the vector when it reaches a
 which point you clear the vector and repeat. 
 
 This makes logging dramatically faster. You can play around with your buffer size to see what works
-best for you, in my case I ended up using a size of 16.
+best for you, in my case I ended up using a size of 16 log messages.
 
 This approach introduces another subtle problem however, what if you produce less logs in the
 entire lifetime of your program than your buffer size? Well as of now, the logs would never be
