@@ -204,7 +204,7 @@ happen).
 I ended up creating a ✨technical diagram✨ to convey the overall picture better than my writing
 could.
 
-{{ image(src="/img/efficient-logging/layout.svg") }}
+{{ image(src="/img/efficient-logging/layout2.svg") }}
 
 As you can see, we have `n` worker threads spawned by main (1 for each input file in our case) as
 well as a separate `logging` thread. All log messages produced by the worker threads are sent
