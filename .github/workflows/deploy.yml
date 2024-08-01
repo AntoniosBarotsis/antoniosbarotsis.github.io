@@ -16,7 +16,7 @@ jobs:
         submodules: true
         fetch-depth: 1
     - name: Build and deploy
-      uses: shalzz/zola-deploy-action@master
+      uses: shalzz/zola-deploy-action@v0.18.0
       env:
         env: prod
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
