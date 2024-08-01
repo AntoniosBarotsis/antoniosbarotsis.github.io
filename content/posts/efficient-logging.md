@@ -147,7 +147,7 @@ use your logger instead of interacting with stdout directly, otherwise, all of t
 useless. 
 
 > In Rust, you could use 
-> [clippy lints](https://en.wikipedia.org/wiki/Lock_(computer_science)#Disadvantages) to deny usage
+> [clippy lints](https://rust-lang.github.io/rust-clippy/master/index.html#/print_stdout) to deny usage
 > of `println!`s!
 
 Ensuring that data can be sent safely across threads is also crucial here, in Rust this is a
