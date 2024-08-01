@@ -211,14 +211,29 @@ well as a separate `logging` thread. All log messages produced by the worker thr
 to the logging thread which buffers them and prints them according to the approaches we mentioned
 earlier. And any time we need user input, the worker thread locks stdin and stdout itself.
 
-But how much faster was it really? Well here's the results of the benchmark I used in my pull request:
+But how much faster was it really? Well here are the results of the benchmark I used in my pull
+request:
 
-| **_Version_** | **_Files to extract_** | **_Time_** |
+- Before:
+
+  | **_Files to extract_** | **_Time_** |
+  |:---:|:---:|
+  | both | 49.9s |
+  | test1/test2 | 31.4s/31.2s |
+
+- After:
+
+  | **_Files to extract_** | **_Time_** |
+  |:---:|:---:|
+  | both | 16.7s |
+  | test1/test2 | 12.9s/11.3s |
+
+<!-- | **_Version_** | **_Files to extract_** | **_Time_** |
 |:---:|:---:|:---:|
 | ouch 0.5.1 | both | 49sec 942ms |
 | ouch 0.5.1 | test1/test2 | 31sec 466ms/31sec 211ms |
 | My fork | both | 16sec 795ms |
-| My fork | test1/test2 | 12sec 975ms/11sec 381ms |
+| My fork | test1/test2 | 12sec 975ms/11sec 381ms | -->
 
 Quite the difference!
 
