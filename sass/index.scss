@@ -187,6 +187,11 @@ pre table {
 }
 
 .anchor {
-  color: #FFFFFF;
   text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-filter {
+    filter: invert(93%) hue-rotate(180deg)
+  }
 }
