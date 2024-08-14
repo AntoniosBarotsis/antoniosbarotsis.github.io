@@ -52,7 +52,7 @@ could go anyway.
 
 I ended up with this: 
 
-{{ image(src="/img/aim-for-the-stars/_DSC0156_copy.JPG") }}
+{{ image(src="/img/aim-for-the-stars/DSC0156.JPG") }}
 
 This shot was having an identity crisis (well it was for testing purposes so can't blame me too
 much I guess). I was trying to do terrain+stars+trails and the combination was just not working.
@@ -65,7 +65,7 @@ very vaguely aiming for.
 I shot a few more stuff that was not really of note until eventually I just said "whatever man,
 what if I shot for like 15 minutes lol" and ended up with this
 
-{{ image(src="/img/aim-for-the-stars/_DSC0163.JPG") }}
+{{ image(src="/img/aim-for-the-stars/DSC0163.JPG") }}
 
 which again is not fantastic, however, it looks kinda cool.
 
@@ -113,7 +113,7 @@ knew I was going to crop the result anyway, I could afford to recenter my camera
 
 The Andromeda Galaxy is that vaguely brighter spec of light near the center of this image:
 
-{{ image(src="/img/aim-for-the-stars/_DSC0180.png") }}
+{{ image(src="/img/aim-for-the-stars/DSC0180.png") }}
 
 Considering that it is apparently estimated to be roughly 23605433496791683000 kilometers away
 (give or take some rounding error), it is insane that I can even see it with just my lens!
