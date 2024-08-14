@@ -3,6 +3,9 @@
     <meta property="og:description" content="{{ page.description | safe }}">
     <meta property="og:title" content="{{ page.title | safe }}">
     <meta property="og:type" content="website">
+    {%- if page.extra and page.extra.og_image %}
+        <meta property="og:image" content="{{ config.base_url }}{{ page.extra.og_image }}">
+    {%- endif %}
     <meta property="og:url" content="{{ page.permalink | safe }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:description" content="{{ page.description | safe }}">
