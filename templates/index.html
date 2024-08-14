@@ -25,10 +25,9 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
-    <meta name="description" content="{{config.description}}"/>
-    
     <title>{%- block title %}{{ config.title }}{% endblock title -%}</title>
     {{ head_macros::head(config=config) }}
+    {{ head_macros::open_graph(config=config) }}
 
     {%- if config.generate_feed %}
         {%- if "rss" in config.feed_filename %}

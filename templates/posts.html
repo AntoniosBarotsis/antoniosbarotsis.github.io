@@ -11,6 +11,7 @@
 <head>
     <title>{%- block title %}{{ config.title }}{% endblock title -%}</title>
     {{ head_macros::head(config=config) }}
+    {{ head_macros::open_graph(config=config) }}
 
     {%- if config.generate_feed %}
         {%- if "rss" in config.feed_filename %}

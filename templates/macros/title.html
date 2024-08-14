@@ -1,0 +1,7 @@
+{% macro title(page_title, main_title) %}
+    {%- if page_title -%}
+      {{ page_title }}
+    {%- else -%}
+      {{ main_title }}
+    {%- endif -%}
+{% endmacro title %}
