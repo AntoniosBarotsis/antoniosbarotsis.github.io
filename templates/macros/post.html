@@ -1,8 +1,4 @@
 {% macro content(page, show_only_description) %}
-    {%- if page.extra and page.extra.og_image %}
-        <meta property="og:image" content="{{ config.base_url }}{{ page.extra.og_image }}">
-    {%- endif %}
-
     {% if page.keywords %}
         <meta name="keywords" content="{{page.keywords}}"/>
     {% else %}
