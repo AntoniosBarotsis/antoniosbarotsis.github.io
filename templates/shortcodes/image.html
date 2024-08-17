@@ -9,6 +9,7 @@
     src="{{ src | safe }}" 
     {% if style %} style="{{ style }}"{% endif %} 
     class="{% if position %}{{ position }}{% else -%} center {%- endif %} {% if class %} {{ class }}"{% endif %}" 
-    {%- if style %} style="{{ style | safe }}" {%- endif %} />
+    {%- if style %} style="{{ style | safe }}" {%- endif %}
+    loading="lazy" />
   {% if href %}</a>{% endif %}
 {% endif %}
