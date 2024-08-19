@@ -52,20 +52,7 @@ h4, h5, h6 {
 }
 
 
-@font-face {
-  font-family: 'Fira Code';
-  font-style:  normal;
-  font-weight: 400;
-  src: url("https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/ttf/FiraCode-Regular.ttf") format("woff");
-}
-
-@font-face {
-  font-family: 'Fira Code';
-  font-style:  normal;
-  font-weight: 800;
-  src: url("https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/ttf/FiraCode-Bold.ttf") format("woff");
-}
-
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 
 * {
   font-family: 'Fira Code' !important;
