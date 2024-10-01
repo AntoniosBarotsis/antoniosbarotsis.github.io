@@ -49,7 +49,7 @@ then the cycle repeats.
 - A library that provides a couple of Unicode utilities for dealing with Unicode 
   confusables/homoglyphs - 
   [[repo]](https://github.com/AntoniosBarotsis/confusables)
-- A Mandelbrot renderer that leverages multi-threading and SIMD instructions - 
+- A Mandelbrot renderer that leverages multi-threading and SIMD - 
   [[repo]](https://github.com/AntoniosBarotsis/mandelbrot)
 - A QR Code generator library exposed as a web server and CLI. Built for
   [Delft's GDSC](https://gdsc.community.dev/delft-university-of-technology/) - 
@@ -131,7 +131,7 @@ of unsafe, raw pointer code with 2-3 safe method calls which I was very proud of
 
 After all that was done and settled, I made a
 [Mandelbrot set renderer](https://github.com/AntoniosBarotsis/mandelbrot) which I think looks
-pretty cool. I also finally got around to looking into SIMD instructions to make it faster, dove
+pretty cool. I also finally got around to looking into SIMD to make it faster, dove
 a bit into constant generics and macros and wrote a
 [blog post](../posts/simple_rust_macros/) about them which surprisingly amassed over 1300 reads!
 
