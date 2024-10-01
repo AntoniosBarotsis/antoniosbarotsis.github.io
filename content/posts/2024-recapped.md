@@ -11,6 +11,7 @@ taxonomies:
 <!-- TODO: Date -->
 <!-- TODO: Description -->
 <!-- TODO: Ouch pr, astro -->
+<!-- Add some brief stuff to /about as well -->
 
 [Beautiful Code]: https://www.amazon.com/Beautiful-Code-Leading-Programmers-Practice/dp/0596510047
 [Staff Engineer]: https://staffeng.com/book
