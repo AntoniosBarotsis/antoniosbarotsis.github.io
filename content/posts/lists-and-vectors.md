@@ -118,7 +118,7 @@ I decided to use
 const SIZES: [usize; 3] = [100, 1_000, 10_000];
 ```
 
-for the different data sizes. The full code is available [here](TODO:) but I'll briefly go over
+for the different data sizes. The full code is available [here] but I'll briefly go over
 the random element benchmark code here. These are all largely the same.
 
 ```rs
@@ -245,3 +245,4 @@ In any case, till next time!
 [`LinkedList`]: https://doc.rust-lang.org/std/collections/struct.LinkedList.html
 [`Vec`]: https://doc.rust-lang.org/std/vec/struct.Vec.html
 [Prime's reaction]: https://youtu.be/cvZArAipOjo?si=xsGhEy1yLiMYEXw7
+[here]: https://github.com/AntoniosBarotsis/linkedlist-vs-vec
