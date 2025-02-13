@@ -227,7 +227,19 @@ Just as before, the distribution of the vector is a bit more packed than that of
 
 ## Closing
 
-This was for sure one way to spend one of my afternoons. 
+This was for sure one way to spend one of my afternoons.
+
+About a day or two after I made this post I came up with 2 questions that I may or may not try to
+answer in the future if I am not too lazy;
+- Would lists suffer even more in a garbage collected language? Maybe the fact that more garbage
+  would need to be deleted (many list nodes vs 1 array) would slow things down even further. I do
+  not know enough about the specifics of garbage collector implementations to guess if this would
+  be the case so I'd have to do benchmarks in Java or something but that sounds like effort.
+- In the repeated removal benchmark I was surprised that lists were faster for up to 10k elements
+  and I speculated that it might be because the lists got smaller and smaller so the cost of them
+  kept decreasing. A way to figure out if that is indeed the case would be to simply do insertions
+  instead of deletions (or both) and see if that reverses this trend or not. This would be simple to
+  do but I am rather busy at the moment so I will leave it for later. 
 
 As Mr Stroustrup said in his talk "*When I was taught about data structures, this [insertions/deletions]
 is what you used lists for!*" same for me and I assume most other people. 
