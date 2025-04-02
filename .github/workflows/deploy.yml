@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main
-      uses: actions/checkout@v3.0.0
+      uses: actions/checkout@v4
       with:
         # submodules: true
         fetch-depth: 1
@@ -28,7 +28,7 @@ jobs:
     needs: spell_check
     steps:
     - name: Checkout main
-      uses: actions/checkout@v3.0.0
+      uses: actions/checkout@v4
       with:
         submodules: true
         fetch-depth: 1
