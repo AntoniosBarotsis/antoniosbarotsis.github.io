@@ -1,0 +1,29 @@
+---
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+version: '0.2'
+dictionaryDefinitions:
+    - name: project-words
+      path: './project-words.txt'
+      addWords: true
+dictionaries:
+    - project-words
+ignorePaths:
+    - 'public/**'
+    - 'sass/**'
+    - 'static/**'
+    - 'templates/**'
+    - 'themes/**'
+    - '*.nu'
+    - '/project-words.txt'
+# patterns:
+#   - name: markdown_code_block
+#     pattern: |
+#       /
+#           ^(\s*`{3,}).*     # match the ```
+#           [\s\S]*?          # the block of code
+#           ^\1               # end of the block
+#       /gmx
+# languageSettings:
+#   - languageId: markdown
+#     ignoreRegExpList:
+#       - markdown_code_block

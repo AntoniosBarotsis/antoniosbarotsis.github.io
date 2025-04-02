@@ -6,6 +6,22 @@ on:
    - master
 
 jobs:
+  spell_check:
+    name: Spell check
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout main
+      uses: actions/checkout@v3.0.0
+      with:
+        # submodules: true
+        fetch-depth: 1
+
+    - name: Install cspell
+      run: pip install codespell
+
+    - name: Spell check
+      run: cspell .
+
   deploy:
     name: Publish site
     runs-on: ubuntu-latest
