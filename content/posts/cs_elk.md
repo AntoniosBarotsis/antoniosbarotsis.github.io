@@ -18,7 +18,7 @@ The ELK stack consists of:
 - Logstash: A data-processing pipeline that collects data and delivers it to Elasticsearch
 - Kibana: A visualization platform built expressly for Elasticsearch
 
-These three together make for a great way of digesting aggregated logs from your application through visualisations.
+These three together make for a great way of digesting aggregated logs from your application through visualizations.
 
 ## What will we be creating?
 
@@ -130,14 +130,14 @@ namespace elk
         private static Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             context.Response.StatusCode = 500;
-            return context.Response.WriteAsync("An exception occured");
+            return context.Response.WriteAsync("An exception occurred");
         }
     }
 }
 ```
 
 If we now run the app again we should see nothing logged in the console. If we add a `throw new Exception();` statement in our controller
-we should get a `500` Response back saying that an exception occured and also see the exception logged in the terminal.
+we should get a `500` Response back saying that an exception occurred and also see the exception logged in the terminal.
 
 I am going to add the following to the controller so we get errors at random from the endpoint
 

@@ -176,7 +176,7 @@ weird so far but it is all downhill for the linkedlist from here.
 {{ image(src="/img/lists-vs-vectors/q1-lines.svg", class="dark-filter", style="max-width:160%;margin-left:-25%;margin-right:-35%") }}
 
 We are only 1/4th of the way into the data and already vectors are outperforming lists. Going 
-to the middle only exagerrates the issue further while remaining roughly the same for the vector;
+to the middle only exaggerates the issue further while remaining roughly the same for the vector;
 
 {{ image(src="/img/lists-vs-vectors/middle-lines.svg", class="dark-filter", style="max-width:160%;margin-left:-25%;margin-right:-35%") }}
 
@@ -203,7 +203,7 @@ Another thing to consider that is often critical is how predictable the performa
 {{ image(src="/img/lists-vs-vectors/rand-violin.svg", class="dark-filter", style="max-width:160%;margin-left:-35%;margin-right:-25%") }} 
 
 We can see that for the largest input, the vector's distribution is significantly tighter compared
-to the list. This is to be expected; the performance of litsts depends on where exactly the element
+to the list. This is to be expected; the performance of lists depends on where exactly the element
 is (slowest in the middle, fastest on either end) while vectors don't care.
 
 As a final benchmark I decided to repeatedly randomly remove elements until half of them remain.

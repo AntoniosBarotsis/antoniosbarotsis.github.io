@@ -65,7 +65,7 @@ Intellij but there most are alternatives that do essentially the same stuff.
 - [Rust Analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
 - [Better TOML](https://marketplace.visualstudio.com/items?itemName=bungcip.better-toml)
 - [Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)
-- [Seach Crates IO](https://marketplace.visualstudio.com/items?itemName=belfz.search-crates-io)
+- [Search Crates IO](https://marketplace.visualstudio.com/items?itemName=belfz.search-crates-io)
 
 Only the first one is "needed" but I find the rest pretty useful so I thought I'd mention them.
 

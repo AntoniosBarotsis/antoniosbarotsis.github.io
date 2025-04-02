@@ -36,6 +36,7 @@ like this at some point. The main reason why I ended up building it now was an i
 seeing how [SIMD](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data) instructions work
 in Rust.
 
+<!-- cSpell:ignoreRegExp ultiple -->
 > Long story short, SIMD instructions allow you to perform the same operation on multiple data
 > elements simultaneously by vectorizing your data, hence the name, 
 > **S**ingle **I**nstruction **M**ultiple **D**ata

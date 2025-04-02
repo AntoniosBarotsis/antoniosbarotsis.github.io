@@ -139,7 +139,7 @@ dotnet publish -o tools \
 
 The reason why I specify these properties in the arguments of the command instead of in the `csproj`
 file is because I would have to keep toggling them on and off depending on whether I was
-targetting NuGet or Choco.
+targeting NuGet or Choco.
 
 I also specify the following in the `csproj` file to hopefully cut the executable file size down a
 bit more:

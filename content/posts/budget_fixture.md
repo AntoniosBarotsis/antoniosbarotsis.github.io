@@ -269,8 +269,8 @@ public abstract class Generator<T> {
 
 Calling this `getType` method on our `StringGenerator` would return `java.lang.String`.
 
-Notice that `call` is declared `public` so that it can be overriden by the tester while
-`getType` is both `final` (so it can't be overriden) and also package-private.
+Notice that `call` is declared `public` so that it can be overridden by the tester while
+`getType` is both `final` (so it can't be overridden) and also package-private.
 
 To recap, we somewhat found a way around Java's type erasure using the text representation of the
 classes instead of the classes themselves and we also made a wrapper abstract class to use for this.
@@ -357,7 +357,7 @@ public class DefaultConstructorStrategy<T> implements ConstructorFinder<T>{
 public class LongestConstructorStrategy<T> implements ConstructorFinder<T> {
     @Override
     public Constructor<T> getConstructor(Class<T> obj) {
-        // Get class constroctors
+        // Get class constructors
         var ctors = obj.getConstructors();
 
         // Find the one with the most parameters
