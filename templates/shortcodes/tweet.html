@@ -1,5 +1,13 @@
+<!-- The maximum width of the rendered Tweet in whole pixels. This value should be between
+ 250 and 550 pixels. -->
+<!-- https://developer.x.com/en/docs/x-for-websites/embedded-tweets/guides/embedded-tweet-parameter-reference -->
+
 <div style="display: flex;justify-content: center;">
-  <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">
+  <blockquote class="twitter-tweet" 
+    data-width="{% if width %}{{ width }}{%- endif %}"
+    data-cards="{% if hide_images %}{{ "hidden" }}{%- endif %}"
+    data-dnt="true" 
+    data-theme="dark" >
     <a href="{{ url }}"></a>
   </blockquote> 
 </div>
