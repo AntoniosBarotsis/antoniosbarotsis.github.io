@@ -24,6 +24,7 @@
     --highlight-color: #D79921;
     --blue: #4093CB;
     --red: #CC241D;
+    --footnote-selected: #504945
   }
 
   @media (prefers-color-scheme: light) {
@@ -38,6 +39,7 @@
     --highlight-color: #D79921;
     --blue: #458588;
     --red: #CC241D;
+    --footnote-selected: #D5C4A1
 
     div.logo {
       color: white !important;
@@ -208,3 +210,13 @@ pre table {
     filter: invert(93%) hue-rotate(180deg)
   }
 }
+
+.footnotes-list li {
+  transition: background-color 0.4s;
+}
+
+/* Highlight the footnote when it is targeted */
+.footnotes-list li:target {
+  background-color: var(--footnote-selected);
+}
+
