@@ -15,8 +15,7 @@ about a language in a single project as I did with [Rss2Email](https://github.co
 although that might just be because there is a *lot* to learn in Rust, especially as a beginner.
 
 I somehow ended up presenting the project I am about to talk about in a
-[Postman Livestream](https://www.youtube.com/watch?v=EBjmbyC-h0Y) and made some
-[slides](https://antoniosbarotsis.github.io/Rss2Email/) for it.
+[Postman Livestream](https://www.youtube.com/watch?v=EBjmbyC-h0Y).
 
 I (very) briefly go over what Rust is all about, why it's popular among devs and why you should try it out yourself
 so I decided to not talk much about any of these in this post. I tried doing that once or twice already but
@@ -299,11 +298,7 @@ pub fn download_blogs(days: i64) -> Vec<Blog> {
     })
     .collect();
 ```
-
-I believe that this is decently self-explanatory but if not, I have delved into it in great detail
-in [my slides](https://antoniosbarotsis.github.io/Rss2Email/#14).
-
-As for a short description:
+TLDR:
 
 - We iterate over our links
 - Download their contents and parse them to `Blog`s (more on this later)
