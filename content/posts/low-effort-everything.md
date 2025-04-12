@@ -776,6 +776,8 @@ When it comes to the writing itself, how do people manage to write entire books?
 make sure it had at least _some_ cohesion going for it. I think paying more attention into how I
 break the whole text down into more digestible units would help a lot, which is a good thing to
 realize now because I will have to write a paper for my Bachelor thesis in ~2 months from now!
+It was a bit funny having to worry about all these problems caused by writing "too much" text when
+most my life I've been plagued by writing too little text 😅
 
 On a bit of a side-note, I want to try and cite things where appropriate in my posts. I recently
 found [Dr. Tratt's blog] (specifically [this post] was really insightful) and he does that a lot
