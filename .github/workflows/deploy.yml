@@ -37,7 +37,7 @@ jobs:
     - name: Install lychee
       run: |
         sudo apt-get install gcc pkg-config libc6-dev libssl-dev -y
-        cargo binstall lychee
+        cargo binstall lychee sitemap2urllist
 
     - uses: taiki-e/install-action@v2
       with:
@@ -47,7 +47,8 @@ jobs:
       run: |
         zola serve &
         sleep 3
-        lychee http://127.0.0.1:1111/sitemap.xml --exclude linkedin.com --exclude archive.is
+        sitemap2urllist http://127.0.0.1:1111/sitemap.xml | xargs lychee --exclude linkedin.com --exclude archive.is
+
 
   deploy:
     name: Publish site
