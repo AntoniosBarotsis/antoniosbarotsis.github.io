@@ -44,7 +44,7 @@ jobs:
 
     - name: Link check
       run: |
-        zola serve
+        zola serve &
         lychee http://127.0.0.1:1111/sitemap.xml --exclude linkedin.com --exclude archive.is
 
   deploy:
