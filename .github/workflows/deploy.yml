@@ -31,8 +31,6 @@ jobs:
         fetch-depth: 1
         submodules: true
 
-    - uses: Swatinem/rust-cache@v2
-
     - name: Install lychee
       run: |
         sudo apt-get install gcc pkg-config libc6-dev libssl-dev -y
