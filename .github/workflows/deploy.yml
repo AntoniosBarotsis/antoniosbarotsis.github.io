@@ -32,7 +32,7 @@ jobs:
 
     - name: Install lychee
       run: |
-        apt-get install gcc pkg-config libc6-dev libssl-dev -y
+        sudo apt-get install gcc pkg-config libc6-dev libssl-dev -y
         cargo install lychee
 
     - uses: taiki-e/install-action@v2
