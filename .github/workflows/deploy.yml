@@ -21,10 +21,34 @@ jobs:
     - name: Spell check
       run: cspell .
 
+  link_check:
+    name: Link check
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout main
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - name: Install lychee
+      run: |
+        curl -sSf '<https://sh.rustup.rs>' | sh
+        apt-get install gcc pkg-config libc6-dev libssl-dev -y
+        cargo install lychee
+
+    - uses: taiki-e/install-action@v2
+      with:
+        tool: zola@0.19.2
+
+    - name: Link check
+      run: |
+        zola serve
+        lychee http://127.0.0.1:1111/sitemap.xml --exclude linkedin.com --exclude archive.is
+
   deploy:
     name: Publish site
     runs-on: ubuntu-latest
-    needs: spell_check
+    needs: [spell_check, link_check]
     steps:
     - name: Checkout main
       uses: actions/checkout@v4
