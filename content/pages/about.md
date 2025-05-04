@@ -37,7 +37,7 @@ then the cycle repeats.
   `2020-2024 academic years`.
 - *Junior Backend Developer* at GILO Technologies `from September to December 2021`.
 - *Member of the tech core team* in
-  [Delft's Google Student Developer Club](https://gdsc.community.dev/delft-university-of-technology/)
+  [Delft's Google Student Developer Club](https://web.archive.org/web/20230521000246/https://gdsc.community.dev/delft-university-of-technology/)
   `2022-2023 academic years`
 - *Student Mentor* for Postman API Fest 2022 `26th to 29th January 2022`.
 - Official maintainer of the [Resend Rust SDK](https://resend.com/docs/send-with-rust) `from May 2024`
@@ -52,7 +52,7 @@ then the cycle repeats.
 - A Mandelbrot renderer that leverages multi-threading and SIMD - 
   [[repo]](https://github.com/AntoniosBarotsis/mandelbrot)
 - A QR Code generator library exposed as a web server and CLI. Built for
-  [Delft's GDSC](https://gdsc.community.dev/delft-university-of-technology/) - 
+  [Delft's GDSC](https://web.archive.org/web/20230521000246/https://gdsc.community.dev/delft-university-of-technology/) - 
   [[repo]](https://github.com/AntoniosBarotsis/qr-rs) 
 - An RSS feed aggregator that notifies you of new posts via email -
   [[repo]](https://github.com/AntoniosBarotsis/Rss2Email)
@@ -81,7 +81,7 @@ This will get quite lengthy :)
 ### 2023
 
 I managed to join my University's
-[Google Developer Student Club](https://gdsc.community.dev/delft-university-of-technology/)!
+[Google Developer Student Club](https://web.archive.org/web/20230521000246/https://gdsc.community.dev/delft-university-of-technology/)!
 Carrying over some of the things I learned developing
 [Rss2Email](https://github.com/AntoniosBarotsis/Rss2Email), I worked on a QR Code generator API
 for the aforementioned student club to avoid being dependent on third-party software for generating
@@ -112,7 +112,7 @@ recommended!
 
 The book proved useful in a few areas of my Software Project where for 2 months, I and 5
 other colleagues worked together in "*developing a cheap little robot to teach children and students
-alike robotics and computer vision called [Mirte](https://www.mirte.org/docs/)*". The project aimed
+alike robotics and computer vision called [Mirte](https://mirte.org)*". The project aimed
 to both get the robot to drive around a [model city](https://www.duckietown.org/) on
 [very limited hardware](https://www.orangepi.com/index.php?route=product/product&product_id=844)
 and to create interfaces of varying complexity to our code and the robot directly so as to allow

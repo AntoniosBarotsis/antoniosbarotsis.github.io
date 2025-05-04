@@ -12,9 +12,7 @@ taxonomies:
 
 Recently I have been working on a side project that needed a very simple toy-like auth
 scheme to be implemented. The last few times I implemented JWTs in .NET it was for a full-blown
-application which means that I made use of things like `IdentityModel` and `UserManager`,
-if you want a look at how I made that work you could take a look at the source code of
-[Demeter](https://github.com/AntoniosBarotsis/Demeter).
+application which means that I made use of things like `IdentityModel` and `UserManager`.
 
 In this case, I did not need *Authentication*, just *Authorization*. The two are defined as followed
 in the [MS Docs](https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-vs-authorization).

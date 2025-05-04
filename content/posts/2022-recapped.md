@@ -139,7 +139,7 @@ reading this and you haven't tried it, please do! Take your time to learn the ba
 you'll come to appreciate it immensely just as I  did :) 
 
 I am in fact so passionate about Rust that I am having my first-ever live talk/workshop on it at my
-[University's Google Student Developer Club](https://gdsc.community.dev/delft-university-of-technology/)
+[University's Google Student Developer Club](https://web.archive.org/web/20230521000246/https://gdsc.community.dev/delft-university-of-technology/)
 sometime in January which I'm super excited about!
 
 ## Reviewing my goals from last year

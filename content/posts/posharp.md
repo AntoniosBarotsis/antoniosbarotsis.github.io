@@ -239,14 +239,13 @@ everything started working again but at least the classloaders were not complain
 
 Another issue I had was getting the pipeline to work on an Ubuntu image which seemed to also have some classloader issues
 because the test methods could not get invoked. In case anyone is willing to take a look and potentially fix it, here's the
-[pipeline run](https://github.com/AntoniosBarotsis/Po-Sharp/runs/5428580842?check_suite_focus=true) and the 
 [pipeline yml file](https://github.com/AntoniosBarotsis/Po-Sharp/blob/152fbbdeb5b570024a4210e2563f3295459ef9cf/.github/workflows/workflow.yml).
 
 Other than that small hiccup, the rest was fairly standard stuff.
 
 I want the pipeline to run on master pushes and on pull requests. The job should run on a windows image, I checkout to the repo and use
 [this](https://github.com/Vampire/setup-wsl) action to set up WSL, Gradle has a short post about setting up a Gradle build workflow
-[here](https://github.com/marketplace/actions/gradle-build-action) which I used for the setup and finally I install any WSL 
+[here](https://github.com/gradle/gradle-build-action) which I used for the setup and finally I install any WSL 
 dependencies I need and run the Gradle task for the tests
 
 

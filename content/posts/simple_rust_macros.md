@@ -232,7 +232,7 @@ error[E0599]: no function or associated item named `splat` found for struct
 ### Getting a Little Bit Off-Topic
 
 At this point it started feeling like this might not be possible in Rust at least for the time
-being... until I found [this](https://practice.rs/generics-traits/const-generics.html) post talking
+being... until I found [this](https://practice.course.rs/generics-traits/const-generics.html) post talking
 about const generics which ignited some amount of hope in me.
 
 The post essentially arrives at this handy trick:
