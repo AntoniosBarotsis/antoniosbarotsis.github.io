@@ -31,10 +31,13 @@ jobs:
         fetch-depth: 1
         submodules: true
 
+    - uses: cargo-bins/cargo-binstall@main
+
+
     - name: Install lychee
       run: |
         sudo apt-get install gcc pkg-config libc6-dev libssl-dev -y
-        cargo install lychee
+        cargo binstall lychee
 
     - uses: taiki-e/install-action@v2
       with:
