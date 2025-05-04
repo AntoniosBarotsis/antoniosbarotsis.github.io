@@ -47,7 +47,7 @@ jobs:
       run: |
         zola serve &
         sleep 3
-        sitemap2urllist http://127.0.0.1:1111/sitemap.xml | xargs lychee --exclude linkedin.com --exclude archive.is -a 429
+        sitemap2urllist http://127.0.0.1:1111/sitemap.xml | xargs lychee --config ./lychee.toml
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
