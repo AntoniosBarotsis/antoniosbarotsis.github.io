@@ -1,0 +1,28 @@
+cache = true
+max_cache_age = "2d"
+max_redirects = 10
+user_agent = "curl/7.83. 1"
+timeout = 20
+retry_wait_time = 2
+
+accept = ["200", "403", "429"]
+
+insecure = false
+scheme = ["https"]
+require_https = false
+method = "get"
+
+# Check links inside `<code>` and `<pre>` blocks as well as Markdown code
+# blocks.
+include_verbatim = false
+
+# Exclude URLs and mail addresses from checking (supports regex).
+exclude = [
+  'linkedin.com',
+  'archive.is',
+  'https://github.com/pulls',
+  'https://gdsc.community.dev/delft-university-of-technology/',
+]
+
+# Exclude loopback IP address range and localhost from checking.
+exclude_loopback = true
