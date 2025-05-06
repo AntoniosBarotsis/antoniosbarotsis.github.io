@@ -3,7 +3,7 @@ title: "My writing workflow"
 description: "Helping myself blog"
 keywords: ["Blogging", "spell", "check", "cspell", "dead", "link", "lychee"]
 date: 2025-05-06T12:28:06+02:00
-draft: true
+draft: false
 taxonomies:
   tags: ["No Coding", "Meta"]
 ---
