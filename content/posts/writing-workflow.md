@@ -181,6 +181,8 @@ In short:
 
 This checks all links in my blog (both internal and external), pretty neat!
 
+This does need to compile `sitemap2urllist` which takes like 2 minutes but I don't mind.
+
 ## Closing
 
 That is all!
