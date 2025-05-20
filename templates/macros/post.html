@@ -1,33 +1,44 @@
 {% macro content(page, show_only_description) %}
-    {% if page.keywords %}
-        <meta name="keywords" content="{{page.keywords}}"/>
-    {% else %}
-        <meta name="keywords" content="{{config.extra.keywords}}"/>
-    {% endif %}
-    
-    <!-- /posts -->
-    {%- if show_only_description and page.description %}
-        <div class="post-content">
-            {{ page.description | safe }}
-        </div>
-        <div>
-            <a class="read-more button" href="{{ page.permalink | safe }}">
-                <span class="button__text">Read more</span>&nbsp;
-                <span class="button__icon">→</span>
-            </a>
-        </div>
-    <!-- /post -->
-    {% else %}
-        <div class="post-content">
-            {{ post_macros::toc() }}
-            {{ page.content | safe }}
-        </div>
-    {%- endif %}
+{% if page.keywords %}
+<meta name="keywords" content="{{page.keywords}}" />
+{% else %}
+<meta name="keywords" content="{{config.extra.keywords}}" />
+{% endif %}
+
+<!-- /posts -->
+{%- if show_only_description and page.description %}
+<div class="post-content">
+    {{ page.description | safe }}
+</div>
+<div>
+    <a class="read-more button" href="{{ page.permalink | safe }}">
+        <span class="button__text">Read more</span>&nbsp;
+        <span class="button__icon">→</span>
+    </a>
+</div>
+<!-- /post -->
+{% else %}
+<div class="post-content">
+    {{ post_macros::toc() }}
+    {{ page.content | safe }}
+</div>
+{%- endif %}
 {% endmacro content %}
-        
-        
+
+
 {% macro view_source(page) %}
-<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/{{ page.slug }}.md">View Source</a>
+{# Ugly fix for view source slug (main and about are different than the rest) #}
+{% if page.slug == "about" %}
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/pages/{{ page.slug }}.md">View
+    Source</a>
+{% elif page.slug == "main" %}
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/{{ page.slug }}.md">View
+    Source</a>
+{% else %}
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/{{ page.slug }}.md">View
+    Source</a>
+{% endif %}
+
 {% endmacro post_view_source %}
 
 
@@ -36,119 +47,114 @@
 <h2>Table of Contents</h2>
 <ul>
     {% for h1 in page.toc %}
-        <li>
-            <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
-            {% if h1.children %}
-                <ul>
-                    {% for h2 in h1.children %}
-                        <li>
-                            <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </li>
+    <li>
+        <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+        {% if h1.children %}
+        <ul>
+            {% for h2 in h1.children %}
+            <li>
+                <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </li>
     {% endfor %}
 </ul>
 {% endif %}
 {% endmacro post_toc %}
 
 {% macro date(page) %}
-    <span class="post-date">
-        {%- if page.date %}
-            {{ page.date | date(format="%Y-%m-%d") }}
-        {% endif -%}
-    </span>
+<span class="post-date">
+    {%- if page.date %}
+    {{ page.date | date(format="%Y-%m-%d") }}
+    {% endif -%}
+</span>
 {% endmacro post_date %}
 
 
 {% macro earlier_later(page) %}
-    {%- if config.extra.enable_post_view_navigation and page.lower or page.higher %}
-        <div class="pagination">
-            <div class="pagination__title">
-                <span class="pagination__title-h">{{ config.extra.post_view_navigation_prompt }}</span>
-                <hr />
-            </div>
-            <div class="pagination__buttons">
-                {%- if page.lower %}
-                    <span class="button previous">
-                        <a href="{{ page.lower.permalink | safe }}">
-                            <span class="button__icon">←</span>&nbsp;
-                            <span class="button__text">{{ page.lower.title }}</span>
-                        </a>
-                    </span>
-                {% endif %}
-                {% if page.higher %}
-                    <span class="button next">
-                        <a href="{{ page.higher.permalink | safe }}">
-                            <span class="button__text">{{ page.higher.title }}</span>&nbsp;
-                            <span class="button__icon">→</span>
-                        </a>
-                    </span>
-                {% endif -%}
-            </div>
-        </div>
-    {% endif -%}
-    
-    {% if not page.extra.hide_comments %}
-        <script src="https://utteranc.es/client.js"
-            repo="AntoniosBarotsis/antoniosbarotsis.github.io"
-            issue-term="pathname"
-            label="Comment"
-            theme="github-dark"
-            crossorigin="anonymous"
-            async>
-        </script>
-    {% endif %}
+{%- if config.extra.enable_post_view_navigation and page.lower or page.higher %}
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">{{ config.extra.post_view_navigation_prompt }}</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        {%- if page.lower %}
+        <span class="button previous">
+            <a href="{{ page.lower.permalink | safe }}">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">{{ page.lower.title }}</span>
+            </a>
+        </span>
+        {% endif %}
+        {% if page.higher %}
+        <span class="button next">
+            <a href="{{ page.higher.permalink | safe }}">
+                <span class="button__text">{{ page.higher.title }}</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        {% endif -%}
+    </div>
+</div>
+{% endif -%}
+
+{% if not page.extra.hide_comments %}
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+{% endif %}
 {% endmacro earlier_later %}
 
 
 {% macro header(page) %}
-    <h1 class="post-title"><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h1>
-    <div class="post-meta-inline">
-        {% if not page.extra.hide_reading_time %}
-            {{ post_macros::date(page=page) }} :: {{ page.reading_time }} min read ::
-        {% else %}
-            {{ post_macros::date(page=page) }}
-        {% endif %}
-        {{ post_macros::view_source(page=page) }}&nbsp;
-    </div>
+<h1 class="post-title"><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h1>
+<div class="post-meta-inline">
+    {% if not page.extra.hide_reading_time %}
+    {{ post_macros::date(page=page) }} :: {{ page.reading_time }} min read ::
+    {% else %}
+    {{ post_macros::date(page=page) }}
+    {% endif %}
+    {{ post_macros::view_source(page=page) }}&nbsp;
+</div>
 
-    {{ post_macros::tags(page=page, short=true) }}
+{{ post_macros::tags(page=page, short=true) }}
 {% endmacro header %}
 
 
 {% macro list_posts(pages) %}
-    <ul>
+<ul>
     {%- for page in pages %}
-        {%- if page.draft %}
-            {% continue %}
-        {% endif -%}
-        <li class="post-list">
-            <a href="{{ page.permalink | safe }}">
-                <span class="post-date">{{ page.date | date(format="%Y-%m-%d") }}</span>
-                :: <span class="post-list-title">{{ page.title }}</span></a>
-            {{ post_macros::tags(page=page, short=true) }}
-        </li>
+    {%- if page.draft %}
+    {% continue %}
+    {% endif -%}
+    <li class="post-list">
+        <a href="{{ page.permalink | safe }}">
+            <span class="post-date">{{ page.date | date(format="%Y-%m-%d") }}</span>
+            :: <span class="post-list-title">{{ page.title }}</span></a>
+        {{ post_macros::tags(page=page, short=true) }}
+    </li>
     {% endfor -%}
-    </ul>
+</ul>
 {% endmacro list_posts %}
 
 
 {% macro tags(page, short=false) %}
-    {%- if page.taxonomies and page.taxonomies.tags %}
-        <span class="post-tags-inline">
-            {%- if short %}
+{%- if page.taxonomies and page.taxonomies.tags %}
+<span class="post-tags-inline">
+    {%- if short %}
 
-                {%- set sep = "," -%}
-            {% else %}
-                tags:&nbsp;
-                {%- set sep = "&nbsp;" -%}
-            {% endif -%}
-            {%- for tag in page.taxonomies.tags | sort | unique(case_sensitive=false) %}
-                <a class="post-tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">#{{ tag }}</a>
-                {%- if not loop.last %}{{ sep | safe }}{% endif -%}
-            {% endfor -%}
-        </span>
+    {%- set sep = "," -%}
+    {% else %}
+    tags:&nbsp;
+    {%- set sep = "&nbsp;" -%}
     {% endif -%}
+    {%- for tag in page.taxonomies.tags | sort | unique(case_sensitive=false) %}
+    <a class="post-tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">#{{ tag }}</a>
+    {%- if not loop.last %}{{ sep | safe }}{% endif -%}
+    {% endfor -%}
+</span>
+{% endif -%}
 {% endmacro tags %}
