@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Efficient Logging</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="Speeding up production code by 33% in my cherry-picked-definitely-representative benchmark!">
+
+    <meta property="og:description" content="Speeding up production code by 33% in my cherry-picked-definitely-representative benchmark!">
+    <meta property="og:title" content="Efficient Logging">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/efficient-logging/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Speeding up production code by 33% in my cherry-picked-definitely-representative benchmark!">
+    <meta name="twitter:title" content="Efficient Logging">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/efficient-logging/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/efficient-logging/">Efficient Logging</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2024-08-01
+    </span>
+ :: 11 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/efficient-logging.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/concurrency/">#Concurrency</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/no-coding/">#No Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/performance/">#Performance</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/#the-problem">The Problem</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/#the-problem-in-more-detail">The Problem In More Detail</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/#performance">Performance</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/#out-of-order-issue">Out-of-Order Issue</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/#putting-it-all-together">Putting It All Together</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/#wrapping-up">Wrapping Up</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>I've been using this neat command line tool called <a href="https://github.com/ouch-org/ouch">ouch</a>. At its core, it doesn't do anything
+groundbreaking but it is quite convenient; it gives you a unified and easy-to-use interface for
+(de)compressing just about any format you (or at least I) can think of.</p>
+<p>Here are some of the usage examples from the readme to get an idea of what it looks like:</p>
+<pre data-lang="sh" style="background-color:#0f1419;color:#bfbab0;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="font-style:italic;color:#5c6773;"># (or `ouch d` for short)
+</span><span style="color:#ffb454;">ouch</span><span> decompress a.zip
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Decompress multiple files
+</span><span style="color:#ffb454;">ouch</span><span> decompress a.zip b.tar.gz c.tar
+</span></code></pre>
+<p>And similarly for compressing:</p>
+<pre data-lang="sh" style="background-color:#0f1419;color:#bfbab0;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="font-style:italic;color:#5c6773;"># Compress two files into `archive.zip`
+</span><span style="color:#ffb454;">ouch</span><span> compress one.txt two.txt archive.zip
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;"># Compress file.txt using .lz4 and .zst
+</span><span style="color:#ffb454;">ouch</span><span> compress file.txt file.txt.lz4.zst
+</span></code></pre>
+<p>As you can see, it <em>just works™</em> as you'd expect. The org does not have a sponsorship option so I
+instead decided to keep an eye out for issues I could help with since I was using <code>ouch</code> on a
+weekly basis anyway.</p>
+<h2 id="the-problem"><a class="anchor" href="#the-problem" aria-label="Anchor link for: the-problem">The Problem</a></h2>
+<p>Soon enough, I came across the following issue:</p>
+
+  
+  
+    
+    
+  
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;ouch-org&#x2F;ouch&#x2F;issues&#x2F;77">
+  <img 
+    src="https://antoniosbarotsis.github.io/img/efficient-logging/issue.webp" 
+     
+    class="center "
+    loading="lazy" />
+  </a>
+
+<blockquote>
+<p>All images of GitHub issues have hyperlinks to the actual issue so if you want to go ahead and
+read the issue on GitHub and escape my webp file compression, you can just click it!</p>
+</blockquote>
+<p>You may notice that the issue is actually quite old by now. From what I understand in retrospect
+(as I was not using the project at the time), it was deemed to be not too important back then.
+The problem resurfaced later when
+<a href="https://github.com/ouch-org/ouch/issues/510">parallelism was added to decompression</a>.</p>
+<p>This caused 2 problems:</p>
+<ol>
+<li>
+<p>Performance: Having more than 1 thread fighting for printing info to the terminal caused dramatic
+slow-downs. In the example benchmark I used for my testing (more on this later), I found that in
+some cases, decompressing 2 files in parallel that individually took ~31 seconds each, took
+49 seconds combined instead. That is an enormous increase as we'll see later.</p>
+</li>
+<li>
+<p>Broke <code>ouch</code>'s questions about file overwriting: <code>ouch</code> would ask the user <code>y/n</code> questions when
+a file was about to be overwritten by the now decompressed file. The logs would come out of order
+and often, more than 1 question would be printed before waiting for user input. That would look
+something like this:</p>
+<pre data-lang="sh" style="background-color:#0f1419;color:#bfbab0;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#f29668;">&lt;</span><span>log </span><span style="color:#f29718;">1</span><span style="color:#f29668;">&gt;
+</span><span style="color:#f29668;">&lt;</span><span>log </span><span style="color:#f29718;">2</span><span style="color:#f29668;">&gt;
+</span><span style="color:#f29668;">&lt;</span><span>log </span><span style="color:#f29718;">3</span><span style="color:#f29668;">&gt;
+</span><span style="color:#f29668;">&lt;</span><span>QUESTION </span><span style="color:#ffb454;">HERE</span><span style="color:#f29668;">&gt;
+</span><span style="color:#f29668;">&lt;</span><span>QUESTION </span><span style="color:#ffb454;">HERE</span><span style="color:#f29668;">&gt; 
+</span><span style="font-style:italic;color:#5c6773;"># Execution stops here instead of the line above
+</span></code></pre>
+<p>When obviously we would want to wait after each question individually. This happened because
+there was no synchronisation happening between threads and it was down to luck whether
+a 2nd thread would print anything between the first thread printing a question and locking stdout
+to wait for user input.</p>
+</li>
+</ol>
+<p>Both of these are quite common issues that arise when introducing parallelism as an afterthought to
+a project. It is often very hard to anticipate what might go wrong when you make things run in
+parallel.</p>
+<blockquote>
+<p>Just as a side note here. This blog post focuses on an interesting performance problem, and
+there's 2 groups of people that might come across this post:</p>
+<ul>
+<li>those that have come across the problem before, to whom it must now feel quite trivial to
+solve (at least in theory)</li>
+<li>those that have not come across the problem before and are likely to be surprised by how much
+of a speedup a different logging strategy can offer (as well as how complex it is actually
+implementing it)</li>
+</ul>
+<p>If you are in the first category, you'll likely not find this too interesting as I am mostly
+writing this for the 2nd group.</p>
+</blockquote>
+<h2 id="the-problem-in-more-detail"><a class="anchor" href="#the-problem-in-more-detail" aria-label="Anchor link for: the-problem-in-more-detail">The Problem In More Detail</a></h2>
+<h3 id="performance"><a class="anchor" href="#performance" aria-label="Anchor link for: performance">Performance</a></h3>
+<p>The performance decrease is rather simple; when you print something out to your terminal, you must
+lock <a href="https://en.wikipedia.org/wiki/Standard_streams">stdout (or stderr)</a>. This can cause various
+problems</p>
+<ul>
+<li>For one, locking stdout (and later, flushing) is not instantaneous, they take time that adds up</li>
+<li>Locking stdout repeatedly (say in a for loop) can compound this effect</li>
+<li>Locking stdout repeatedly from different threads at the same time can further compound this effect
+(as well as mess with the order of prints as we'll talk about later).</li>
+</ul>
+<p>The last 2 points are the result of <a href="https://en.wikipedia.org/wiki/Lock_(computer_science)#Disadvantages">lock contention</a>.</p>
+<p>How can we combat this? Simple! <em>Just don't lock stdout all the time! (duh?)</em></p>
+<p>But jokes aside that is how you actually combat this, this is formally called <em>IO Buffering</em>.
+Instead of constantly locking stdout whenever you produce a log message, you could instead put that
+log message in a vector for instance and only print the vector when it reaches a certain size, at
+which point you clear the vector and repeat.</p>
+<p>This makes logging dramatically faster. You can play around with your buffer size to see what works
+best for you, in my case I ended up using a size of 16 log messages.</p>
+<p>This approach introduces another subtle problem however, what if you produce less logs in the
+entire lifetime of your program than your buffer size? Well as of now, the logs would never be
+printed! To fix that I took 2 approaches:</p>
+<ul>
+<li>The obvious one is to make sure you always flush your buffer just before exiting the program.
+This ensures that any remaining logs are always printed before your program terminates.</li>
+<li>Another idea (used in conjunction with the first one) is to <em>also</em> flush every <em>n</em> milliseconds.
+While this does not at first glance, achieve anything that the first point does not, we must
+remember that logs can often be useful as real-time feedback to users! If nothing is being logged
+while work is being done, the user might think that the program is stuck! For this reason, in my
+implementation, I also print the logs every 250ms, regardless of whether my buffer is full or not.</li>
+</ul>
+<h4 id="blocking-work-is-bad-actually"><a class="anchor" href="#blocking-work-is-bad-actually" aria-label="Anchor link for: blocking-work-is-bad-actually">Blocking Work Is Bad Actually</a></h4>
+<p>Another interesting issue that arises is that, while significantly reduced by now, the time spent
+locking stdout, flushing and clearing our buffer is time our main program completely halts all work
+and does nothing until the logs are printed.</p>
+<p>The solution to this is quite simple in principle but can be rather complicated and/or tedious at
+best to implement given your programming language of choice: we need to run our log printing on a
+separate thread! This makes it so our real work is no longer paused at all since buffering a log
+message is just a vector insertion (which for all intents and purposes is instant) and printing it
+now happens on a separate thread.</p>
+<p>This can require a decent refactoring of your code and you must of course ensure that all prints
+use your logger instead of interacting with stdout directly, otherwise, all of this is mostly
+useless.</p>
+<blockquote>
+<p>In Rust, you could use
+<a href="https://rust-lang.github.io/rust-clippy/master/index.html#/print_stdout">clippy lints</a> to deny usage
+of <code>println!</code>s!</p>
+</blockquote>
+<p>Ensuring that data can be sent safely across threads is also crucial here, in Rust this is a
+textbook application of <a href="https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html">channels</a>.</p>
+<h3 id="out-of-order-issue"><a class="anchor" href="#out-of-order-issue" aria-label="Anchor link for: out-of-order-issue">Out-of-Order Issue</a></h3>
+<p>Because of the way that <code>ouch</code> works, we figured that simply locking stdout and stdin <em>in the
+worker thread that needs to ask whether the user wants to overwrite the file</em> was a viable solution.</p>
+<blockquote>
+<p>We had briefly considered doing this blocking in the logger thread but the addition of bidirectional
+communication that would be needed for this between the logger thread and the worker thread (we
+would need to somehow tell the worker whether the user said yes or no) would significantly
+overcomplicate the code so we decided against it.</p>
+</blockquote>
+<p>This is because the worker thread needs to pause its work to wait for user input anyway, we can't
+keep working in the background while waiting for user input so this does not worsen performance.
+While this is happening, other worker threads that do not require user input can keep sending their
+logs to the logger thread undisturbed. The logging thread will of course be unable to interleave
+its logs with our <code>y/n</code> overwrite question since we already took the stdout lock in the thread that
+needed user input.</p>
+<p>This part here deserves attention as, depending on the specifics of your implementation, it might
+be that logs can be lost here; If you need to <em>be waiting</em> for a log message from other threads to
+add to your buffer but your logger thread code is stuck trying to acquire the stdout lock, new
+logs could be lost. With Rust channels, this is not a problem as messages are buffered internally
+which means we can just receive them later.</p>
+<p>This is a bit hard to convey with words so I'll try and clarify it with some pseudo-code.</p>
+<pre data-linenos data-lang="rs" style="background-color:#0f1419;color:#bfbab0;" class="language-rs "><code class="language-rs" data-lang="rs"><table><tbody><tr><td>1</td><td><span>Run </span><span style="color:#f29668;">in</span><span> background (the logger thread)</span><span style="color:#bfbab0cc;">:
+</span></td></tr><tr><td>2</td><td><span>  </span><span style="color:#ff7733;">let</span><span> buffer </span><span style="color:#f29668;">= </span><span>[]</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>3</td><td><span>
+</span></td></tr><tr><td>4</td><td><span>  </span><span style="color:#ff7733;">loop </span><span>{
+</span></td></tr><tr><td>5</td><td><span>    </span><span style="color:#ff7733;">let</span><span> message </span><span style="color:#f29668;">=</span><span> channel</span><span style="color:#f29668;">.</span><span style="color:#f07178;">wait_receive_log_message</span><span>()</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>6</td><td><span>
+</span></td></tr><tr><td>7</td><td><span>    buffer</span><span style="color:#f29668;">.</span><span style="color:#f07178;">push</span><span>(message)</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>8</td><td><span>
+</span></td></tr><tr><td>9</td><td><span>    </span><span style="color:#ff7733;">if</span><span> buffer</span><span style="color:#f29668;">.</span><span style="color:#f07178;">is_full</span><span>() {
+</span></td></tr><tr><td><mark style="background-color:#0a0e12;">10</mark></td><td><mark style="background-color:#0a0e12;"><span>      </span><span style="color:#f07178;">flush</span><span>(buffer)</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">// Needs to lock stdout
+</span></mark></td></tr><tr><td>11</td><td><span>      buffer</span><span style="color:#f29668;">.</span><span style="color:#f07178;">clear</span><span>()</span><span style="color:#bfbab0cc;">;
+</span></td></tr><tr><td>12</td><td><span>    }
+</span></td></tr><tr><td>13</td><td><span>  }
+</span></td></tr></tbody></table></code></pre>
+<p>Notice how there is a chance that <code>buffer.is_full()</code> is true but we can't execute <code>flush(buffer)</code>
+if the lock for stdout is already held elsewhere. Depending on how your <code>channel</code> works, this can
+disregard new messages so it is something to be aware of (again, with Rust channels this does not
+happen).</p>
+<h2 id="putting-it-all-together"><a class="anchor" href="#putting-it-all-together" aria-label="Anchor link for: putting-it-all-together">Putting It All Together</a></h2>
+<p>I ended up creating a ✨technical diagram✨ to convey the overall picture better than my writing
+could.</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/efficient-logging/layout.svg" 
+     
+    class="center  dark-filter""
+    loading="lazy" />
+  
+
+<p>As you can see, we have <code>n</code> worker threads spawned by main (1 for each input file in our case) as
+well as a separate <code>logging</code> thread. All log messages produced by the worker threads are sent
+to the logging thread which buffers them and prints them according to the approaches we mentioned
+earlier. And any time we need user input, the worker thread locks stdin and stdout itself.</p>
+<p>But how much faster was it really? Well here are the results of the benchmark I used in my pull
+request:</p>
+<ul>
+<li>
+<p>Before:</p>
+<table><thead><tr><th style="text-align: center"><strong><em>Files to extract</em></strong></th><th style="text-align: center"><strong><em>Time</em></strong></th></tr></thead><tbody>
+<tr><td style="text-align: center">both</td><td style="text-align: center">49.9s</td></tr>
+<tr><td style="text-align: center">test1/test2</td><td style="text-align: center">31.4s/31.2s</td></tr>
+</tbody></table>
+</li>
+<li>
+<p>After:</p>
+<table><thead><tr><th style="text-align: center"><strong><em>Files to extract</em></strong></th><th style="text-align: center"><strong><em>Time</em></strong></th></tr></thead><tbody>
+<tr><td style="text-align: center">both</td><td style="text-align: center">16.7s</td></tr>
+<tr><td style="text-align: center">test1/test2</td><td style="text-align: center">12.9s/11.3s</td></tr>
+</tbody></table>
+</li>
+</ul>
+<!-- | **_Version_** | **_Files to extract_** | **_Time_** |
+|:---:|:---:|:---:|
+| ouch 0.5.1 | both | 49sec 942ms |
+| ouch 0.5.1 | test1/test2 | 31sec 466ms/31sec 211ms |
+| My fork | both | 16sec 795ms |
+| My fork | test1/test2 | 12sec 975ms/11sec 381ms | -->
+<p>Quite the difference!</p>
+<p>Just to explain the benchmark a bit more, as well as the "my cherry-picked-definitely-representative
+benchmark!" comment from this post's description.</p>
+<p>The benchmark from what I remember (I slacked for like 4 months before blogging about this) was as
+follows:</p>
+<ul>
+<li>compress <code>ouch</code>'s repository into a zip <code>test1.zip</code></li>
+<li>copy <code>test1.zip</code> into <code>test2.zip</code> to get 2 identical zip files</li>
+<li>decompress them both individually as well as in parallel and measure the time taken</li>
+</ul>
+<p>"Well, how is this not representative!?!?!?" I hear you ask. Well, the majority of <code>ouch</code>s logs are
+something like <code>file x has been extracted</code>. This means that decompressing a full repository
+including <code>.git</code> and the <code>target</code> directory will produce <em>a lot</em> of logs since there are <em>a lot</em> of
+files.</p>
+<p>For reference, after generating a debug and release build, I seem to have just shy of 3.5k files.</p>
+<p>Of course, my comment about representativeness is rather exaggerated; it really depends on what
+you use <code>ouch</code> for. If you decompress large, single files then these changes will likely make
+no perceivable difference whatsoever to you. But if your archives have a decent amount of files
+in them then this is quite the improvement.</p>
+<blockquote>
+<p>You can check the full PR <a href="https://github.com/ouch-org/ouch/pull/642">here</a>.</p>
+</blockquote>
+<h2 id="wrapping-up"><a class="anchor" href="#wrapping-up" aria-label="Anchor link for: wrapping-up">Wrapping Up</a></h2>
+<p>Overall, this was my proudest OSS contribution so far. It was an interesting, performance problem in
+a big (and daunting), unknown Rust code base of a tool that I use frequently, ticked a lot of boxes!</p>
+<p>It was nice weighing the pros and cons of different approaches with <a href="https://github.com/marcospb19">Marcos</a>, the (main?) maintainer
+of <code>ouch</code>. And even though he MISCREDITED the WRONG PERSON in
+<a href="https://github.com/ouch-org/ouch/issues/643">his issue</a> because I guess we have similar names?
+or something??? (unforgivable), I forgive him because he was really nice to talk to while slamming
+my head against a wall trying to work this stuff out (he was seriously nice, go give <a href="https://github.com/ouch-org/ouch">ouch</a> a star
+if it seems like something you'd use).</p>
+<p>But yeah. It was a nice boost mentally to learn that I <em>can</em> just jump into an unfamiliar project
+and solve non-trivial issues. 10/10 would recommend.</p>
+<p>Till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/aim-for-the-stars/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Aim for the stars</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/">
+                <span class="button__text">2023-recapped</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

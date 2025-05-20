@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Finding Rust crates</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="A beginner's guide on discovering the right Rust crates for the job.">
+
+    <meta property="og:description" content="A beginner's guide on discovering the right Rust crates for the job.">
+    <meta property="og:title" content="Finding Rust crates">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/finding_rust_crates/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="A beginner's guide on discovering the right Rust crates for the job.">
+    <meta name="twitter:title" content="Finding Rust crates">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/finding_rust_crates/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/">Finding Rust crates</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2023-03-06
+    </span>
+ :: 6 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/finding_rust_crates.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/no-coding/">#No Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/rust/">#Rust</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#the-basics">The Basics</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#async-runtimes">Async Runtimes</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#error-handling">Error Handling</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#testing">Testing</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#finding-crates">Finding Crates</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#community-curated-lists-of-crates">Community Curated Lists of Crates</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#discovering-crates">Discovering Crates</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/#closing">Closing</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>A common complaint from Rust beginners is:</p>
+<blockquote>
+<p>"<em>The main issue is just communicating currently suggested libraries.</em>"</p>
+</blockquote>
+<p>I feel like most people that have been actively using Rust for a few months likely don't suffer from
+this as they learn their way around the ecosystem but I also feel like most people would agree that
+this is a problem for beginners. This is more so the case in Rust than most other languages because
+the standard library does not implement a lot of the things that you'd expect it to, coming from
+other languages. While this does have very valid reasons to be the case, it just makes the life
+of a beginner harder.</p>
+<h2 id="the-basics"><a class="anchor" href="#the-basics" aria-label="Anchor link for: the-basics">The Basics</a></h2>
+<p>I am going to mention a few crates that are so "<em>basic/common sense</em>" if I can call it that, that
+you might have issues looking for with the methods I'll list later. By "<em>basic/common sense</em>"
+I definitely do not mean <em>simple to implement</em> as you'll see soon, just things that you would most
+likely not <em>look</em> for in a different language.</p>
+<h3 id="async-runtimes"><a class="anchor" href="#async-runtimes" aria-label="Anchor link for: async-runtimes">Async Runtimes</a></h3>
+<p>Yes, that's right, Rust does not come with its own async runtime! There are multiple reasons for
+this, the simplest being that not all runtime strategies are created equal;</p>
+<p>Some are great for high-performance file I/O, some are focused on distributed systems, some are
+targeting embedded devices and some are built to be as general-purpose as possible.</p>
+<p>For the vast majority of cases, you'll want to use <a href="https://tokio.rs/"><code>Tokio</code></a>. Some other available
+options include <a href="https://www.bastion-rs.com/"><code>Bastion</code></a>, <a href="https://async.rs/"><code>async-std</code></a>,
+<a href="https://embassy.dev/"><code>Embassy</code></a> and <a href="https://github.com/DataDog/glommio"><code>Glommio</code></a>.</p>
+<p>You can read more
+<a href="https://rust-lang.github.io/wg-async/vision/shiny_future/users_manual.html">here</a>.</p>
+<h3 id="error-handling"><a class="anchor" href="#error-handling" aria-label="Anchor link for: error-handling">Error Handling</a></h3>
+<p>Rust's error handling can get verbose sometimes, which is exactly why there are a bunch of crates
+that can help you with that.</p>
+<p>For library code, <a href="https://github.com/dtolnay/thiserror"><code>thiserror</code></a> is often used whilst for
+user-friendly errors, <a href="https://github.com/dtolnay/anyhow"><code>anyhow</code></a> and
+<a href="https://github.com/zkat/miette"><code>miette</code></a> are common. Of course, if you are working on a project
+that has both a library component as well as a binary one, you can definitely use both <code>anyhow</code> and
+<code>thiserror</code>/<code>miette</code> very easily.</p>
+<h3 id="testing"><a class="anchor" href="#testing" aria-label="Anchor link for: testing">Testing</a></h3>
+<p>While Rust does provide you with a few ways to write assertions (you can write just about anything
+with a combination of <a href="https://doc.rust-lang.org/std/macro.assert.html"><code>assert!</code></a>,
+<a href="https://doc.rust-lang.org/std/macro.assert_eq.html"><code>assert_eq!</code></a> and
+<a href="https://doc.rust-lang.org/std/macro.matches.html"><code>matches!</code></a>), people coming from languages
+like Java or C# might find
+<a href="https://github.com/sixarm/assertables-rust-crate/"><code>assertables</code></a> or
+<a href="https://github.com/cfrancia/spectral"><code>spectral</code></a> useful.</p>
+<p>There's also <a href="https://github.com/rust-pretty-assertions/rust-pretty-assertions"><code>pretty-assertions</code></a>
+for more readable outputs and <a href="https://github.com/nvzqz/static-assertions-rs"><code>static-assertions</code></a>
+for compile-time assertions.</p>
+<h2 id="finding-crates"><a class="anchor" href="#finding-crates" aria-label="Anchor link for: finding-crates">Finding Crates</a></h2>
+<p>If you already vaguely know what you're looking for, I'd recommend the following steps in order:</p>
+<ol>
+<li>Try and search for the thing you are looking for on GitHub (remember to filter by programming
+language!). I find GitHub's search to be quite good at this and I usually find what I need
+rather quickly. I also like checking the number of stars the project has along with the number
+of issues and when the last commits were made before using a crate which I can of course see
+immediately this way.</li>
+<li>Take a look at <a href="https://crates.io/">crates.io</a> (or <a href="https://lib.rs/">lib.rs</a>) and try to make
+use of the crate categories. For instance, say you are looking for parsers, you can query
+<a href="https://crates.io/keywords/parser">this</a> (or <a href="https://lib.rs/parser-implementations">this</a>)
+to find the most commonly used crates of that category.</li>
+<li>Just google it. If you haven't found what you need yet (and hopefully after you tried
+a few query variations already), you can try plain old Googling (or DuckDuckGoing I guess).
+This has the added benefit of going through blog and forum posts on top of GitHub, crates.io etc.
+Just prefix your search term with <code>rust</code> and see what you get.</li>
+<li>If all else fails, just ask the community! I left this for last as it usually takes more time
+than typing 4 words in a search bar but it definitely works! There's
+<a href="https://discord.gg/rust-lang-community">Discord servers</a>
+<a href="https://users.rust-lang.org/">forums</a>,
+<a href="https://www.reddit.com/r/rust/">Subreddits</a> and
+<a href="https://rust-lang.zulipchat.com/">Zulip chats</a> (again in the order I'd use them) where you can
+ask for help from other people.</li>
+</ol>
+<blockquote>
+<p>For example, recently I got a few ideas that required me to use a
+<a href="https://en.wikipedia.org/wiki/Finite-state_transducer">Finite-state transducer</a> which I would say
+is relatively niche for Rust at least. I instinctively searched for <code>finite state transducer</code> on
+GitHub, filtered for Rust repositories and very quickly found
+<a href="https://github.com/BurntSushi/fst"><code>fst</code></a>.</p>
+</blockquote>
+<h3 id="community-curated-lists-of-crates"><a class="anchor" href="#community-curated-lists-of-crates" aria-label="Anchor link for: community-curated-lists-of-crates">Community Curated Lists of Crates</a></h3>
+<p>There exist curated lists of crates such as <a href="https://blessed.rs/crates"><code>blessed.rs</code></a> and
+<a href="https://github.com/rust-unofficial/awesome-rust"><code>awesome-rust</code></a>.</p>
+<p>There's also numerous websites in the form of <code>arewe___yet</code> which include crates and information
+on resources targeted at a particular field (for instance
+<a href="https://www.arewewebyet.org/"><code>arewewebyet.org</code></a>) which unsurprisingly mentions the most common
+crates one would use for a web project. You can find a list of this type of websites in
+<a href="https://github.com/UgurcanAkkok/AreWeRustYet">this</a> GitHub repository.</p>
+<h2 id="discovering-crates"><a class="anchor" href="#discovering-crates" aria-label="Anchor link for: discovering-crates">Discovering Crates</a></h2>
+<p>There are a few ways to passively discover interesting crates without actively looking for them.
+One that I enjoy a lot is <a href="https://this-week-in-rust.org/">This week's in Rust</a>'s section called
+"<em>Crate of the Week</em>". You can often find people making posts in the
+<a href="https://www.reddit.com/r/rust/">Rust subreddit</a> when they come up with cool ideas and the same goes
+for channels like <code>#showcase</code> in the
+<a href="https://discord.gg/rust-lang-community">Rust community Discord server</a>.</p>
+<p>There's also <a href="https://rustacean-station.org/">Rustacean Station</a> which is a nice podcast that often
+features some very interesting people. You can find their episodes on Spotify for sure and likely
+most other big podcast platforms.</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>This is the first post I've made that is not just me walking through the last project I just
+finished working on but hopefully, you still learned something from this! Learning your way around
+Rust's complex ecosystem can be very challenging as a beginner but you should always remember that
+the rest of the community is here, willing to help you!</p>
+<p>Till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Simple Rust Function Macros</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/">
+                <span class="button__text">Python with a bit of Rust</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

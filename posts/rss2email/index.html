@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Rss2Email</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="My introduction to Rust.">
+
+    <meta property="og:description" content="My introduction to Rust.">
+    <meta property="og:title" content="Rss2Email">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/rss2email/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="My introduction to Rust.">
+    <meta name="twitter:title" content="Rss2Email">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/rss2email/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/rss2email/">Rss2Email</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2022-10-07
+    </span>
+ :: 21 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/rss2email.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/coding/">#Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/rust/">#Rust</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#what-is-it">What is it?</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#set-up-rust">Set Up Rust</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#linting">Linting</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#high-level-technical-overview">High-Level Technical Overview</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#downloading-the-web-feeds">Downloading the Web Feeds</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#getting-our-links">Getting our Links</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#downloading">Downloading</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#representing-web-feeds">Representing Web Feeds</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#rss-and-atom-concrete-implementations">RSS and Atom Concrete Implementations</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#sending-emails">Sending Emails</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#aws-lambda">AWS Lambda</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#adding-the-runtime">Adding the Runtime</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#the-dockerfile">The Dockerfile</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#benchmarking">Benchmarking</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#mapping-to-html">Mapping to HTML</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#downloading-blogs">Downloading Blogs</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#downloading-blogs-one-by-one">Downloading Blogs One by One</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/rss2email/#conclusions">Conclusions</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#the-future">The Future</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/rss2email/#closing">Closing</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>I picked up Rust about a month ago and have been loving it. I don't think I've learned as much
+about a language in a single project as I did with <a href="https://github.com/AntoniosBarotsis/Rss2Email">Rss2Email</a>
+although that might just be because there is a <em>lot</em> to learn in Rust, especially as a beginner.</p>
+<p>I somehow ended up presenting the project I am about to talk about in a
+<a href="https://www.youtube.com/watch?v=EBjmbyC-h0Y">Postman Livestream</a>.</p>
+<p>I (very) briefly go over what Rust is all about, why it's popular among devs and why you should try it out yourself
+so I decided to not talk much about any of these in this post. I tried doing that once or twice already but
+I ended up going criminally off-topic and talking about my opinions on the declining state of modern software
+development more than my project so perhaps let's leave that for some other time 👍</p>
+<h2 id="what-is-it"><a class="anchor" href="#what-is-it" aria-label="Anchor link for: what-is-it">What is it?</a></h2>
+<p>TLDR: I wanted a way to forward web feeds to my mailbox for blogs that do not have newsletters.</p>
+<p>Quoting my own README;</p>
+<blockquote>
+<p>I have a few blogs in mind that I do find interesting but they do not provide a newsletter.</p>
+<p>There are some RSS readers but I am too lazy to download and use other software exclusively for this, I would much
+rather see a summary of these posts in my mailbox.</p>
+</blockquote>
+<p>The core logic is very simple;</p>
+<ul>
+<li>Get a list of web feeds</li>
+<li>Parse those to a concrete, internal representation</li>
+<li>Send "new" posts via email</li>
+</ul>
+<p>If you are already familiar with Rust basics then you can probably skip to <a href="https://antoniosbarotsis.github.io/posts/rss2email/#downloading-the-web-feeds">here</a>.</p>
+<h2 id="set-up-rust"><a class="anchor" href="#set-up-rust" aria-label="Anchor link for: set-up-rust">Set Up Rust</a></h2>
+<p>You first want to install Rustup. You can find numerous installation methods
+<a href="https://forge.rust-lang.org/infra/other-installation-methods.html">here</a>.</p>
+<p>This is probably redundant but make sure you have the latest version of everything with</p>
+<pre data-lang="sh" style="background-color:#0f1419;color:#bfbab0;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#ffb454;">rustup</span><span> update
+</span></code></pre>
+<p>Lastly, I'd recommend installing <a href="https://github.com/rust-lang/rust-clippy">Clippy</a></p>
+<pre data-lang="sh" style="background-color:#0f1419;color:#bfbab0;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#ffb454;">rustup</span><span> component add clippy
+</span></code></pre>
+<p>I code in Visual Studio Code so the plugins I'll mention might not exist for say
+Intellij but there most are alternatives that do essentially the same stuff.</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">Rust Analyzer</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=bungcip.better-toml">Better TOML</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens">Error Lens</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=belfz.search-crates-io">Search Crates IO</a></li>
+</ul>
+<p>Only the first one is "needed" but I find the rest pretty useful so I thought I'd mention them.</p>
+<h3 id="linting"><a class="anchor" href="#linting" aria-label="Anchor link for: linting">Linting</a></h3>
+<p>Before I get into the actual code I would like to mention that linting has taught me a generous amount
+of the stuff I know currently about Rust and I cannot stress how much I recommend you make use of it as a beginner.</p>
+<p>I doubt that more experienced Rustaceans would look at this without cringing but I do not care 😎</p>
+<p>Feel free to paste the <a href="https://gist.github.com/AntoniosBarotsis/60060357589af501efdaf89e18dcc522">following config</a>
+to <code>.cargo/config.toml</code>.</p>
+<p>You can run Clippy either with <code>cargo clippy</code> or preferably change your VSC setting</p>
+<p><code>Settings &gt; rust-analyzer &gt; Check on save: Command</code> to <code>clippy</code>. This in combination with the
+Error Lens plugin should show you inline errors.</p>
+<p>If you are completely new to Rust I would recommend going through at least some of
+<a href="https://doc.rust-lang.org/stable/book/">The Book</a> before resuming reading this article
+as I'll be making a jump in pace from here on.</p>
+<h2 id="high-level-technical-overview"><a class="anchor" href="#high-level-technical-overview" aria-label="Anchor link for: high-level-technical-overview">High-Level Technical Overview</a></h2>
+<p>I'll list a few of the libraries used for various parts of the code to set the stage for the more in-depth
+explanations that are to follow. I intend on referencing this post during my Postman talk and thus I want
+to spell out many of the dependencies I used as they might not be obvious to beginners.</p>
+<ul>
+<li>A <code>GET</code> request is sent to each feed using <a href="https://crates.io/crates/ureq"><code>ureq</code></a></li>
+<li>The feeds are parsed into structs using <a href="https://crates.io/crates/serde"><code>serde</code></a> (serialization crate)</li>
+<li>The core logic is mostly pure Rust but I do use <a href="https://crates.io/crates/regex"><code>regex</code></a>,
+<a href="https://crates.io/crates/chrono"><code>chrono</code></a> (DateTime), and <a href="https://crates.io/crates/itertools"><code>itertools</code></a>
+(Extra iterator methods)</li>
+<li>The email part is just one HTTP request to a remote API</li>
+</ul>
+<h2 id="downloading-the-web-feeds"><a class="anchor" href="#downloading-the-web-feeds" aria-label="Anchor link for: downloading-the-web-feeds">Downloading the Web Feeds</a></h2>
+<h3 id="getting-our-links"><a class="anchor" href="#getting-our-links" aria-label="Anchor link for: getting-our-links">Getting our Links</a></h3>
+<p>Let's start with a slightly simplified version of the method I wrote;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// Parses links from `feeds.txt`.
+</span><span style="font-style:italic;color:#5c6773;">///
+</span><span style="font-style:italic;color:#5c6773;">/// Assumed one link per line. Any text between a `#` and a line end
+</span><span style="font-style:italic;color:#5c6773;">/// is considered a comment.
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">read_feeds</span><span>() </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> links </span><span style="color:#f29668;">= </span><span>fs</span><span style="color:#f29668;">::</span><span>read_to_string(</span><span style="color:#c2d94c;">&quot;feeds.txt&quot;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">expect</span><span>(</span><span style="color:#c2d94c;">&quot;Error in reading the feeds.txt file&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  links
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">split</span><span>(</span><span style="color:#c2d94c;">&#39;</span><span style="color:#95e6cb;">\n</span><span style="color:#c2d94c;">&#39;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map</span><span>(std</span><span style="color:#f29668;">::</span><span>string</span><span style="color:#f29668;">::</span><span>ToString</span><span style="color:#f29668;">::</span><span>to_string)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map</span><span>(|</span><span style="color:#f29718;">l</span><span>| l</span><span style="color:#f29668;">.</span><span style="color:#f07178;">trim</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_owned</span><span>())
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">filter</span><span>(|</span><span style="color:#f29718;">l</span><span>| </span><span style="color:#f29668;">!</span><span>l</span><span style="color:#f29668;">.</span><span style="color:#f07178;">is_empty</span><span>())
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">unique</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span>collect</span><span style="color:#f29668;">::</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;&gt;()
+</span><span>}
+</span></code></pre>
+<p>Interestingly enough, this is might have changed slightly by the time you are reading
+this article as detailed in <a href="https://github.com/AntoniosBarotsis/Rss2Email/issues/7">this</a> issue.</p>
+<p>In any case;</p>
+<ul>
+<li>I expect the user to have a <code>feeds.txt</code> file with all his links. That file:
+<ul>
+<li>Should have one link per line</li>
+<li>Can have comments that start with <code>#</code> (more on this in a bit)</li>
+</ul>
+</li>
+<li>I make sure to split the file contents by newline into a vector</li>
+<li>Trim and filter out empty lines just in case</li>
+<li>Remove duplicate links</li>
+<li>Collect to a vector of Strings</li>
+</ul>
+<p>Not sure what you're used to calling them, iterator methods, stream API, lambdas, LINQ but
+I absolutely love these in all languages. They are always a very powerful yet clean and concise
+way of describing some operations on data that they are an indispensable part of most of the code
+I write.</p>
+<p>The great thing about rust is that these are claimed to be "zero cost abstractions", this means that
+they come with seemingly no performance overhead. I have mostly used these iter methods in Java, Scala,
+and C# and for those languages, I know that they have performance issues, especially when compared to say
+for loops. I believe that C# has some overhead from instantiating some iterator class behind the scenes
+while the JVM has cold start issues, whatever the case might be, all you need to know is that Rust
+simply does not suffer from this; you can and should use these iter APIs.</p>
+<p>Coming back to the actual code, I mentioned earlier that I wanted to support comments in the
+feeds file. For reference mine looks like this:</p>
+<pre data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>https://antoniosbarotsis.github.io/index.xml
+</span><span>
+</span><span># Youtubers
+</span><span>https://www.youtube.com/feeds/videos.xml?channel_id=UCiSIL42pQRpc-8JNiYDFyzQ # Chris Biscardi
+</span><span>https://www.youtube.com/feeds/videos.xml?channel_id=UCUMwY9iS8oMyWDYIe6_RmoA # NoBoilerplate
+</span><span>https://www.youtube.com/feeds/videos.xml?channel_id=UC8ENHE5xdFSwx71u3fDH5Xw # ThePrimeagen
+</span><span>https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA # Fireship
+</span><span>https://www.youtube.com/feeds/videos.xml?channel_id=UC2Xd-TjJByJyK2w1zNwY0zQ # Beyond Fireship
+</span><span>
+</span><span># Rust stuff
+</span><span>https://blog.rust-lang.org/feed.xml
+</span><span>https://blog.rust-lang.org/inside-rust/feed.xml
+</span><span>https://this-week-in-rust.org/rss.xml
+</span><span>https://rust.libhunt.com/newsletter/feed
+</span><span>https://rustsec.org/feed.xml
+</span><span>
+</span><span>[...]
+</span></code></pre>
+<p>I have way too many links and this commenting system helps me keep track of what's what.</p>
+<p>The actual method looks like this;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">read_feeds</span><span>() </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> links </span><span style="color:#f29668;">= </span><span>fs</span><span style="color:#f29668;">::</span><span>read_to_string(</span><span style="color:#c2d94c;">&quot;feeds.txt&quot;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">expect</span><span>(</span><span style="color:#c2d94c;">&quot;Error in reading the feeds.txt file&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Not really necessary but yes
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// https://docs.rs/regex/latest/regex/#example-avoid-compiling-the-same-regex-in-a-loop
+</span><span>  </span><span style="color:#f07178;">lazy_static! </span><span>{
+</span><span>    </span><span style="color:#ff7733;">static ref </span><span style="color:#f29718;">RE</span><span style="color:#bfbab0cc;">:</span><span> Regex </span><span style="color:#f29668;">= </span><span>Regex</span><span style="color:#f29668;">::</span><span>new(</span><span style="color:#ff7733;">r</span><span style="color:#c2d94c;">&quot;#.*$&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">unwrap</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  links
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">split</span><span>(</span><span style="color:#c2d94c;">&#39;</span><span style="color:#95e6cb;">\n</span><span style="color:#c2d94c;">&#39;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map</span><span>(std</span><span style="color:#f29668;">::</span><span>string</span><span style="color:#f29668;">::</span><span>ToString</span><span style="color:#f29668;">::</span><span>to_string)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map</span><span>(|</span><span style="color:#f29718;">l</span><span>| </span><span style="color:#f29718;">RE</span><span style="color:#f29668;">.</span><span style="color:#f07178;">replace_all</span><span>(</span><span style="color:#f29668;">&amp;</span><span>l</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_string</span><span>())
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map</span><span>(|</span><span style="color:#f29718;">l</span><span>| l</span><span style="color:#f29668;">.</span><span style="color:#f07178;">trim</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_owned</span><span>())
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">filter</span><span>(|</span><span style="color:#f29718;">l</span><span>| </span><span style="color:#f29668;">!</span><span>l</span><span style="color:#f29668;">.</span><span style="color:#f07178;">is_empty</span><span>())
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">unique</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span>collect</span><span style="color:#f29668;">::</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;&gt;()
+</span><span>}
+</span></code></pre>
+<p><code>#.*$</code> matches a <code>#</code> followed by any number of characters and stops at the end of the line.</p>
+<p>If you read the docs from the link I left in that comment you'll find the following;</p>
+<blockquote>
+<p>It is an anti-pattern to compile the same regular expression in a loop since
+compilation is typically expensive.
+[...]
+we recommend using the <code>lazy_static</code> crate to ensure that regular expressions are
+compiled exactly once.</p>
+</blockquote>
+<p>Do I need this? Definitely not but I mean why should I not use it? Defining this
+expression as a simple static (<code>const</code> in Rust) would not work in this case because
+the Regex constructor is not a const so we need to use static.</p>
+<p>The rest of the code remains the same except for that <code>RE.replace_all(&amp;l, "")</code> which
+removes the comments from the text before processing it further.</p>
+<h3 id="downloading"><a class="anchor" href="#downloading" aria-label="Anchor link for: downloading">Downloading</a></h3>
+<p>I define the following helper methods to handle the downloads:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">derive</span><span>(Debug)]
+</span><span style="color:#ff7733;">pub enum </span><span style="color:#59c2ff;">DownloadError </span><span>{
+</span><span>  Ureq(</span><span style="font-style:italic;color:#39bae6;">Box</span><span>&lt;ureq</span><span style="color:#f29668;">::</span><span>Error&gt;)</span><span style="color:#bfbab0cc;">,
+</span><span>  Io(std</span><span style="color:#f29668;">::</span><span>io</span><span style="color:#f29668;">::</span><span>Error)</span><span style="color:#bfbab0cc;">,
+</span><span>  Custom(</span><span style="font-style:italic;color:#39bae6;">String</span><span>)</span><span style="color:#bfbab0cc;">,
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">is_supported_content</span><span>(</span><span style="color:#f29718;">content_type</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="color:#ff7733;">bool </span><span>{
+</span><span>  </span><span style="color:#ff7733;">let</span><span> supported </span><span style="color:#f29668;">= </span><span style="color:#f07178;">vec!</span><span>[
+</span><span>    </span><span style="color:#c2d94c;">&quot;application/xml&quot;</span><span style="color:#bfbab0cc;">, 
+</span><span>    </span><span style="color:#c2d94c;">&quot;text/xml&quot;</span><span style="color:#bfbab0cc;">, 
+</span><span>    </span><span style="color:#c2d94c;">&quot;application/rss+xml&quot;</span><span style="color:#bfbab0cc;">, 
+</span><span>    </span><span style="color:#c2d94c;">&quot;application/atom+xml&quot;
+</span><span>  ]</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  supported</span><span style="color:#f29668;">.</span><span style="color:#f07178;">contains</span><span>(</span><span style="color:#f29668;">&amp;</span><span>content_type)
+</span><span>}
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">/// Helper function for downloading the contents of a web page.
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">get_page</span><span>(</span><span style="color:#f29718;">url</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Result</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>, DownloadError&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> response </span><span style="color:#f29668;">= </span><span>ureq</span><span style="color:#f29668;">::</span><span>get(url)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">call</span><span>()</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">if </span><span style="color:#f29668;">!</span><span style="color:#f07178;">is_supported_content</span><span>(response</span><span style="color:#f29668;">.</span><span style="color:#f07178;">content_type</span><span>()) {
+</span><span>    </span><span style="color:#ff7733;">return </span><span style="font-style:italic;color:#39bae6;">Err</span><span>(DownloadError</span><span style="color:#f29668;">::</span><span>Custom(</span><span style="color:#f07178;">format!</span><span>(
+</span><span>      </span><span style="color:#c2d94c;">&quot;Invalid content </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;"> for </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>      response</span><span style="color:#f29668;">.</span><span style="color:#f07178;">content_type</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>      url
+</span><span>    )))</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">let</span><span> body </span><span style="color:#f29668;">=</span><span> response</span><span style="color:#f29668;">.</span><span style="color:#f07178;">into_string</span><span>()</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(body)
+</span><span>}
+</span></code></pre>
+<p>There's a bit of code here but it's relatively simple; download the page if the content
+type is set to one of the supported ones, otherwise, return
+a Download Error.</p>
+<p>Now that we have a way of reading the user-defined links and downloading them, it's time
+to process them!</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">download_blogs</span><span>(</span><span style="color:#f29718;">days</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">i64</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;Blog&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> links </span><span style="color:#f29668;">= </span><span style="color:#f07178;">read_feeds</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">let</span><span> contents</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;Blog&gt; </span><span style="color:#f29668;">=</span><span> links
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">into_iter</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">filter_map</span><span>(|</span><span style="color:#f29718;">link</span><span>| {
+</span><span>      </span><span style="color:#ff7733;">let</span><span> xml </span><span style="color:#f29668;">= </span><span style="color:#f07178;">get_page</span><span>(</span><span style="color:#f29668;">&amp;</span><span>link)
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map_err</span><span>(|</span><span style="color:#f29718;">e</span><span>| </span><span style="color:#f07178;">warn!</span><span>(</span><span style="color:#c2d94c;">&quot;Error in {}</span><span style="color:#95e6cb;">\n</span><span style="color:#c2d94c;">{:?}&quot;</span><span style="color:#bfbab0cc;">,</span><span> link</span><span style="color:#bfbab0cc;">,</span><span> e))
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#f07178;">ok</span><span>()</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>      </span><span style="color:#f07178;">parse_web_feed</span><span>(</span><span style="color:#f29668;">&amp;</span><span>xml)
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map_err</span><span>(|</span><span style="color:#f29718;">e</span><span>| </span><span style="color:#f07178;">warn!</span><span>(</span><span style="color:#c2d94c;">&quot;Error in {}</span><span style="color:#95e6cb;">\n</span><span style="color:#c2d94c;">{}&quot;</span><span style="color:#bfbab0cc;">,</span><span> link</span><span style="color:#bfbab0cc;">,</span><span> e))
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#f07178;">ok</span><span>()
+</span><span>    })
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">filter_map</span><span>(|</span><span style="color:#f29718;">x</span><span>| {
+</span><span>      </span><span style="color:#ff7733;">if </span><span style="color:#f29668;">!</span><span style="color:#f07178;">within_n_days</span><span>(days</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">&amp;</span><span>x</span><span style="color:#f29668;">.</span><span>last_build_date) {
+</span><span>        </span><span style="color:#ff7733;">return </span><span style="font-style:italic;color:#39bae6;">None</span><span style="color:#bfbab0cc;">;
+</span><span>      }
+</span><span>
+</span><span>      </span><span style="color:#ff7733;">let</span><span> recent_posts</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;Post&gt; </span><span style="color:#f29668;">=</span><span> x
+</span><span>        </span><span style="color:#f29668;">.</span><span>posts
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#f07178;">into_iter</span><span>()
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#f07178;">filter</span><span>(|</span><span style="color:#f29718;">x</span><span>| </span><span style="color:#f07178;">within_n_days</span><span>(days</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">&amp;</span><span>x</span><span style="color:#f29668;">.</span><span>last_build_date))
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#f07178;">collect</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>      </span><span style="color:#ff7733;">let</span><span> non_empty </span><span style="color:#f29668;">= !</span><span>recent_posts</span><span style="color:#f29668;">.</span><span style="color:#f07178;">is_empty</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>      non_empty</span><span style="color:#f29668;">.</span><span style="color:#f07178;">then_some</span><span>(Blog {
+</span><span>        posts</span><span style="color:#bfbab0cc;">:</span><span> recent_posts</span><span style="color:#bfbab0cc;">,
+</span><span>        </span><span style="color:#f29668;">..</span><span>x
+</span><span>      })
+</span><span>    })
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">collect</span><span>()</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>TLDR:</p>
+<ul>
+<li>We iterate over our links</li>
+<li>Download their contents and parse them to <code>Blog</code>s (more on this later)</li>
+<li>Filter by posted in the last <code>n</code> days</li>
+<li>Collect</li>
+</ul>
+<p>That's all of the "business logic" of the project, this one method. The result of this
+gets directly mapped to HTML and emailed but before we check that part out, let's see
+what all those <code>Blog</code>s and <code>Post</code>s are...</p>
+<h2 id="representing-web-feeds"><a class="anchor" href="#representing-web-feeds" aria-label="Anchor link for: representing-web-feeds">Representing Web Feeds</a></h2>
+<p>When I started this project, I thought to myself "oh well this should be simple, I just
+download the RSS feed and parse it!". Well, that's not far from the truth but what I did
+not know was RSS is just one Web Feed format, there's another one called Atom that is
+also very popular.</p>
+<p>Here are some links in case you are interested;</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Web_feed">Web Feeds</a></li>
+<li><a href="https://www.rssboard.org/rss-specification">RSS Spec</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc4287">Atom Spec</a></li>
+</ul>
+<p>So we already have a small problem, that being that we have 2 different possible inputs
+that represent the same thing. In addition, some fields that I need are not mandatory
+(such as dates for instance) which I need to handle.</p>
+<p>This lead me to create the following structs that represent any web feed;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">derive</span><span>(Debug</span><span style="color:#bfbab0cc;">,</span><span> Clone)]
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">Blog </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>title</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>last_build_date</span><span style="color:#bfbab0cc;">: </span><span>DateTime&lt;FixedOffset&gt;,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>posts</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;Post&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">derive</span><span>(Debug</span><span style="color:#bfbab0cc;">,</span><span> Clone)]
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">Post </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>title</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>link</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>description</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Option</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>last_build_date</span><span style="color:#bfbab0cc;">: </span><span>DateTime&lt;FixedOffset&gt;,
+</span><span>}
+</span></code></pre>
+<blockquote>
+<p>Small edit here, I've made a few changes to the codebase already while
+writing this article because I kept realizing some stuff could be better.
+In this case I switched from <code>DateTime&lt;FixedOffset&gt;</code> to <code>DateTime&lt;Utc&gt;</code>
+for consistency. This post would take forever if I kept detailing every
+small change like this so I will just focus on more important, high-level
+modifications. If you want to copy paste some stuff from my code, I'd recommend
+copying from the repository instead of here.</p>
+</blockquote>
+<p>Now this part of the code I am not particularly proud of and I think that
+if I remade it now I'd design it completely differently but again, keep in mind I am
+still very new to the language and this was one of the first things I did.</p>
+<p>I kept getting progressively annoyed by how I implemented this abstraction and I am quite
+happy with how I did it later on for the emails, if you want a "good" example of abstractions
+in Rust, that one probably comes closer to it, definitely not this one but here goes;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// Represents a web feed that can be converted to a `blog.Blog`.
+</span><span style="color:#ff7733;">pub trait </span><span style="color:#59c2ff;">WebFeed </span><span>{
+</span><span>  </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">into_blog</span><span>(</span><span style="color:#f29718;">self</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Result</span><span>&lt;Blog, </span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">/// Represents an object that can be converted to a `blog.Post`.
+</span><span style="color:#ff7733;">pub trait </span><span style="color:#59c2ff;">BlogPost </span><span>{
+</span><span>  </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">into_post</span><span>(</span><span style="color:#f29718;">self</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Result</span><span>&lt;Post, </span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">/// Helper wrapper for `Result&lt;T, String&gt;` where `T: XmlFeed`,
+</span><span style="color:#ff7733;">pub trait </span><span style="color:#59c2ff;">ResultToBlog</span><span>&lt;T&gt;
+</span><span>where
+</span><span>  T: WebFeed,
+</span><span>{
+</span><span>  </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">into_blog</span><span>(</span><span style="color:#f29718;">self</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Result</span><span>&lt;Blog, </span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<p>The idea is to, again, abstract away from a specific, underlying implementation
+and treat everything the same. This might make more sense later when you see how
+these are used.</p>
+<h3 id="rss-and-atom-concrete-implementations"><a class="anchor" href="#rss-and-atom-concrete-implementations" aria-label="Anchor link for: rss-and-atom-concrete-implementations">RSS and Atom Concrete Implementations</a></h3>
+<p>Remember that the feeds look like this:</p>
+<pre data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="font-style:italic;color:#5c6773;">&lt;!-- RSS --&gt;
+</span><span>
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">rss</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">channel</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">lastBuildDate</span><span style="color:#39bae690;">&gt;</span><span>RFC 2822</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">lastBuildDate</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">pubDate</span><span style="color:#39bae690;">&gt;</span><span>RFC 2822</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">pubDate</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">item</span><span style="color:#39bae690;">&gt;
+</span><span>      </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>      </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">link</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">link</span><span style="color:#39bae690;">&gt;
+</span><span>      </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">pubDate</span><span style="color:#39bae690;">&gt;</span><span>RFC 2822</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">pubDate</span><span style="color:#39bae690;">&gt;
+</span><span>      </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">description</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">description</span><span style="color:#39bae690;">&gt;</span><span>?
+</span><span>    </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">item</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">channel</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">rss</span><span style="color:#39bae690;">&gt;
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">&lt;!-- Atom --&gt;
+</span><span>
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">feed</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">updated</span><span style="color:#39bae690;">&gt;</span><span>ISO.8601</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">updated</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">entry</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">title</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">link </span><span style="color:#ffb454;">href</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;&quot;</span><span style="color:#39bae690;">/&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">updated</span><span style="color:#39bae690;">&gt;</span><span>ISO.8601</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">updated</span><span style="color:#39bae690;">&gt;
+</span><span>    </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">summary</span><span style="color:#39bae690;">&gt;&lt;/</span><span style="color:#59c2ff;">summary</span><span style="color:#39bae690;">&gt;</span><span>?
+</span><span>  </span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">entry</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">feed</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>The corresponding structs are as follows;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">///////////////// RSS /////////////////
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">RssFeed </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>channel</span><span style="color:#bfbab0cc;">:</span><span> Channel,
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">Channel </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>title</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>last_build_date</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Option</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>pub_date</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Option</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>items</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;RssPost&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">RssPost </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>title</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>link</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>description</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Option</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>pub_date</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Option</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;,
+</span><span>}
+</span><span>
+</span><span style="font-style:italic;color:#5c6773;">///////////////// Atom /////////////////
+</span><span>
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">AtomFeed </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>title</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>entries</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;AtomPost&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">AtomPost </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>title</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>link</span><span style="color:#bfbab0cc;">:</span><span> Link,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>summary</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Option</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt;,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>updated</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">Link </span><span>{
+</span><span>  href</span><span style="color:#bfbab0cc;">:</span><span> String,
+</span><span>}
+</span></code></pre>
+<p>Skipped the macros for the sake of readability.</p>
+<p>We now need to implement the traits I defined earlier. I won't be showing these in detail
+as they are fairly boring, I'll instead just list them out;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">impl </span><span>WebFeed </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">RssFeed </span><span>{ </span><span style="color:#f29668;">... </span><span>}
+</span><span style="color:#ff7733;">impl </span><span>BlogPost </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">RssPost </span><span>{ </span><span style="color:#f29668;">... </span><span>}
+</span><span style="color:#ff7733;">impl </span><span>ResultToBlog&lt;RssFeed&gt; </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">Result</span><span>&lt;RssFeed, Error&gt; { </span><span style="color:#f29668;">... </span><span>}
+</span><span>
+</span><span style="color:#ff7733;">impl </span><span>WebFeed </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">AtomFeed </span><span>{ </span><span style="color:#f29668;">... </span><span>}
+</span><span style="color:#ff7733;">impl </span><span>BlogPost </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">AtomPost </span><span>{ </span><span style="color:#f29668;">... </span><span>}
+</span><span style="color:#ff7733;">impl </span><span>ResultToBlog&lt;AtomFeed&gt; </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">Result</span><span>&lt;AtomFeed, Error&gt; { </span><span style="color:#f29668;">... </span><span>}
+</span></code></pre>
+<p>Now that all that bloat is out of the way we can finally write the one method we
+truly are about:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// Turns an XML feed into a `Blog` if possible.
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">parse_web_feed</span><span>(</span><span style="color:#f29718;">xml</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Result</span><span>&lt;Blog, </span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> possible_roots </span><span style="color:#f29668;">= </span><span style="color:#f07178;">vec!</span><span>[
+</span><span>    from_str</span><span style="color:#f29668;">::</span><span>&lt;RssFeed&gt;(xml)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">into_blog</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>    from_str</span><span style="color:#f29668;">::</span><span>&lt;AtomFeed&gt;(xml)</span><span style="color:#f29668;">.</span><span style="color:#f07178;">into_blog</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>  ]</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">let </span><span>(roots</span><span style="color:#bfbab0cc;">,</span><span> errors)</span><span style="color:#bfbab0cc;">: </span><span>(</span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#f29668;">_</span><span>&gt;</span><span style="color:#bfbab0cc;">, </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#f29668;">_</span><span>&gt;) </span><span style="color:#f29668;">=</span><span> possible_roots
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">into_iter</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">partition_result</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  roots
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">first</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">cloned</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">ok_or_else</span><span>(|| </span><span style="color:#f07178;">format!</span><span>(</span><span style="color:#c2d94c;">&quot;</span><span style="color:#f29718;">{:?}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">,</span><span> errors</span><span style="color:#f29668;">.</span><span style="color:#f07178;">iter</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">unique</span><span>()</span><span style="color:#f29668;">.</span><span>collect</span><span style="color:#f29668;">::</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#f29668;">_</span><span>&gt;&gt;()))
+</span><span>}
+</span></code></pre>
+<p>It is worth noting that you should probably not use <code>String</code>s for your errors but
+everyone has to start somewhere right?</p>
+<p>The idea behind this was to try and parse the given XML in all formats until one succeeds.
+We then use this super handy <code>partition_result</code> method which splits the successful results
+from the errors. Lastly, if any of these succeeded then we return the result, otherwise,
+we throw an error.</p>
+<h2 id="sending-emails"><a class="anchor" href="#sending-emails" aria-label="Anchor link for: sending-emails">Sending Emails</a></h2>
+<p>Finally covered all of that web feed representation stuff, definitely feels like quite the
+mess but I am not exactly motivated enough to go back and make it better.</p>
+<p>If you know any Rust (or even if you don't honestly), I feel like you would agree with me
+that this is a relatively messy solution right? I mean it does work, don't get me wrong,
+but I would not want to "teach" this to someone.</p>
+<p>The reason why I included it is to contrast it with this section that deals with the emails
+because the two could not be further apart in my opinion and I am hardly ever satisfied
+with my code so this should mean something.</p>
+<p>The idea with the emails is that everyone might have their own favorite provider and I shouldn't
+limit them. I used <a href="https://sendgrid.com/">Twilio SendGrid</a> which is the only available
+implementation currently. It is, however, extremely easy to add more implementations
+(which I wouldn't say for the web feeds) as you'll see soon.</p>
+<p>The core of the email-related code is the <code>EmailProvider</code>; an abstraction
+over an email backend</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">enum_dispatch</span><span>]
+</span><span style="color:#ff7733;">pub trait </span><span style="color:#59c2ff;">EmailProvider </span><span>{
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">/// Sends an email to and from the specified address.
+</span><span>  </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">send_email</span><span>(</span><span style="color:#f29668;">&amp;</span><span style="color:#f29718;">self</span><span>, </span><span style="color:#f29718;">address</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>, </span><span style="color:#f29718;">api_key</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>, </span><span style="color:#f29718;">contents</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<p>Let's see the SendGrid implementation before explaining why this works much better than before:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">derive</span><span>(Default)]
+</span><span style="font-style:italic;color:#5c6773;">/// `EmailProvider` implementation using [`SendGrid`](https://sendgrid.com/).
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">SendGrid </span><span>{}
+</span><span>
+</span><span style="color:#ff7733;">impl </span><span style="color:#59c2ff;">SendGrid </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub</span><span>(</span><span style="color:#ff7733;">crate</span><span>) </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">new</span><span>() </span><span style="color:#bfbab0cc;">-&gt; </span><span style="color:#ff7733;">Self </span><span>{
+</span><span>    </span><span style="color:#ff7733;">Self</span><span style="color:#f29668;">::</span><span>default()
+</span><span>  }
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">impl </span><span>EmailProvider </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">SendGrid </span><span>{
+</span><span>  </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">send_email</span><span>(</span><span style="color:#f29668;">&amp;</span><span style="color:#f29718;">self</span><span>, </span><span style="color:#f29718;">address</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>, </span><span style="color:#f29718;">api_key</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>, </span><span style="color:#f29718;">contents</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) {
+</span><span>    </span><span style="color:#ff7733;">let</span><span> contents </span><span style="color:#f29668;">=</span><span> contents</span><span style="color:#f29668;">.</span><span style="color:#f07178;">replace</span><span>(</span><span style="color:#c2d94c;">&#39;</span><span style="color:#95e6cb;">\&quot;</span><span style="color:#c2d94c;">&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;</span><span style="color:#95e6cb;">\\\&quot;</span><span style="color:#c2d94c;">&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>    </span><span style="color:#ff7733;">let</span><span> message </span><span style="color:#f29668;">= </span><span style="color:#f07178;">format!</span><span>(</span><span style="color:#ff7733;">r</span><span style="color:#c2d94c;">#&quot;...&quot;#</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">let</span><span> req </span><span style="color:#f29668;">= </span><span>ureq</span><span style="color:#f29668;">::</span><span>post(</span><span style="color:#c2d94c;">&quot;https://api.sendgrid.com/v3/mail/send&quot;</span><span>)
+</span><span>      </span><span style="color:#f29668;">.</span><span style="color:#f07178;">set</span><span>(</span><span style="color:#c2d94c;">&quot;Authorization&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">&amp;</span><span style="color:#f07178;">format!</span><span>(</span><span style="color:#c2d94c;">&quot;Bearer </span><span style="color:#f29718;">{}</span><span style="color:#c2d94c;">&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">&amp;</span><span>api_key))
+</span><span>      </span><span style="color:#f29668;">.</span><span style="color:#f07178;">set</span><span>(</span><span style="color:#c2d94c;">&quot;Content-Type&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;application/json&quot;</span><span>)
+</span><span>      </span><span style="color:#f29668;">.</span><span style="color:#f07178;">send_string</span><span>(</span><span style="color:#f29668;">&amp;</span><span>message)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">match</span><span> req {
+</span><span>      </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(req) </span><span style="color:#f29668;">=&gt; </span><span style="color:#f07178;">info!</span><span>(
+</span><span>        </span><span style="color:#c2d94c;">&quot;Email request sent with {} {}&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>        req</span><span style="color:#f29668;">.</span><span style="color:#f07178;">status</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>        req</span><span style="color:#f29668;">.</span><span style="color:#f07178;">status_text</span><span>()
+</span><span>      )</span><span style="color:#bfbab0cc;">,
+</span><span>      </span><span style="font-style:italic;color:#39bae6;">Err</span><span>(e) </span><span style="color:#f29668;">=&gt; </span><span style="color:#f07178;">error!</span><span>(</span><span style="color:#c2d94c;">&quot;{}&quot;</span><span style="color:#bfbab0cc;">,</span><span> e)</span><span style="color:#bfbab0cc;">,
+</span><span>    }
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<blockquote>
+<p>The <code>message</code> was omitted for the sake of readability and can be found <a href="https://github.com/AntoniosBarotsis/Rss2Email/blob/7fa496bcdd54dbdbf4d61732e3cc2cf3fdbef839/src/email/sendgrid.rs#L19">here</a>.</p>
+</blockquote>
+<p>We define a simple struct with a constructor and implement the <code>send_email</code> method for
+<code>EmailProvider</code>. The implementation isn't too exciting; it's just a formatted string
+sent to the SendGrid API.</p>
+<p>This is where it gets a little more interesting.</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// An enum containing all Email Provider implementations.
+</span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">enum_dispatch</span><span>(EmailProvider)]
+</span><span style="color:#ff7733;">enum </span><span style="color:#59c2ff;">EmailProviders </span><span>{
+</span><span>  SendGrid(SendGrid)</span><span style="color:#bfbab0cc;">,
+</span><span>}
+</span></code></pre>
+<p>This enum in combination with a <code>String -&gt; EmailProvider</code> converter;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">impl </span><span style="font-style:italic;color:#39bae6;">From</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt; </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">EmailProviders </span><span>{
+</span><span>  </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">from</span><span>(</span><span style="color:#f29718;">input</span><span style="color:#bfbab0cc;">:</span><span> String) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="color:#ff7733;">Self </span><span>{
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Note that the input is trimmed and converted
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// to upper case for the sake of consistency
+</span><span>    </span><span style="color:#ff7733;">match</span><span> input</span><span style="color:#f29668;">.</span><span style="color:#f07178;">trim</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_uppercase</span><span>()</span><span style="color:#f29668;">.</span><span style="color:#f07178;">as_str</span><span>() {
+</span><span>      </span><span style="color:#c2d94c;">&quot;SENDGRID&quot; </span><span style="color:#f29668;">=&gt; </span><span style="color:#ff7733;">Self</span><span style="color:#f29668;">::</span><span>SendGrid(SendGrid</span><span style="color:#f29668;">::</span><span>new())</span><span style="color:#bfbab0cc;">,
+</span><span>      e </span><span style="color:#f29668;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#f07178;">warn!</span><span>(</span><span style="color:#c2d94c;">&quot;Invalid Email provider: {}, defaulting to SendGrid.&quot;</span><span style="color:#bfbab0cc;">,</span><span> e)</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="color:#ff7733;">Self</span><span style="color:#f29668;">::</span><span>SendGrid(SendGrid</span><span style="color:#f29668;">::</span><span>new())
+</span><span>      }
+</span><span>    }
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>allows me to finally declare this method</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="font-style:italic;color:#5c6773;">/// Abstracts away the email backend.
+</span><span style="font-style:italic;color:#5c6773;">///
+</span><span style="font-style:italic;color:#5c6773;">/// By default, this will return the `SendGrid` implementation.
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">get_email_provider</span><span>() </span><span style="color:#bfbab0cc;">-&gt;</span><span> impl EmailProvider {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> env_var </span><span style="color:#f29668;">= </span><span>std</span><span style="color:#f29668;">::</span><span>env</span><span style="color:#f29668;">::</span><span>var(</span><span style="color:#c2d94c;">&quot;EMAIL&quot;</span><span>)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">ok</span><span>()
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">unwrap_or_else</span><span>(|| </span><span style="color:#c2d94c;">&quot;SENDGRID&quot;</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_owned</span><span>())</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  EmailProviders</span><span style="color:#f29668;">::</span><span>from(env_var)
+</span><span>}
+</span></code></pre>
+<p>This first obtains the <code>EMAIL</code> environment variable (or overwrites it to <code>SENDGRID</code> if not found)
+and uses the <code>From</code> trait we implemented earlier to convert that to an Email Provider.</p>
+<p>This is great because:</p>
+<ol>
+<li>The consumer of <code>get_email_provider</code> does not need to know what is happening</li>
+<li>Adding a new email provider means only adding one new entry in the <code>EmailProviders</code> enum and
+our <code>from</code> function.</li>
+<li>This is all type-safe, and guaranteed to work; the <code>EmailProvider</code> is bound to assume
+some value before we try to interact with it.</li>
+<li>All implementations are concentrated in one spot and it's easy to edit them.</li>
+</ol>
+<h2 id="aws-lambda"><a class="anchor" href="#aws-lambda" aria-label="Anchor link for: aws-lambda">AWS Lambda</a></h2>
+<p>I recently deployed on AWS Lambda for the first time. It was a C# function that would run once a day
+and send text messages to help my dad keep track of some of his appointments which as you may have noticed
+is relatively similar to what I am building here.</p>
+<p>I wanted an easy way to deploy this and run it with a CRON job and AWS makes both very easy.</p>
+<p>There are two parts to this:</p>
+<ul>
+<li>Adding the AWS Rust Runtime</li>
+<li>Dockerizing the app</li>
+</ul>
+<h3 id="adding-the-runtime"><a class="anchor" href="#adding-the-runtime" aria-label="Anchor link for: adding-the-runtime">Adding the Runtime</a></h3>
+<p>AWS Lambda uses <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">Runtimes</a> to support any language
+out there (as long as they have an implementation of it of course). This means that making our code run on Lambda
+is not as trivial as just <em>pushing it there</em>. Luckily for us, we don't have to
+<a href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html#runtimes-custom-build">build our own custom runtime</a>
+as the AWS folks have handled that already in <a href="https://github.com/awslabs/aws-lambda-rust-runtime">this crate</a>.</p>
+<p>If you want a guide on how to use it then just go ahead and read their docs as they are quite straightforward.
+I will instead talk about <a href="https://doc.rust-lang.org/reference/conditional-compilation.html">Conditional Compilation</a></p>
+<p>.The runtime needs <em>a lot</em> of dependencies, around as many as the rest of the project if I recall correctly.
+In addition to that, as I likely mention somewhere, I want this project to be as easy to run as possible and
+the Lambda runtimes always complicate things somewhat in addition to bloating the project and doubling
+my compilation times. Ideally, I would want to have a way to separate the core project from the Lambda stuff
+and in fact, early on I achieved this with Git by having 2 separate branches but that was certainly annoying.</p>
+<p>If only there was a simple way to solve this problem.</p>
+<p>Introducing conditional compilation! Only compile the parts of the code that you choose! This is done through
+<a href="https://doc.rust-lang.org/cargo/reference/features.html">features</a>.</p>
+<p>There are 2 parts to this;</p>
+<ul>
+<li>The dependencies</li>
+<li>The code</li>
+</ul>
+<h4 id="the-dependencies"><a class="anchor" href="#the-dependencies" aria-label="Anchor link for: the-dependencies">The Dependencies</a></h4>
+<p>To tell Cargo that some of your dependencies are to only be included when certain features are specified
+you need to declare the dependency as <code>optional</code> like so:</p>
+<pre data-lang="toml" style="background-color:#0f1419;color:#bfbab0;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="color:#59c2ff;">lambda_runtime </span><span>= { </span><span style="color:#59c2ff;">version </span><span>= </span><span style="color:#c2d94c;">&quot;0.6.0&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#59c2ff;">optional </span><span>= </span><span style="color:#f29718;">true </span><span>}
+</span></code></pre>
+<p>And to actually include it with a feature you can do this:</p>
+<pre data-lang="toml" style="background-color:#0f1419;color:#bfbab0;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="color:#59c2ff;">aws-lambda </span><span>= [ </span><span style="color:#c2d94c;">&quot;dep:lambda_runtime&quot; </span><span>]
+</span></code></pre>
+<p>I do this with another 3 dependencies but you get the idea.</p>
+<h4 id="the-code"><a class="anchor" href="#the-code" aria-label="Anchor link for: the-code">The Code</a></h4>
+<p>Of course, this only makes sense if you can define whether some pieces of the code are specific to a feature
+or not. I think that there's more than one way to do this but what I did is something like the following:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span>[</span><span style="color:#f07178;">cfg</span><span>(</span><span style="color:#f07178;">not</span><span>(feature </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;aws-lambda&quot;</span><span>))]
+</span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">main</span><span>() </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Result</span><span>&lt;(), </span><span style="font-style:italic;color:#39bae6;">String</span><span>&gt; { </span><span style="color:#f29668;">... </span><span>}
+</span><span>
+</span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">cfg</span><span>(feature </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;aws-lambda&quot;</span><span>)]
+</span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">main</span><span>() </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Result</span><span>&lt;(), aws_lambda</span><span style="color:#f29668;">::</span><span>LambdaErr&gt; { </span><span style="color:#f29668;">... </span><span>}
+</span></code></pre>
+<p>I made 2 different <code>main</code> methods! The second method calls code defined in a module that is also annotated
+with <code>#[cfg(feature = "aws-lambda")]</code> while the first one just calls "<em>normal</em>" Rust code.</p>
+<p>I found this very useful for this specific use case but I can also see how convenient this is if you are dealing
+with platform-specific code. Another nice application of this would be to let users decide which modules
+of your library they actually need instead of importing a giant framework to use 1 method.</p>
+<p>Choosing these features is done by appending <code>--features aws-lambda</code> to your <code>cargo</code> commands, for instance,
+<code>cargo run --features aws-lambda</code>. This as you are about to see is also made use of in the Dockerfile.</p>
+<h3 id="the-dockerfile"><a class="anchor" href="#the-dockerfile" aria-label="Anchor link for: the-dockerfile">The Dockerfile</a></h3>
+<p>Credits for the Dockerfile go to <a href="https://tms-dev-blog.com/lean-docker-image-for-rust-backend/">this</a> post but I'll
+include a short explanation here anyway.</p>
+<p>This is the full Dockerfile:</p>
+<pre data-lang="Dockerfile" style="background-color:#0f1419;color:#bfbab0;" class="language-Dockerfile "><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#ff7733;">FROM</span><span> rust:</span><span style="color:#59c2ff;">1.64-alpine </span><span style="color:#ff7733;">as </span><span>builder
+</span><span>
+</span><span style="color:#ff7733;">ARG </span><span>compile_flag=</span><span style="color:#c2d94c;">&quot;&quot;
+</span><span>
+</span><span style="color:#ff7733;">RUN </span><span>apk add --no-cache musl-dev
+</span><span style="color:#ff7733;">WORKDIR </span><span>/opt
+</span><span style="color:#ff7733;">RUN </span><span>cargo new --bin rss2email
+</span><span style="color:#ff7733;">WORKDIR </span><span>/opt/rss2email
+</span><span style="color:#ff7733;">COPY</span><span> ./Cargo.lock ./Cargo.lock
+</span><span style="color:#ff7733;">COPY</span><span> ./Cargo.toml ./Cargo.toml
+</span><span style="color:#ff7733;">RUN </span><span>cargo build --release $compile_flag
+</span><span>
+</span><span style="color:#ff7733;">RUN </span><span>rm ./src/*.rs
+</span><span style="color:#ff7733;">RUN </span><span>rm ./target/release/deps/rss2email*
+</span><span>
+</span><span style="color:#ff7733;">ADD </span><span>./src ./src
+</span><span style="color:#ff7733;">RUN </span><span>cargo build --release $compile_flag
+</span><span>
+</span><span style="color:#ff7733;">FROM</span><span> scratch
+</span><span style="color:#ff7733;">WORKDIR </span><span>/opt/rss2email
+</span><span style="color:#ff7733;">COPY</span><span> --from=builder /opt/rss2email/target/release/rss2email .
+</span><span style="color:#ff7733;">COPY</span><span> ./.env ./.env
+</span><span style="color:#ff7733;">COPY</span><span> ./feeds.txt ./feeds.txt
+</span><span>
+</span><span style="color:#f29668;">CMD </span><span>[</span><span style="color:#c2d94c;">&quot;./rss2email&quot;</span><span>]
+</span></code></pre>
+<p>Let's break it down.</p>
+<ul>
+<li>I use <code>alpine</code> as they usually are somewhat lighter than the standard images.
+I also name this <a href="https://docs.docker.com/build/building/multi-stage/">stage</a>
+<code>builder</code>.</li>
+<li>The <code>compile_flag</code> is used to optionally include <code>--features aws-lambda</code> as a
+command line argument.</li>
+<li><code>musl-dev</code> was needed for one of my cargo dependencies so I need to install it</li>
+<li>I create a <strong>new and empty</strong> cargo project and paste in my <code>Cargo.lock</code> and
+<code>Cargo.toml</code> files, I do this in order to compile all my dependencies separately
+from the rest of the project to make better use of the caching mechanism. After
+this, we remove all source files (the <code>main.rs</code> that <code>cargo new</code> generates) and
+all created executables since neither are related to my project.</li>
+<li>I add in my source directory and build it. By doing this here we make sure that
+any change in the source code that is not accompanied by the addition or removal
+of dependencies will use the cache up to this step, saving us a lot of time.</li>
+<li>After all this, I finally copy the executable over to a new stage, and lastly, I add
+the <code>.env</code> and <code>feeds.txt</code>. By adding these 2 files last, similarly to earlier,
+we will make use of the cache up to this step which means we will be completely
+skipping any compilations and thus the build will only take one or two seconds.</li>
+</ul>
+<p>This isn't really relevant to the rest of the project but as someone who likes
+using Docker, Rust offers a very neat, simple and efficient solution for a
+compiled language. My last experience with Docker was trying to dockerize a
+Scala project which is, in stark contrast, messy, convoluted and somehow still
+terribly slow.</p>
+<h2 id="benchmarking"><a class="anchor" href="#benchmarking" aria-label="Anchor link for: benchmarking">Benchmarking</a></h2>
+<p>Proper benchmarking is something I started getting interested in relatively recently.
+More specifically (and at this point unsurprisingly), the small testing framework I have been
+contributing to <a href="https://github.com/pijuskri/Po-Sharp">PoSharp</a> was quite slow at its first
+implementation(please make dumb but working implementations before you start optimizing).
+After a few headaches and some good old 4 am coding, I managed to make it
+2 or 3 times faster which was great. I also optimized the workflow duration from around 10 minutes
+to 2-3 if I remember correctly which was pretty cool if you ask me. All of this was the combination
+of a few educated guesses about performance and a lot of benchmarking. It reinforced why
+benchmarking is important to me.</p>
+<p>Coming back to Rss2Email, running this thing was a bit slower than I expected at first;
+I had around 30-40 links at the time, and running the code locally would take around
+13 seconds give or take. In this case, it is relatively obvious to say that this is
+a Network bound program but I wanted to have a very clear point of reference for future
+comparisons so I wanted to benchmark this regardless.</p>
+<p>I wanted information on how long specific methods took to run so I started looking into
+<a href="https://crates.io/crates/criterion">Criterion</a> which is a great library. As I'll explain
+shortly, these were unsurprisingly conclusive that indeed, the issue is the Network IO
+which is why I will probably be adding asynchronicity to the project at some point.
+Because of that, I will likely write some application-level benchmarks with
+<a href="https://github.com/sharkdp/hyperfine">Hyperfine</a> to have some nice before and after
+comparisons but that's work for another day.</p>
+<p>I opened <a href="https://github.com/AntoniosBarotsis/Rss2Email/issues/8">a Hacktober</a> issue for
+the Criterion benchmarks and it was the first one to receive a contribution. I added
+some stuff to it myself and found this interesting enough to write about it.</p>
+<p>Also, a short note, I just realized at the time of writing this that the plots are a bit
+small. You can still read them but it's mildly annoying, sorry for that. They are, however,
+SVGs so you can easily right-click &gt; open in new tab and zoom in as much as you want :)</p>
+<p>I don't think that the code behind these is particularly interesting but if you want,
+you can check it out yourself
+<a href="https://github.com/AntoniosBarotsis/Rss2Email/tree/master/benches/benchmarks">here</a>.</p>
+<h4 id="mapping-to-html"><a class="anchor" href="#mapping-to-html" aria-label="Anchor link for: mapping-to-html">Mapping to HTML</a></h4>
+<p>The first thing I wanted to benchmark as a test and to get Criterion all set up was the
+method that maps the <code>Blog</code>s to HTML.</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/rss2email/map_to_html.svg" 
+     style="max-width:120%;margin-left:-10%;margin-right:-10%" 
+    class="center " style="max-width:120%;margin-left:-10%;margin-right:-10%"
+    loading="lazy" />
+  
+
+<p>Not exciting as turns out, code is fast.</p>
+<h4 id="downloading-blogs"><a class="anchor" href="#downloading-blogs" aria-label="Anchor link for: downloading-blogs">Downloading Blogs</a></h4>
+<p>Criterion generated the following plot.</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/rss2email/download_blogs.svg" 
+     style="max-width:120%;margin-left:-10%;margin-right:-10%" 
+    class="center " style="max-width:120%;margin-left:-10%;margin-right:-10%"
+    loading="lazy" />
+  
+
+<p>We can see that this is a bit faster than the 13 seconds that I mentioned earlier which
+is most likely because I was running in debug mode while Criterion uses Release by default.</p>
+<p>From this, we can very easily see where the performance drops, and spoiler alert, it is, in
+fact not in mapping the blogs to HTML but actually downloading them, who would've thought?</p>
+<p>I had one question after this, and that was whether some blogs were disproportionally slower
+than the rest. Since this is a purely blocking and synchronous process, that would slow
+down the code quite a bit. That's what the next test is about.</p>
+<h4 id="downloading-blogs-one-by-one"><a class="anchor" href="#downloading-blogs-one-by-one" aria-label="Anchor link for: downloading-blogs-one-by-one">Downloading Blogs One by One</a></h4>
+<p>Unfortunately, as you can tell, whatever plotting library Criterion uses does not
+exactly like how long these links are but it's not particularly important to actually
+be able to read them. These links are the feeds I am currently following so feel free
+to manually search them and see if you find them interesting I guess.</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/rss2email/get_page.svg" 
+     style="max-width:120%;margin-left:-10%;margin-right:-10%" 
+    class="center " style="max-width:120%;margin-left:-10%;margin-right:-10%"
+    loading="lazy" />
+  
+
+<p>Unexpectedly, I was actually right, one of these takes way longer than average and as I
+explained previously, this does bring down performance quite a bit.</p>
+<p>This is the type of insight I was hoping to gain from an analysis like this so I am
+more than happy.</p>
+<h4 id="conclusions"><a class="anchor" href="#conclusions" aria-label="Anchor link for: conclusions">Conclusions</a></h4>
+<p>As I mentioned earlier, I wanted to pinpoint the areas that make my performance drop so that
+I can have very clear goals and points of reference when I try optimizing them.</p>
+<p>My key takeaways from this are:</p>
+<ul>
+<li>This project is heavily Network IO bound</li>
+<li>Right now, individual feeds <em>can</em> affect performance a lot if they are disproportionally slow</li>
+</ul>
+<p>Both of these indicate that adding asynchronicity would be a great performance improvement
+and hence, will be something I'll do soon.</p>
+<h2 id="the-future"><a class="anchor" href="#the-future" aria-label="Anchor link for: the-future">The Future</a></h2>
+<p>The project is definitely working as is and I don't have any specific ideas for brand-new
+features in mind. That said, some small modifications are planned, namely;</p>
+<ul>
+<li>Improving the docs and getting started pages</li>
+<li><a href="https://github.com/AntoniosBarotsis/Rss2Email/issues/9">Some more testing</a></li>
+<li>Adding async support</li>
+<li><a href="https://github.com/AntoniosBarotsis/Rss2Email/issues/6">Prettier emails</a></li>
+<li><a href="https://github.com/AntoniosBarotsis/Rss2Email/issues/7">Using environment variables for easier configuration</a></li>
+</ul>
+<p>I linked to the issues associated with some of these, the other 2 will probably be tackled by
+me after the other 3 have been closed.</p>
+<p>You are more than welcome to
+<a href="https://github.com/AntoniosBarotsis/Rss2Email/issues/new/choose">open issues</a> if you have any ideas!</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>This was a fantastic learning experience for me and the end result is something that I have
+been using ever since it was usable.</p>
+<p>It was interesting dealing with community contributions as I made a few Hacktober issues that
+got picked up by random people I did not know. It was also interesting incorporating
+some ideas from solutions I came up with for other repositories (through Hacktoberfest)
+into this .project</p>
+<p>And lastly, being offered the chance to talk about this in front of an audience is one I am
+very much grateful for! I love helping people figure programming out
+and I hope I find myself in more similar situations in the future :)</p>
+<p>Till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/2022-recapped/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">2022 Recapped</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/">
+                <span class="button__text">BudgetFixture</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

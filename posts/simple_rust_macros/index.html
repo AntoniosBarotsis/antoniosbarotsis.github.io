@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Simple Rust Function Macros</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="Sometimes, repeating yourself is not that bad, as long as macros do it for you.">
+
+    <meta property="og:description" content="Sometimes, repeating yourself is not that bad, as long as macros do it for you.">
+    <meta property="og:title" content="Simple Rust Function Macros">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/simple_rust_macros/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Sometimes, repeating yourself is not that bad, as long as macros do it for you.">
+    <meta name="twitter:title" content="Simple Rust Function Macros">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/simple_rust_macros/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/">Simple Rust Function Macros</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2023-07-17
+    </span>
+ :: 9 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/simple_rust_macros.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/coding/">#Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/rust/">#Rust</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#setting-the-stage">Setting the Stage</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#trying-to-generify-our-function">Trying to Generify Our Function</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#getting-a-little-bit-off-topic">Getting a Little Bit Off-Topic</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#here-come-macros-finally">Here Come Macros! (Finally)</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#actually-making-the-thing">Actually Making the Thing</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#closing">Closing</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>Rust's macros are quite powerful, whether you use them to avoid boilerplate code, make a crate's
+interface easier to work with or even define entire domain-specific, type-checked languages.
+One of the main issues with macros is how hard it is to get started <em>making</em> them. If you've ever
+seen a macro definition in the wild, you know how weird and cryptic they can get, especially
+procedural macros.</p>
+<p>As a result, many (likely most) beginners simply stay away from them (or well, at least I did).
+It is however worth remembering that non-procedural macros are not that bad and considering how
+useful they can be when used correctly, so much so that I would argue that it's a good idea for
+everyone to know a little bit about them.</p>
+<blockquote>
+<p>A little heads-up, I generally like turning my posts into little stories instead of just focusing
+on the main topic in isolation as I think it is useful (and interesting) to talk about how we got
+there, why we needed and what alternatives were tried beforehand. In this case, that background
+context was quite a bit so if you are not interested in that, feel free to skip to
+<a href="https://antoniosbarotsis.github.io/posts/simple_rust_macros/#actually-making-the-thing">here</a> :)</p>
+</blockquote>
+<h2 id="setting-the-stage"><a class="anchor" href="#setting-the-stage" aria-label="Anchor link for: setting-the-stage">Setting the Stage</a></h2>
+<p>Recently, I worked on <a href="https://github.com/AntoniosBarotsis/mandelbrot">a simple Mandelbrot renderer</a>
+(that README has a pretty cool video included 👌, I think you should check that out if you're
+reading this). I found fractals really intriguing for a while so I was bound to make something
+like this at some point. The main reason why I ended up building it now was an interest in
+seeing how <a href="https://en.wikipedia.org/wiki/Single_instruction,_multiple_data">SIMD</a> instructions work
+in Rust.</p>
+<!-- cSpell:ignoreRegExp ultiple -->
+<blockquote>
+<p>Long story short, SIMD instructions allow you to perform the same operation on multiple data
+elements simultaneously by vectorizing your data, hence the name,
+<strong>S</strong>ingle <strong>I</strong>nstruction <strong>M</strong>ultiple <strong>D</strong>ata</p>
+</blockquote>
+<p>I decided to use Rust's <a href="https://github.com/rust-lang/packed_simd"><code>packed_simd</code></a>, Nightly only
+crate to achieve this. That crate supports a wide variety of different register sizes, in my case
+I was interested in <a href="https://docs.rs/packed_simd/0.3.8/packed_simd/type.f64x2.html"><code>f64x2</code></a> and
+<a href="https://docs.rs/packed_simd/0.3.8/packed_simd/type.f64x8.html"><code>f64x8</code></a> which pack 2 and 8 64-bit
+floating point numbers into a single register respectively.</p>
+<p>I had already written non-SIMD code so I just had to start reworking it to emit SIMD instructions.</p>
+<p>I started working towards making <code>f64x2</code> work and I eventually arrived at the following code:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd</span><span>(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>f64x2</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>f64x2</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>}
+</span></code></pre>
+<p>For the purposes of this post, we only care about the following:</p>
+<ul>
+<li><code>Simd&lt;[f64; 2]&gt;</code></li>
+<li><code>f64x2</code></li>
+</ul>
+<p>Somewhat interestingly enough, if we head over to
+<a href="https://docs.rs/packed_simd/0.3.8/packed_simd/type.f64x2.html">the docs</a>, we'll see that the latter
+is just an alias for the former:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">pub type </span><span style="color:#59c2ff;">f64x2 </span><span style="color:#f29668;">= </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>Of course, this is only for <code>f64x2</code>s and I just mentioned I also wanted to have <code>f64x8</code>s, this sounds
+<em><strong>extremely</strong></em> repetitive!!!</p>
+<p>Seems like something we could solve using generics!</p>
+<blockquote>
+<p>As a side note, this was done for the educational purposes of both myself and whoever is reads
+this post, please do not create unnecessary abstractions in your code (especially as
+convoluted as a macro) when the alternative is writing another 3 lines of code!</p>
+</blockquote>
+<h2 id="trying-to-generify-our-function"><a class="anchor" href="#trying-to-generify-our-function" aria-label="Anchor link for: trying-to-generify-our-function">Trying to Generify Our Function</a></h2>
+<p>This didn't feel that hard so I immediately tried <em>generifying</em> the <code>map</code> method.</p>
+<p>I started off with this:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd</span><span>&lt;N&gt;(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt; {
+</span><span>  </span><span style="color:#f07178;">todo!</span><span>()
+</span><span>}
+</span></code></pre>
+<p>Looks about what you'd expect right? We want to essentially generify over 2 possible values of <code>N</code>,
+namely 2 and 8 so let's make that a generic then! Well, the compiler does not like that:</p>
+<pre style="background-color:#0f1419;color:#bfbab0;"><code><span>error[E0423]: expected value, found type parameter `N`
+</span><span>   --&gt; src\implementations\simd.rs:156:9
+</span><span>    |
+</span><span>148 | fn map_simd&lt;N&gt;(
+</span><span>    |        - found this type parameter
+</span><span>...
+</span><span>156 |   [f64; N]: SimdArray
+</span><span>    |         ^ not a value
+</span></code></pre>
+<p>The same <code>not a value</code> error occurs in all usages of <code>N</code>, so what is going on?</p>
+<p>Peeking into the <a href="https://docs.rs/packed_simd/0.3.8/packed_simd/struct.Simd.html"><code>Simd</code> type docs</a>
+we see that it uses this
+<a href="https://docs.rs/packed_simd/0.3.8/packed_simd/trait.SimdArray.html"><code>SimdArray</code> trait</a> which
+apparently takes in a <code>const N usize</code>. Maybe all we have to do is just mimic that and then it will
+just work then (?)</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd</span><span>&lt;</span><span style="color:#ff7733;">const</span><span> N</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>&gt;(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt; {
+</span><span>  </span><span style="color:#f07178;">todo!</span><span>()
+</span><span>}
+</span></code></pre>
+<p>But this still fails to compile:</p>
+<pre style="background-color:#0f1419;color:#bfbab0;"><code><span>error[E0277]: the trait bound `[f64; N]: SimdArray` is not satisfied
+</span><span>   --&gt; src\implementations\simd.rs:149:10
+</span><span>    |
+</span><span>149 |   point: Simd&lt;[f64; N]&gt;,
+</span><span>    |          ^^^^^^^^^^^^^^ the trait `SimdArray` is not implemented for 
+</span><span>                              `[f64; N]`
+</span><span>    |
+</span><span>    = help: the following other types implement trait `SimdArray`:
+</span><span>              [isize; 2]
+</span><span>              [isize; 4]
+</span><span>              [isize; 8]
+</span><span>              [i8; 2]
+</span><span>              [i8; 4]
+</span><span>              [i8; 8]
+</span><span>              [i8; 16]
+</span><span>              [i8; 32]
+</span><span>            and 81 others
+</span><span>note: required by a bound in `packed_simd::Simd`
+</span><span>   --&gt; C:\Users\anton\.cargo\registry\src\index.crates.io-6f17d22bba15001f
+</span><span>        \packed_simd-0.3.8\src\lib.rs:288:20
+</span><span>    |
+</span><span>288 | pub struct Simd&lt;A: sealed::SimdArray&gt;(
+</span><span>    |                    ^^^^^^^^^^^^^^^^^ required by this bound in `Simd`
+</span></code></pre>
+<p>Well we are now getting a different error so there's that I guess. If we <em>actually</em> read the error,
+we'll see that <code>SimdArray is not implemented for [f64; N]</code>. This is essentially enforcing that SIMD
+arrays only have <em>some</em> select sizes that make sense. For example, <code>[f64; 2]</code> and <code>[f64; 8]</code> are
+valid as they fit 2 and 8 <code>f64</code>s into <code>128</code> and <code>512</code> registers respectively but <code>[f64; 3]</code> for
+example is not valid as there is no <code>192</code>-bit register.</p>
+<p>We can easily add that as a where clause in our function definition however:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd</span><span>&lt;</span><span style="color:#ff7733;">const</span><span> N</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>&gt;(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;
+</span><span style="color:#ff7733;">where
+</span><span>  [</span><span style="color:#ff7733;">f64</span><span>; N]</span><span style="color:#bfbab0cc;">:</span><span> SimdArray {
+</span><span>  </span><span style="color:#f07178;">todo!</span><span>()
+</span><span>}
+</span></code></pre>
+<p>Finally this builds and all our problems are gone! Now we just have to add back the actual code!
+Of course we can't add that <code>f64x2::splat</code> stuff, we need to also make that generic. Well we did see
+that <code>f64x2</code> was just an alias for <code>Simd&lt;[f64; 2]&gt;;</code> so we should be able to just use that!</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd</span><span>&lt;</span><span style="color:#ff7733;">const</span><span> N</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>&gt;(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;
+</span><span style="color:#ff7733;">where
+</span><span>  [</span><span style="color:#ff7733;">f64</span><span>; N]</span><span style="color:#bfbab0cc;">:</span><span> SimdArray,
+</span><span>{
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>}
+</span></code></pre>
+<p>And we get an error again :(</p>
+<pre style="background-color:#0f1419;color:#bfbab0;"><code><span>error[E0599]: no function or associated item named `splat` found for struct 
+</span><span>              `packed_simd::Simd&lt;[f64; N]&gt;` in the current scope
+</span><span>   --&gt; src\implementations\simd.rs:158:33
+</span><span>    |
+</span><span>158 |   let tmp_1 = Simd::&lt;[f64; N]&gt;::splat(new_top - new_bottom);
+</span><span>    |                                 ^^^^^ function or associated item not found
+</span><span>    |                                       in `Simd&lt;[f64; N]&gt;`
+</span><span>    |
+</span><span>    = note: the function or associated item was found for
+</span><span>            - `packed_simd::Simd&lt;[i8; 2]&gt;`
+</span><span>            - `packed_simd::Simd&lt;[u8; 2]&gt;`
+</span><span>            - `packed_simd::Simd&lt;[m8; 2]&gt;`
+</span><span>            - `packed_simd::Simd&lt;[i8; 4]&gt;`
+</span><span>            and 81 more types
+</span></code></pre>
+<h3 id="getting-a-little-bit-off-topic"><a class="anchor" href="#getting-a-little-bit-off-topic" aria-label="Anchor link for: getting-a-little-bit-off-topic">Getting a Little Bit Off-Topic</a></h3>
+<p>At this point it started feeling like this might not be possible in Rust at least for the time
+being... until I found <a href="https://practice.course.rs/generics-traits/const-generics.html">this</a> post talking
+about const generics which ignited some amount of hope in me.</p>
+<p>The post essentially arrives at this handy trick:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">pub enum </span><span style="color:#59c2ff;">IsTwoOrEight</span><span>&lt;const CHECK: usize&gt; {}
+</span><span>
+</span><span style="color:#ff7733;">pub trait </span><span style="color:#59c2ff;">IsTrue </span><span>{}
+</span><span style="color:#ff7733;">impl </span><span>IsTrue </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">IsTwoOrEight</span><span>&lt;2&gt; {}
+</span><span style="color:#ff7733;">impl </span><span>IsTrue </span><span style="color:#ff7733;">for </span><span style="color:#59c2ff;">IsTwoOrEight</span><span>&lt;8&gt; {}
+</span></code></pre>
+<p>This essentially allows us to express certain limitations that any data can have at compile time.
+We could for example write something like this:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">very_useful_method_1</span><span>&lt;</span><span style="color:#ff7733;">const</span><span> N</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>&gt;() </span><span style="color:#ff7733;">where </span><span>IsTwoOrEight&lt;N&gt;</span><span style="color:#bfbab0cc;">:</span><span> IsTrue, { }
+</span><span>
+</span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">naming_is_hard_txt</span><span>() {
+</span><span>  very_useful_method_1</span><span style="color:#f29668;">::</span><span>&lt;2&gt;()</span><span style="color:#bfbab0cc;">;  
+</span><span>  very_useful_method_1</span><span style="color:#f29668;">::</span><span>&lt;3&gt;()</span><span style="color:#bfbab0cc;">; 
+</span><span>}
+</span></code></pre>
+<p>And this crashes because <code>IsTwoOrEight</code> is obviously not implemented for <code>3</code>!</p>
+<pre style="background-color:#0f1419;color:#bfbab0;"><code><span>error[E0277]: the trait bound `IsTwoOrEight&lt;3&gt;: IsTrue` is not satisfied
+</span><span>   --&gt; src\implementations\simd.rs:172:10
+</span><span>    |
+</span><span>172 |   very_useful_method_1::&lt;3&gt;();
+</span><span>    |          ^ the trait `IsTrue` is not implemented for `IsTwoOrEight&lt;3&gt;`
+</span><span>    |
+</span><span>    = help: the following other types implement trait `IsTrue`:
+</span><span>              IsTwoOrEight&lt;2&gt;
+</span><span>              IsTwoOrEight&lt;8&gt;
+</span><span>note: required by a bound in `very_useful_method_1`
+</span><span>   --&gt; src\implementations\simd.rs:168:50
+</span><span>    |
+</span><span>168 | fn very_useful_method_1&lt;const N: usize&gt;() 
+</span><span>    |                     where IsTwoOrEight&lt;N&gt;: IsTrue, { }
+</span><span>    |                     ^^^^^^ required  by this bound in `very_useful_method_1`
+</span></code></pre>
+<p>I found this super cool for some reason and surely it would work if we added this to our previous
+code! I mean after all, we <em>know</em> that that darn trait is implemented for <code>[f64; 2]</code> and <code>[f64; 8]</code>!</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd</span><span>&lt;</span><span style="color:#ff7733;">const</span><span> N</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>&gt;(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;
+</span><span style="color:#ff7733;">where
+</span><span>  [</span><span style="color:#ff7733;">f64</span><span>; N]</span><span style="color:#bfbab0cc;">:</span><span> SimdArray, IsTwoOrEight&lt;N&gt;</span><span style="color:#bfbab0cc;">:</span><span> IsTrue
+</span><span>{
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>}
+</span></code></pre>
+<p>Well darn</p>
+<pre style="background-color:#0f1419;color:#bfbab0;"><code><span>error[E0599]: no function or associated item named `splat` found for struct 
+</span><span>  `packed_simd::Simd&lt;[f64; N]&gt;` in the current scope
+</span><span>   --&gt; src\implementations\simd.rs:158:33
+</span><span>    |
+</span><span>158 |   let tmp_1 = Simd::&lt;[f64; N]&gt;::splat(new_top - new_bottom);
+</span><span>    |                                 ^^^^^ function or associated item 
+</span><span>    |                                       not found in `Simd&lt;[f64; N]&gt;`
+</span><span>    |
+</span><span>    = note: the function or associated item was found for
+</span><span>            - `packed_simd::Simd&lt;[i8; 2]&gt;`
+</span><span>            - `packed_simd::Simd&lt;[u8; 2]&gt;`
+</span><span>            - `packed_simd::Simd&lt;[m8; 2]&gt;`
+</span><span>            - `packed_simd::Simd&lt;[i8; 4]&gt;`
+</span><span>            and 81 more types
+</span></code></pre>
+<p>What's annoying with this is that outright using <code>2</code> or <code>8</code> compiles with no issues!</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd</span><span>&lt;</span><span style="color:#ff7733;">const</span><span> N</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>&gt;(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>N]&gt;
+</span><span style="color:#ff7733;">where
+</span><span>  [</span><span style="color:#ff7733;">f64</span><span>; N]</span><span style="color:#bfbab0cc;">:</span><span> SimdArray, IsTwoOrEight&lt;N&gt;</span><span style="color:#bfbab0cc;">:</span><span> IsTrue
+</span><span>{
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#f07178;">todo!</span><span>()
+</span><span>}
+</span></code></pre>
+<p>I believe we have made it to the limits of the Rust compiler here; even if <em>conceptually</em> this is
+fine, the compiler is not convinced.</p>
+<blockquote>
+<p>It is worth noting here that if the crate itself had used some traits for this and made their
+implementation generic over them, what we are trying to do here would <em>probably</em>  maybe work!
+Or maybe there's another way of doing this that I am unware of, who knows.</p>
+</blockquote>
+<h2 id="here-come-macros-finally"><a class="anchor" href="#here-come-macros-finally" aria-label="Anchor link for: here-come-macros-finally">Here Come Macros! (Finally)</a></h2>
+<p>Now credit to where credit is due, if I hadn't watched <a href="https://youtu.be/ModFC1bhobA">this</a> video
+sometime during the 3 or so days I spent working on the project I would've probably not thought
+of using macros at all so definitely go and give it a watch!</p>
+<p>The one sentence Tantan said that stuck with me was <em>"Let's go ahead and copy our [...] code and
+paste it into this macro"</em>.</p>
+<p>I know this probably seems like a very silly thing to find useful but it did kind of change how I
+thought about macros. I often felt like because of how complex many of these macros get and because
+of how heavily certain projects use them to the point where it feels like they barely have any
+actual code, they surely must be pre-meditated.</p>
+<p>Well, maybe. But they definitely don't <em>need</em> to be. The whole premature optimization/abstraction
+surely applies to macros, you should first build a solution that does not use macros and then
+only after careful consideration, should you consider adding them as
+<a href="https://www.reddit.com/r/rust/comments/taxfe3/what_are_the_pros_and_cons_of_using_macros_in_rust/">they are not all sunshine and rainbows</a>.</p>
+<p>As someone on the above-linked Reddit thread elegantly put it;</p>
+<blockquote>
+<p>"<em>Pros: you can use macros to solve your problem</em></p>
+<p><em>Cons: you need to use macros"</em></p>
+</blockquote>
+<p>Ok enough talking, let's actually make the thing.</p>
+<h3 id="actually-making-the-thing"><a class="anchor" href="#actually-making-the-thing" aria-label="Anchor link for: actually-making-the-thing">Actually Making the Thing</a></h3>
+<p>As a reminder: we want a macro that can essentially produce the following 2 methods:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd_f64x2</span><span>(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd_f64x8</span><span>(
+</span><span>  </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">8</span><span>]&gt;,
+</span><span>  </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>  </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">8</span><span>]&gt; {
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">8</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">8</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>  ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>}
+</span></code></pre>
+<p>Let's start by just making one of them. I first created a file <code>simd_boilerplate.rs</code> which will
+house the macro and then, well, <em>just copied my code over</em></p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">macro_export</span><span>]
+</span><span style="color:#f07178;">macro_rules! </span><span style="color:#59c2ff;">simd_boilerplate </span><span>{
+</span><span>  () </span><span style="color:#f29668;">=&gt; </span><span>{
+</span><span>    </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd_f64x2</span><span>(
+</span><span>      </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;,
+</span><span>      </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>      </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>      </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>      </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>    ) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt; {
+</span><span>      </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">2</span><span>]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>      ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>    }
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>Just as before, we need to somehow put all those <code>2</code>s behind a variable:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">macro_export</span><span>]
+</span><span style="color:#f07178;">macro_rules! </span><span style="color:#59c2ff;">simd_boilerplate_ </span><span>{
+</span><span>  ($N: literal) </span><span style="color:#f29668;">=&gt; </span><span>{
+</span><span>    </span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">map_simd_f64x2</span><span>(
+</span><span>      </span><span style="color:#f29718;">point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt;,
+</span><span>      </span><span style="color:#f29718;">old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>      </span><span style="color:#f29718;">old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>      </span><span style="color:#f29718;">new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>      </span><span style="color:#f29718;">new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span>,
+</span><span>    ) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt; {
+</span><span>      </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>      </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>      ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>    }
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>This actually works fine! We just need to call <code>crate::simd_boilerplate!(2);</code> in the file where
+we want the method to be dumped into and we can use it just like any other method!</p>
+<p>We still have one final problem though. If we try and call our macro again with <code>8</code>, we'll get an
+error since we will be essentially creating the same method <code>map_simd_f64x2</code> twice. There are a
+few ways around this, the one I chose was to use the <a href="https://github.com/dtolnay/paste">paste</a>
+crate.</p>
+<p>Also, how come any time you find a neat crate that does exactly what you need it's always made by
+that David Tolnay guy? Anyway.</p>
+<p>The code for that looks pretty simple:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">macro_export</span><span>]
+</span><span style="color:#f07178;">macro_rules! </span><span style="color:#59c2ff;">simd_boilerplate </span><span>{
+</span><span>    ($N: literal) </span><span style="color:#f29668;">=&gt; </span><span>{
+</span><span>      paste</span><span style="color:#f29668;">::</span><span>item</span><span style="color:#f29668;">! </span><span>{
+</span><span>        </span><span style="color:#ff7733;">fn </span><span>[</span><span style="color:#f29668;">&lt;</span><span> map_simd_f64x $N </span><span style="color:#f29668;">&gt;</span><span>](
+</span><span>          point</span><span style="color:#bfbab0cc;">: </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt;</span><span style="color:#bfbab0cc;">,
+</span><span>          old_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">,
+</span><span>          old_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">,
+</span><span>          new_top</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">,
+</span><span>          new_bottom</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">,
+</span><span>        ) </span><span style="color:#bfbab0cc;">-&gt; </span><span>Simd&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt;
+</span><span>        </span><span style="color:#ff7733;">where
+</span><span>          [</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]</span><span style="color:#bfbab0cc;">:</span><span> SimdArray
+</span><span>        {
+</span><span>          </span><span style="color:#ff7733;">let</span><span> tmp_1 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_top </span><span style="color:#f29668;">-</span><span> new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>          </span><span style="color:#ff7733;">let</span><span> tmp_2 </span><span style="color:#f29668;">= </span><span>Simd</span><span style="color:#f29668;">::</span><span>&lt;[</span><span style="color:#ff7733;">f64</span><span style="color:#bfbab0cc;">; </span><span>$N]&gt;</span><span style="color:#f29668;">::</span><span>splat(new_bottom)</span><span style="color:#bfbab0cc;">;
+</span><span>          ((point </span><span style="color:#f29668;">-</span><span> old_bottom) </span><span style="color:#f29668;">/ </span><span>(old_top </span><span style="color:#f29668;">-</span><span> old_bottom))</span><span style="color:#f29668;">.</span><span style="color:#f07178;">mul_add</span><span>(tmp_1</span><span style="color:#bfbab0cc;">,</span><span> tmp_2)
+</span><span>        }
+</span><span>      }
+</span><span>    }</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<p>And we're done!</p>
+<p>Calling <code>crate::simd_boilerplate!(2);</code> and <code>crate::simd_boilerplate!(8);</code> will create the
+<code>map_simd_f64x2</code> and <code>map_simd_f64x8</code> methods we wanted respectively!</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>What did we learn from all this? Well, I guess macros are kinda neat sometimes albeit not too useful
+in this case, saving like 30 lines of code is not <em>that</em> amazing of a developer experience upgrade
+is it? Well perhaps more importantly we figured out how to write those macros, and we also figured
+out how to use const generics, what they can do and that cool little trick with the compile time
+value checks! All that because I decided I wanted to use SIMD on a little project in my past time.</p>
+<p>What I'm trying to say is that being curious and building stuff is the best way to learn new things
+and we should all do that as much as we can.</p>
+<p>Best case scenario, what you learn through this is useful to you sometime in the future, worst case,
+it's just fun.</p>
+<blockquote>
+<p>Also please join <a href="https://discord.gg/rust-lang-community">the Rust community Discord</a>! The people
+there are wonderful and without their help, I would've stopped trying before I even made it to
+const generics :)</p>
+<p>Didn't know where else to put this.</p>
+</blockquote>
+<p>Till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/rewrite_cs_in_rust/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Rewriting it in Rust</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/">
+                <span class="button__text">Finding Rust crates</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>
