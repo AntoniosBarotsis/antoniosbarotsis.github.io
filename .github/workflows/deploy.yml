@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 1
 
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 1
         submodules: true
@@ -57,7 +57,7 @@ jobs:
     needs: [spell_check, link_check]
     steps:
     - name: Checkout main
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         submodules: true
         fetch-depth: 1
