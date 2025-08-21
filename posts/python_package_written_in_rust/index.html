@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Python with a bit of Rust</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="Creating and publishing a Python package written in Rust.">
+
+    <meta property="og:description" content="Creating and publishing a Python package written in Rust.">
+    <meta property="og:title" content="Python with a bit of Rust">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Creating and publishing a Python package written in Rust.">
+    <meta name="twitter:title" content="Python with a bit of Rust">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/">Python with a bit of Rust</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2023-02-25
+    </span>
+ :: 15 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/python_package_written_in_rust.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/coding/">#Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/deployment/">#Deployment</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/python/">#Python</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/rust/">#Rust</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#the-plan">The Plan</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#creating-the-library">Creating the Library</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#the-rust-part">The Rust Part</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#the-python-part">The Python Part</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#deploying-through-github-actions">Deploying Through GitHub Actions</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#what-did-we-learn">What Did We Learn?</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/#conclusion">Conclusion</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>I was always fascinated by the idea of different languages working together in a single codebase
+for whatever reason. Rust seems to be especially good at this with
+<a href="https://doc.rust-lang.org/nomicon/ffi.html">its great C FFI</a> (with projects such as
+<a href="https://github.com/eqrion/cbindgen"><code>cbindgen</code></a>) and <a href="https://www.rust-lang.org/what/wasm">WASM</a>
+support.</p>
+<p>Considering how popular Python is, it should come as no surprise that there are tools available
+that allow you to interface to and from Python, allowing you to leverage two very neat ecosystems.</p>
+<p>Recently, a friend of mine (again) started playing around with some map data which happened to be
+stored in the <a href="https://modis.ornl.gov/documentation/ascii_grid_format.html">ASCII Grid format</a>
+which is used often in
+<a href="https://en.wikipedia.org/wiki/Geographic_information_system_software">GIS software</a>. Turns out,
+this format is pretty easy to parse (even for someone who is very bad at parsing stuff like me) so
+I wanted to see how hard it would be to make a Python package that used something like
+<a href="https://github.com/rust-bakery/nom">nom</a> to parse the files. I won't be going over the specifics
+of my parser implementation as the blog post is focused on packaging Rust code and calling it from
+Python, not parsing. Plus, I'm pretty confident that all my code <em>is</em> terrible that you are probably
+better off without it :)</p>
+<h2 id="the-plan"><a class="anchor" href="#the-plan" aria-label="Anchor link for: the-plan">The Plan</a></h2>
+<p>When I started looking into this, I wanted to at least answer the following questions:</p>
+<ul>
+<li>How is the developer experience of writing the Rust package as well as calling it
+and how <em>different</em> is it from the way you write code in the respective language</li>
+<li>How easy is developing such a project from the perspective of a developer
+(testability, running tests, REPLs etc)</li>
+<li>How easy is it for someone who does not know Rust to use your package</li>
+<li>What could a deployment pipeline look like</li>
+</ul>
+<h2 id="creating-the-library"><a class="anchor" href="#creating-the-library" aria-label="Anchor link for: creating-the-library">Creating the Library</a></h2>
+<h3 id="the-rust-part"><a class="anchor" href="#the-rust-part" aria-label="Anchor link for: the-rust-part">The Rust Part</a></h3>
+<p>We first start by creating the library create which is just plain old Rust, nothing weird here.</p>
+<p>In my case, all of my parser's logic is summed up in a <code>parse</code> method that is defined as follows:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">parse</span><span>(</span><span style="color:#f29718;">input</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>IResult&lt;</span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>, AsciiGrid&gt; {
+</span><span>  </span><span style="color:#f29668;">...
+</span><span>}
+</span></code></pre>
+<blockquote>
+<p>Notice the <code>IResult</code> type here? This is a
+<a href="https://docs.rs/nom/latest/nom/type.IResult.html">type definition from the <code>Nom</code> crate</a> which
+as, I mentioned above, I use for parsing. There is nothing special about it in this context and
+a normal <code>Result</code> or any other type would've worked just fine.</p>
+</blockquote>
+<p>The <code>AsciiGrid</code> struct is also just plain Rust, for now, looks like this:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">derive</span><span>(Debug</span><span style="color:#bfbab0cc;">,</span><span> Clone)]
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">AsciiGrid </span><span>{
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>header</span><span style="color:#bfbab0cc;">:</span><span> Header,
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>data</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#ff7733;">f64</span><span>&gt;&gt;,
+</span><span>}
+</span></code></pre>
+<p>So how <em>do</em> we call this from Python? Enter <a href="https://github.com/PyO3/pyo3"><code>PyO3</code></a> which provides
+"Rust bindings for the Python interpreter" and allows us to do just that!</p>
+<p>Let's add <code>PyO3</code> to our <code>Cargo.toml</code> file</p>
+<pre data-lang="toml" style="background-color:#0f1419;color:#bfbab0;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#59c2ff;">lib</span><span>]
+</span><span style="color:#59c2ff;">name </span><span>= </span><span style="color:#c2d94c;">&quot;ascii_grid_parser&quot;
+</span><span style="color:#59c2ff;">path </span><span>= </span><span style="color:#c2d94c;">&quot;src/lib.rs&quot;
+</span><span style="color:#59c2ff;">crate-type </span><span>= [</span><span style="color:#c2d94c;">&quot;cdylib&quot;</span><span>]
+</span><span>
+</span><span>[</span><span style="color:#59c2ff;">dependencies</span><span>]
+</span><span style="color:#59c2ff;">pyo3 </span><span>= { </span><span style="color:#59c2ff;">version </span><span>= </span><span style="color:#c2d94c;">&quot;0.18.1&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#59c2ff;">features </span><span>= [ </span><span style="color:#c2d94c;">&quot;extension-module&quot; </span><span>] }
+</span></code></pre>
+<p>Notice 3 things here</p>
+<p>The <code>name</code> is actually the name of the <em>Python</em> module we will specify later. This does not
+necessarily need to be the same as your crate name. This is what you'll use in your Python code
+imports when we eventually call our code from Python (<code>import ascii_grid_parser</code>).</p>
+<p>The <code>crate-type</code> is for specifying that <em>"a dynamic system library will be
+produced. This is used when compiling a dynamic library to be loaded from another language."</em>
+<a href="https://doc.rust-lang.org/reference/linkage.html">[source]</a>.</p>
+<blockquote>
+<p>Fun fact, if you ever try to import your code from another Rust module (say, a benchmark for
+instance), it won't be discoverable because you need to <em>also</em> compile it as a Rust library. You
+can get that to work by adding</p>
+<pre data-lang="toml" style="background-color:#0f1419;color:#bfbab0;" class="language-toml "><code class="language-toml" data-lang="toml"><span style="color:#59c2ff;">crate-type </span><span>= [</span><span style="color:#c2d94c;">&quot;cdylib&quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;rlib&quot;</span><span>]
+</span></code></pre>
+<p>instead!</p>
+</blockquote>
+<p>We are also including the <code>extension-module</code> feature, this is for telling <code>PyO3</code> that we are
+building <a href="https://docs.python.org/3/extending/extending.html">Python extension modules</a> which are
+what allows us to interact with Python through <code>C</code>.
+<a href="https://pyo3.rs/v0.18.1/building_and_distribution#linking">[source]</a></p>
+<p>Now we need to tell <code>PyO3</code> what we want to be able to use in Python, that includes both our <code>parse</code>
+function and the <code>AsciiGrid</code> struct. This is perhaps unsurprisingly easy to do with the power of
+Rust's macros;</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#ff7733;">use </span><span>pyo3</span><span style="color:#f29668;">::</span><span>prelude</span><span style="color:#f29668;">::*</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">pyclass</span><span>]
+</span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">derive</span><span>(Debug</span><span style="color:#bfbab0cc;">,</span><span> Clone)]
+</span><span style="color:#ff7733;">pub struct </span><span style="color:#59c2ff;">AsciiGrid </span><span>{
+</span><span>  </span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">pyo3</span><span>(get</span><span style="color:#bfbab0cc;">,</span><span> set)]
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>header</span><span style="color:#bfbab0cc;">:</span><span> Header,
+</span><span>  </span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">pyo3</span><span>(get</span><span style="color:#bfbab0cc;">,</span><span> set)]
+</span><span>  </span><span style="color:#ff7733;">pub </span><span>data</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#ff7733;">f64</span><span>&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">pyfunction</span><span>]
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">parse</span><span>(</span><span style="color:#f29718;">input</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>PyResult&lt;AsciiGrid&gt; {
+</span><span>  </span><span style="color:#f29668;">...
+</span><span>}
+</span></code></pre>
+<p>These are pretty self-explanatory. The
+<a href="https://docs.rs/pyo3/latest/pyo3/type.PyResult.html"><code>PyResult</code></a> type "represents the result of a
+Python call." and is basically what we need to wrap any return value in to make it work with
+Python.</p>
+<p>"What about error handling?" I hear you ask. Well, you can use the
+<a href="https://docs.rs/pyo3/latest/pyo3/exceptions/struct.PyValueError.html"><code>PyValueError</code></a> struct that
+represents Python's <a href="https://docs.python.org/3/library/exceptions.html#ValueError"><code>ValueError</code></a>
+exception. To be quite honest with you, I don't really use Python so I am not too aware of what
+people use for their errors and what common practices are there. I've seen <code>ValueErrors</code>s a few
+times and I just chose to use that in my scenario, if something else makes more sense for your
+given use case, you should probably go with that instead.</p>
+<p>Finally, we need to register both our function and struct to a Python module which is just as simple</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">pymodule</span><span>]
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">ascii_grid_parser</span><span>(</span><span style="color:#f29718;">_py</span><span style="color:#bfbab0cc;">: </span><span>Python&lt;&#39;</span><span style="color:#f29668;">_</span><span>&gt;, </span><span style="color:#f29718;">m</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span>PyModule) </span><span style="color:#bfbab0cc;">-&gt; </span><span>PyResult&lt;()&gt; {
+</span><span>  m</span><span style="color:#f29668;">.</span><span>add_class</span><span style="color:#f29668;">::</span><span>&lt;AsciiGrid&gt;()</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>  m</span><span style="color:#f29668;">.</span><span>add_class</span><span style="color:#f29668;">::</span><span>&lt;Header&gt;()</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">; </span><span style="font-style:italic;color:#5c6773;">// Header is a struct inside of AsciiGrid
+</span><span>  m</span><span style="color:#f29668;">.</span><span style="color:#f07178;">add_function</span><span>(</span><span style="color:#f07178;">wrap_pyfunction!</span><span>(parse_ascii_grid</span><span style="color:#bfbab0cc;">,</span><span> m)</span><span style="color:#f29668;">?</span><span>)</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(())
+</span><span>}
+</span></code></pre>
+<p>And that's all you need from Rust's side!</p>
+<p>It is worth noting that if you add normal Rust comments to a <code>pymodule</code>, <code>pyclass</code> or <code>pyfunction</code>,
+they will be visible from the resulting Python package!</p>
+<p>You can also add a <code>pyproject.toml</code> file for some more configuration options, here's a sample of
+what that might look like
+(see <a href="https://pyo3.rs/v0.18.1/getting_started.html?highlight=pyproject#pyprojecttoml">here</a>):</p>
+<pre data-lang="toml" style="background-color:#0f1419;color:#bfbab0;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#59c2ff;">build-system</span><span>]
+</span><span style="color:#59c2ff;">requires </span><span>= [</span><span style="color:#c2d94c;">&quot;maturin&gt;=0.14,&lt;0.15&quot;</span><span>]
+</span><span style="color:#59c2ff;">build-backend </span><span>= </span><span style="color:#c2d94c;">&quot;maturin&quot;
+</span><span>
+</span><span>[</span><span style="color:#59c2ff;">project</span><span>]
+</span><span style="color:#59c2ff;">name </span><span>= </span><span style="color:#c2d94c;">&quot;ascii-grid-parser-rs&quot;
+</span><span style="color:#59c2ff;">requires-python </span><span>= </span><span style="color:#c2d94c;">&quot;&gt;=3.7&quot;
+</span><span style="color:#59c2ff;">classifiers </span><span>= [
+</span><span>    </span><span style="color:#c2d94c;">&quot;Programming Language :: Rust&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;Programming Language :: Python :: Implementation :: CPython&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>    </span><span style="color:#c2d94c;">&quot;Programming Language :: Python :: Implementation :: PyPy&quot;</span><span style="color:#bfbab0cc;">,
+</span><span>]
+</span></code></pre>
+<h4 id="some-thoughts-on-the-code-i-literally-just-showed-you"><a class="anchor" href="#some-thoughts-on-the-code-i-literally-just-showed-you" aria-label="Anchor link for: some-thoughts-on-the-code-i-literally-just-showed-you">Some Thoughts on the Code I Literally Just Showed You</a></h4>
+<p>The code I showed above is not <em>exactly</em> what I ended up with and for anything bigger than a
+100-line afternoon hack-it-together project, I'd recommend the following.</p>
+<ol>
+<li>
+<p>Decouple the <code>PyO3</code> stuff from your business logic. In the snippet above I changed the <code>parse</code>
+function (which is pure business logic) and polluted it with <code>PyO3</code> types and macros. It would
+instead be more convenient to separate the two in your code. What I <em>actually</em> ended up with
+is this:</p>
+<pre data-lang="rust" style="background-color:#0f1419;color:#bfbab0;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#bfbab0cc;">#</span><span>[</span><span style="color:#ffb454;">pyfunction</span><span>]
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">parse_ascii_grid</span><span>(</span><span style="color:#f29718;">input</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>PyResult&lt;AsciiGrid&gt; {
+</span><span>  </span><span style="color:#ff7733;">let </span><span>(</span><span style="color:#f29668;">_</span><span style="color:#bfbab0cc;">,</span><span> res) </span><span style="color:#f29668;">= </span><span style="color:#f07178;">parse</span><span>(input)
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#f07178;">map_err</span><span>(|</span><span style="color:#f29718;">_e</span><span>| PyValueError</span><span style="color:#f29668;">::</span><span>new_err(</span><span style="color:#c2d94c;">&quot;oops&quot;</span><span>))</span><span style="color:#f29668;">?</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(res)
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">fn </span><span style="color:#ffb454;">parse</span><span>(</span><span style="color:#f29718;">input</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>IResult&lt;</span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">str</span><span>, AsciiGrid&gt; {
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Parse `input`
+</span><span>  </span><span style="font-style:italic;color:#39bae6;">Ok</span><span>(</span><span style="color:#f29668;">...</span><span>)
+</span><span>}
+</span></code></pre>
+<p>As you can see, I kept <code>parse</code> the same as the original implementation I showed first and created
+a separate <code>parse_ascii_grid</code> that calls it which will be the only one exposed to Python.</p>
+<p>My reasoning for this is that it is simply easier to have pure, plain old Rust in as many places
+as you can to make your code easier to use and play around with <strong>in the Rust project itself</strong>.
+The only part of your code where you should care about Python compatibility is the very top.</p>
+</li>
+<li>
+<p>Similarly to this and perhaps even more importantly, you probably should do the same with your
+structs. I say <em>probably</em> because <em>I didn't care enough to make that change for my small project
+that I worked on for the fun of it and no one, including me, will ever touch it again</em>. If you
+<strong>do</strong> care however then you should definitely think twice about this. You need to keep in mind
+that applying all those macros in the same struct that you use internally might have performance
+implications. I do not know exactly what these macros do or if this is even a problem that <em>can</em>
+happen but in any case, you should research into it before adding it to your codebase. If you
+are reading this and know that this is/is not the case indeed then let me know in the comments :)</p>
+</li>
+</ol>
+<p>As always, please do read the <a href="https://pyo3.rs/v0.18.1/getting_started">docs</a>.</p>
+<h3 id="the-python-part"><a class="anchor" href="#the-python-part" aria-label="Anchor link for: the-python-part">The Python Part</a></h3>
+<p>Let's go over how we can build the code we just worked on and call it from Python.</p>
+<p>The <code>PyO3</code> <a href="https://pyo3.rs/v0.18.1/getting_started#python">docs</a> recommend that you use a
+virtual environment (to be honest, you should always do this), see more
+<a href="https://docs.python.org/3/library/venv.html">here</a>.</p>
+<p>After creating a virtual environment and activating it, we install
+<a href="https://github.com/PyO3/maturin"><code>maturin</code></a> which is a tool (from the same org) that allows us to
+easily build (and later publish) our crate as a Python package.</p>
+<pre data-lang="sh" style="background-color:#0f1419;color:#bfbab0;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#ffb454;">pip</span><span> install maturin</span><span style="color:#f29718;"> --user
+</span></code></pre>
+<p>For local development, you can run <code>maturin develop</code> which will build the package and add it to
+your virtual environment. You can then open a Python shell (or run a file) and use the code!</p>
+<pre data-lang="py" style="background-color:#0f1419;color:#bfbab0;" class="language-py "><code class="language-py" data-lang="py"><span>$ python
+</span><span style="color:#f29668;">&gt;&gt;&gt; </span><span style="color:#ff7733;">import </span><span>ascii_grid_parser
+</span><span style="color:#f29668;">&gt;&gt;&gt; </span><span>ascii_grid_parser</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">parse_ascii_grid</span><span>(</span><span style="color:#f29718;">...</span><span>)
+</span><span style="color:#f29718;">...
+</span></code></pre>
+<p>Building a <a href="https://peps.python.org/pep-0427/">wheel</a> for your native platform is straightforward
+(as you probably noticed from the <code>develop</code> command above), you can run the following:</p>
+<pre data-lang="sh" style="background-color:#0f1419;color:#bfbab0;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#ffb454;">maturin</span><span> build</span><span style="color:#f29718;"> -r --interpreter</span><span> .env/Scripts/python.exe
+</span></code></pre>
+<p>You will likely need to specify the interpreter as I did above which can just be the executable in
+your virtual environment's folder. In my case, I am using Windows, hence the <code>.exe</code>.</p>
+<p>If you want to compile for multiple architectures, however, things get more complicated and I once
+again must recommend you read the <a href="https://pyo3.rs/v0.18.1/building_and_distribution">docs</a>.</p>
+<p>Even though Rust effortlessly compiles to any architecture you can think of, your Python interpreter
+is built specifically for the platform that you are using which is a problem. In theory, you
+<em>should</em> be able to get this to work but I did not try as I could already see how many hours I would
+waste on this. Instead, seeing as how I am quite familiar with GitHub Actions by now, I opted to
+do all the building there instead.</p>
+<h3 id="deploying-through-github-actions"><a class="anchor" href="#deploying-through-github-actions" aria-label="Anchor link for: deploying-through-github-actions">Deploying Through GitHub Actions</a></h3>
+<blockquote>
+<p>Note: I later simplified the workflow and made it spawn way less jobs and its overall much less
+messy thanks to some feedback I got on twitter. I'll leave the old version as well and I'll
+mention the cleanup in the next section.</p>
+</blockquote>
+<p>I like using <code>on_workflow</code> triggers for any sort of release I do using GitHub actions. Some people
+like pushing tags or commits with special messages but I always found that a bit messy.</p>
+<p>This is what we start with</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">CD
+</span><span>
+</span><span style="color:#f29718;">on</span><span style="color:#bfbab0cc;">:
+</span><span>  </span><span style="color:#59c2ff;">workflow_dispatch</span><span style="color:#bfbab0cc;">:
+</span></code></pre>
+<p>Since I was just experimenting, I decided to "<em>support</em>" a bunch of platforms such as</p>
+<ul>
+<li>macos (x86_64)</li>
+<li>Windows (x64, x86)</li>
+<li>linux (x86_64, x64, aarch64, armv7)</li>
+</ul>
+<p>In my opinion, you should start with the absolute minimum of targets that you know you <strong>must</strong>
+support and add more later if needed. The workflow dispatch trigger allows you to run a workflow
+on any branch or tag which means that if you ever need to run it on an older version of the code
+to add extra target compatibility, you can.</p>
+<p>This is what my Windows job looks like</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span>
+</span><span>  </span><span style="color:#59c2ff;">Windows</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">runs-on</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Windows-2022
+</span><span>    </span><span style="color:#59c2ff;">strategy</span><span style="color:#bfbab0cc;">:
+</span><span>      </span><span style="color:#59c2ff;">matrix</span><span style="color:#bfbab0cc;">:
+</span><span>        </span><span style="color:#59c2ff;">python-version</span><span style="color:#bfbab0cc;">: </span><span>[ </span><span style="color:#c2d94c;">&#39;3.7&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.8&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.9&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.10&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.11&#39; </span><span>]
+</span><span>        </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span>[ </span><span style="color:#c2d94c;">x64</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">x86 </span><span>]
+</span><span>
+</span><span>    </span><span style="color:#59c2ff;">steps</span><span style="color:#bfbab0cc;">:
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/checkout@v3
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/setup-python@v4
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">python-version</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ matrix.python-version }}
+</span><span>          </span><span style="color:#59c2ff;">architecture</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ matrix.target }}
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dtolnay/rust-toolchain@nightly
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Build wheels
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">PyO3/maturin-action@v1
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ matrix.target }}
+</span><span>          </span><span style="color:#59c2ff;">args</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">--release --out dist --interpreter ${{ matrix.python-version }}
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Upload wheels
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/upload-artifact@v3
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span><span>          </span><span style="color:#59c2ff;">path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span></code></pre>
+<p>I compile a wheel for both <code>x64</code> and <code>x86</code> for versions <code>3.7</code> to <code>3.11</code>. I am using an existing
+action to do the building instead of managing that myself since it exists but you could just as
+easily replace that (although you'd have to manually set up <code>maturin</code> and what not).</p>
+<p>In the end, I upload the generated wheels as
+<a href="https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts">artifacts</a>
+which I use later.</p>
+<p>The Linux job is mostly the same</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span>  </span><span style="color:#59c2ff;">linux</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">runs-on</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">ubuntu-latest
+</span><span>    </span><span style="color:#59c2ff;">strategy</span><span style="color:#bfbab0cc;">:
+</span><span>      </span><span style="color:#59c2ff;">matrix</span><span style="color:#bfbab0cc;">:
+</span><span>        </span><span style="color:#59c2ff;">python-version</span><span style="color:#bfbab0cc;">: </span><span>[ </span><span style="color:#c2d94c;">&#39;3.7&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.8&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.9&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.10&#39;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&#39;3.11&#39; </span><span>]
+</span><span>        </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span>[ </span><span style="color:#c2d94c;">x86_64</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">x64</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">aarch64</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">armv7 </span><span>]
+</span><span>
+</span><span>    </span><span style="color:#59c2ff;">steps</span><span style="color:#bfbab0cc;">:
+</span><span>    - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/checkout@v3
+</span><span>
+</span><span>    - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/setup-python@v4
+</span><span>      </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>        </span><span style="color:#59c2ff;">python-version</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ matrix.python-version }}
+</span><span>        </span><span style="color:#59c2ff;">architecture</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">x64
+</span><span>
+</span><span>    - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Build wheels
+</span><span>      </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">PyO3/maturin-action@v1
+</span><span>      </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>        </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ matrix.target }}
+</span><span>        </span><span style="color:#59c2ff;">manylinux</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">auto
+</span><span>        </span><span style="color:#59c2ff;">args</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">--release --out dist --interpreter ${{ matrix.python-version }}
+</span><span>
+</span><span>    - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Upload wheels
+</span><span>      </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/upload-artifact@v3
+</span><span>      </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>        </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span><span>        </span><span style="color:#59c2ff;">path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span></code></pre>
+<p>The <a href="https://peps.python.org/pep-0600/"><code>manylinux</code></a> parameter is interesting as that allows your
+resulting binary to be valid in <em>most</em> Linux distributions, saving you from the whole lot of pain
+you'd have to go through if you needed to create 1 job per distribution.</p>
+<p>You might have noticed that I hardcoded <code>architecture</code> to <code>x64</code> unlike before. It seems that Python
+only understands <code>x64</code> and <code>x86</code> as you can see
+<a href="https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json">here</a> as
+<code>architecture</code> values. I do admit that I am not sure if this then properly works in <code>x86</code>
+environments and I can't really test it myself. This is definitely something to watch out for if
+you are doing this yourself. The workflow passes with no errors or warnings <em>but then again, this
+is Python we are talking about, not Rust, this does not guarantee that anything will work properly</em>.
+Fixing this would be easy as you could add a check to see if your current <code>${{ matrix.target }}</code> is
+<code>x64</code> and if not, set the arch to <code>x86</code>.</p>
+<p>Macs were... interesting.</p>
+<p>Turns out GitHub
+<a href="https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration#usage-limits">is a bit limiting</a>
+when it comes to Mac runners as you can only run 5 at a time. <em>For some reason, I could only run 4
+but that is besides the point</em>. Every matrix entry spawns a separate runner which is an issue
+here. I instead removed the matrix and put everything on one runner.</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span>  </span><span style="color:#59c2ff;">macos</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">runs-on</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">macos-latest
+</span><span>
+</span><span>    </span><span style="color:#59c2ff;">steps</span><span style="color:#bfbab0cc;">:
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/checkout@v3
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/setup-python@v4
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">python-version</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;3.7 - 3.11&#39;
+</span><span>          </span><span style="color:#59c2ff;">architecture</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">x64
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dtolnay/rust-toolchain@nightly
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Build wheels - 3.7
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">PyO3/maturin-action@v1
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">x86_64
+</span><span>          </span><span style="color:#59c2ff;">args</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">--release --out dist --interpreter 3.7
+</span><span>
+</span><span>      </span><span style="font-style:italic;color:#5c6773;">#  ...
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Build wheels - 3.11
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">PyO3/maturin-action@v1
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">x86_64
+</span><span>          </span><span style="color:#59c2ff;">args</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">--release --out dist --interpreter 3.11
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Upload wheels
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/upload-artifact@v3
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span><span>          </span><span style="color:#59c2ff;">path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span></code></pre>
+<p>This is ugly but oh well. There is also a limit for 20 runners total (40 for pro) so you might want
+to keep this idea around if you are compiling to <em>a lot</em> of targets.</p>
+<p>Now to actually upload the artifacts:</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span>  </span><span style="color:#59c2ff;">release</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Release
+</span><span>    </span><span style="color:#59c2ff;">runs-on</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">ubuntu-latest
+</span><span>    </span><span style="color:#59c2ff;">needs</span><span style="color:#bfbab0cc;">:
+</span><span>      - </span><span style="color:#c2d94c;">macos
+</span><span>      - </span><span style="color:#c2d94c;">windows
+</span><span>      - </span><span style="color:#c2d94c;">linux
+</span><span>
+</span><span>    </span><span style="color:#59c2ff;">steps</span><span style="color:#bfbab0cc;">:
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/download-artifact@v3
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span><span>          </span><span style="color:#59c2ff;">path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Publish to PyPI
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">pypa/gh-action-pypi-publish@release/v1
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">user</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">AntoniosBarotsis
+</span><span>          </span><span style="color:#59c2ff;">password</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ secrets.PYPI }}
+</span></code></pre>
+<p>Not sure if the <code>user</code> is required but there it is. Even though this looks very messy, it only
+takes about 5 minutes for everything to finish running in my case. Of course, this very much
+depends on how complicated your crate is. You need to define a <code>PYPI</code> repository secret and set
+its value to an API token from <a href="https://pypi.org/">PyPi</a> for this to work of course.</p>
+<p>Again, I feel like there are a lot of improvements you could make in this but it all greatly depends
+on your specific use case. You might want to for instance not spawn as many runners, you might want
+to spawn a set amount of Mac runners to distribute the work (say one builds <code>3.7-3.9</code> while another
+builds the rest) etc etc. That said, I do think that this is a more than decent starting point
+though.</p>
+<blockquote>
+<p>The version of the Python package will be automatically set to the version you mention in your
+<code>Cargo.toml</code>, atlhough <em>weird</em> version names (i.e. not just <code>X.Y.Z</code>) might change a bit.
+In my case, my <code>Cargo.toml</code> version was set to <code>0.0.1-alpha.4</code> but <code>PyPi</code>'s was <code>0.0.1a4</code>.</p>
+</blockquote>
+<h4 id="cleaning-up-the-workflow"><a class="anchor" href="#cleaning-up-the-workflow" aria-label="Anchor link for: cleaning-up-the-workflow">Cleaning Up the Workflow</a></h4>
+<p>Thanks to <a href="https://twitter.com/messense">@messense</a> for his reply :)</p>
+<!-- The maximum width of the rendered Tweet in whole pixels. This value should be between
+ 250 and 550 pixels. -->
+<!-- https://developer.x.com/en/docs/x-for-websites/embedded-tweets/guides/embedded-tweet-parameter-reference -->
+
+<div style="display: flex;justify-content: center;">
+  <blockquote class="twitter-tweet" 
+    data-width=""
+    data-cards=""
+    data-dnt="true" 
+    data-theme="dark" >
+    <a href="https:&#x2F;&#x2F;twitter.com&#x2F;messense&#x2F;status&#x2F;1630811663103586304"></a>
+  </blockquote> 
+</div>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Turns out we can indeed specify multiple interpreters instead of spawning one task per version.
+This, in my case, makes the workflow a bit slower which is to be expected since less work is
+parallelized. It still only took about 2 minutes extra however and for most people, spawning
+that many jobs is much bigger of a bottleneck than waiting an additional few minutes.</p>
+<p>We can make the following changes (both windows and Linux are essentially the same again):</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span>  </span><span style="color:#59c2ff;">windows</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">runs-on</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">windows-2022
+</span><span>    </span><span style="color:#59c2ff;">strategy</span><span style="color:#bfbab0cc;">:
+</span><span>      </span><span style="color:#59c2ff;">matrix</span><span style="color:#bfbab0cc;">:
+</span><span>        </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span>[ </span><span style="color:#c2d94c;">x64</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">x86 </span><span>]
+</span><span>
+</span><span>    </span><span style="color:#59c2ff;">steps</span><span style="color:#bfbab0cc;">:
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/checkout@v3
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/setup-python@v4
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">python-version</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;3.7 - 3.11&#39;                                   </span><span style="font-style:italic;color:#5c6773;"># &lt;---
+</span><span>          </span><span style="color:#59c2ff;">architecture</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ matrix.target }}
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dtolnay/rust-toolchain@nightly
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Build wheels
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">PyO3/maturin-action@v1
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">${{ matrix.target }}
+</span><span>          </span><span style="color:#59c2ff;">args</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">--release --out dist --interpreter 3.7 3.8 3.9 3.10 3.11 </span><span style="font-style:italic;color:#5c6773;"># &lt;---
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Upload wheels
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/upload-artifact@v3
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span><span>          </span><span style="color:#59c2ff;">path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span></code></pre>
+<p>and for Mac we can remove the matrix all together and shorten it significantly:</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span>  </span><span style="color:#59c2ff;">macos</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">runs-on</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">macos-latest
+</span><span>
+</span><span>    </span><span style="color:#59c2ff;">steps</span><span style="color:#bfbab0cc;">:
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/checkout@v3
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/setup-python@v4
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">python-version</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;3.7 - 3.11&#39;                                    </span><span style="font-style:italic;color:#5c6773;"># &lt;---
+</span><span>          </span><span style="color:#59c2ff;">architecture</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">x64
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dtolnay/rust-toolchain@nightly
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Build wheels - x86_64
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">PyO3/maturin-action@v1
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">target</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">x86_64
+</span><span>          </span><span style="color:#59c2ff;">args</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">--release --out dist --interpreter 3.7 3.8 3.9 3.10 3.11  </span><span style="font-style:italic;color:#5c6773;"># &lt;---
+</span><span>
+</span><span>      - </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Upload wheels
+</span><span>        </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/upload-artifact@v3
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span><span>          </span><span style="color:#59c2ff;">path</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dist
+</span></code></pre>
+<h2 id="what-did-we-learn"><a class="anchor" href="#what-did-we-learn" aria-label="Anchor link for: what-did-we-learn">What Did We Learn?</a></h2>
+<p>Let's revisit the questions we asked at the beginning of all of this.</p>
+<ul>
+<li>
+<p><code>How is the developer experience of writing the Rust package as well as calling it and how *different* is it from the way you write code in the respective language</code></p>
+<p>This was spot on. From Python's point of view, this is just another ordinary package while from
+Rust's perspective, not much change or new stuff is required, especially if you limit the scope
+of the <code>PyO3</code> stuff as I mentioned earlier.</p>
+</li>
+<li>
+<p><code>How easy is developing such a project from the perspective of a developer  (testability, running tests, REPLs etc)</code></p>
+<p>Once again, spot on since it is very closely related to the first point. The Rust devs will need
+to have a Python interpreter available whilst the Python devs can just import the wheels which is
+great!</p>
+</li>
+<li>
+<p><code>How easy is it for someone who does not know Rust to use your package</code></p>
+<p>Again, very much related to the 2 points above, no one will even know your package is written in
+Rust (unless of course the words "<em>written in Rust</em>" have somehow not made it to your repository's
+README and description ;) )</p>
+</li>
+<li>
+<p><code>What could a deployment pipeline look like</code></p>
+<p>While I definitely don't <em>really</em> like how repetitive it turned out, the problem is ultimately
+Python itself and not the tools we used in this project. It is good enough and definitely not too
+slow, that's what you want for the most part.</p>
+</li>
+</ul>
+<p>Overall, slightly surprised by how easy this was 😅.</p>
+<h2 id="conclusion"><a class="anchor" href="#conclusion" aria-label="Anchor link for: conclusion">Conclusion</a></h2>
+<p>I would say that this is definitely a realistic path to consider if you either want to optimize a
+specific part of your codebase or to, as I did here, leverage Rust's ecosystem in your Python
+project.</p>
+<p>There's a good chance that you will get a "free" performance boost by writing parts of your code
+in Rust, assuming of course your code is sound. In my case, I parsed through my data
+5.3 times faster (42s vs 8.8s) with the Rust implementation compared to a reference Python parser I
+stole <a href="https://scipython.com/blog/processing-uk-ordnance-survey-terrain-data/">from a blog post</a>.</p>
+<p>In fact, I managed to get it down to only 4.1s (11.7 times faster!) by applying the following to my
+<code>Cargo.toml</code>:</p>
+<pre data-lang="toml" style="background-color:#0f1419;color:#bfbab0;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[</span><span style="color:#59c2ff;">profile</span><span style="color:#bfbab0cc;">.</span><span style="color:#59c2ff;">release</span><span>]
+</span><span style="color:#59c2ff;">lto </span><span>= </span><span style="color:#f29718;">true
+</span><span style="color:#59c2ff;">codegen-units </span><span>= </span><span style="color:#f29718;">1
+</span></code></pre>
+<p>Of course, both definitely have massive room for optimization so this isn't necessarily a fair
+comparison. In my case, I parsed over 2858 files that total at around 160mb so there is a lot of
+IO happening which you usually should avoid but what do I know, I didn't benchmark anything :)</p>
+<p>(please benchmark your code before and after you "<em>optimize</em>" it)</p>
+<p>Of course, if you are doing this for fun like me, go ahead!</p>
+<p>Till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/finding_rust_crates/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Finding Rust crates</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/2022-recapped/">
+                <span class="button__text">2022 Recapped</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

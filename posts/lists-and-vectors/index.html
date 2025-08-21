@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Linkedlists kinda ..suck?</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="Long live cache locality">
+
+    <meta property="og:description" content="Long live cache locality">
+    <meta property="og:title" content="Linkedlists kinda ..suck?">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/lists-and-vectors/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Long live cache locality">
+    <meta name="twitter:title" content="Linkedlists kinda ..suck?">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/lists-and-vectors/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/">Linkedlists kinda ..suck?</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2025-02-11
+    </span>
+ :: 9 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/lists-and-vectors.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/performance/">#Performance</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/rust/">#Rust</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/#background">Background</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/#the-problem">The Problem</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/#writing-the-boilerplate">Writing the boilerplate</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/#writing-the-benchmarks">Writing the benchmarks</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/#the-results">The Results</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/lists-and-vectors/#closing">Closing</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>Earlier today I watched Bjarne Stroustrup's "<em>why you should avoid linked lists</em>" (it seems that the
+YouTube video went private for some reason unfortunately but there is
+<a href="https://youtu.be/cvZArAipOjo?si=xsGhEy1yLiMYEXw7">Prime's reaction</a>) and found it very interesting
+so I decided to write some benchmarks and get some more concrete insights.</p>
+<blockquote>
+<p>On a side note, I'm afraid the plots will be kinda unreadable on mobile :/</p>
+<p>You could try to <code>tap &amp; hold &gt; open in a new tab</code> but it will probably still be tiny.</p>
+</blockquote>
+<h2 id="background"><a class="anchor" href="#background" aria-label="Anchor link for: background">Background</a></h2>
+<p>The aforementioned talk went on to explain how, due to just how good caches have gotten nowadays,
+data structure compactness and memory contigiousness is crucial to performance. So much so that
+even time complexity ends up being a useless metric in some cases.</p>
+<p>It is worth pointing out that time complexity is a measure of how well an algorithm <em>scales</em> rather
+than how <em>fast</em> it is but we'll see that even that can be misrepresentative of the actual performance
+of two algorithms.</p>
+<h2 id="the-problem"><a class="anchor" href="#the-problem" aria-label="Anchor link for: the-problem">The Problem</a></h2>
+<p>We will focus on element deletions (additions would work the same way) at different points of the
+linked list and vector data structures.</p>
+<p>If you recall from your Algorithms &amp; Data Structures class, deleting the <code>i</code>th element requires a
+traversal up to <code>i-1</code> and then changing its pointer to point to <code>i+1</code> instead of <code>i</code>, effectively
+deleting it. In contrast, because vectors use contigious memory, they need to be copied to a new
+location in memory without the item that we want to delete.</p>
+<p>If you had asked me which of the two would end up being faster, before today I would've answered
+"<em>Well linked lists of course! I know memory is slow and copying an entire array sounds expensive!</em>".</p>
+<p>As it turns out however, that tends to <em>not</em> be the case!</p>
+<p>What ends up happening is that the cost of traversing the data structure to find the element we are
+looking for completely overshadows the copying costs that arrays come with!</p>
+<h2 id="writing-the-boilerplate"><a class="anchor" href="#writing-the-boilerplate" aria-label="Anchor link for: writing-the-boilerplate">Writing the boilerplate</a></h2>
+<p>We will start by creating a linked list and a vector.</p>
+<p>In Rust we have the <a href="https://doc.rust-lang.org/std/collections/struct.LinkedList.html"><code>LinkedList</code></a>
+struct which is a doubly-linked list and <a href="https://doc.rust-lang.org/std/vec/struct.Vec.html"><code>Vec</code></a>
+which is a contiguous growable array.</p>
+<p>I made a simple helper method for generating a <code>LinkedList</code> and a <code>Vec</code> of the same size:</p>
+<pre data-lang="rs" style="background-color:#0f1419;color:#bfbab0;" class="language-rs "><code class="language-rs" data-lang="rs"><span style="font-style:italic;color:#5c6773;">// This needs nightly
+</span><span style="color:#bfbab0cc;">#!</span><span>[</span><span style="color:#ffb454;">feature</span><span>(linked_list_remove)]
+</span><span>
+</span><span style="color:#ff7733;">use </span><span>std</span><span style="color:#f29668;">::</span><span>collections</span><span style="color:#f29668;">::</span><span>LinkedList</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">generate</span><span>(</span><span style="color:#f29718;">range</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>(LinkedList&lt;</span><span style="color:#ff7733;">i32</span><span>&gt;, </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#ff7733;">i32</span><span>&gt;) {
+</span><span>  </span><span style="color:#ff7733;">let mut</span><span> list </span><span style="color:#f29668;">= </span><span>LinkedList</span><span style="color:#f29668;">::</span><span>&lt;</span><span style="color:#ff7733;">i32</span><span>&gt;</span><span style="color:#f29668;">::</span><span>new()</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let mut</span><span> vec </span><span style="color:#f29668;">= </span><span style="font-style:italic;color:#39bae6;">Vec</span><span style="color:#bfbab0cc;">::</span><span>&lt;</span><span style="color:#ff7733;">i32</span><span>&gt;</span><span style="color:#f29668;">::</span><span>new()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="color:#ff7733;">for</span><span> i </span><span style="color:#f29668;">in </span><span style="color:#f29718;">0</span><span style="color:#f29668;">..</span><span>range {
+</span><span>    list</span><span style="color:#f29668;">.</span><span style="color:#f07178;">push_back</span><span>(i </span><span style="color:#f29668;">as </span><span style="color:#ff7733;">i32</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>    vec</span><span style="color:#f29668;">.</span><span style="color:#f07178;">push</span><span>(i </span><span style="color:#f29668;">as </span><span style="color:#ff7733;">i32</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  (list</span><span style="color:#bfbab0cc;">,</span><span> vec)
+</span><span>}
+</span></code></pre>
+<p>Then I made just 2 methods, each for removing the <code>i</code>th element of the passed list/vec respectively:</p>
+<pre data-lang="rs" style="background-color:#0f1419;color:#bfbab0;" class="language-rs "><code class="language-rs" data-lang="rs"><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">remove_ith_list</span><span>(</span><span style="color:#ff7733;">mut </span><span style="color:#f29718;">list</span><span style="color:#bfbab0cc;">: </span><span>LinkedList&lt;</span><span style="color:#ff7733;">i32</span><span>&gt;, </span><span style="color:#f29718;">i</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span>LinkedList&lt;</span><span style="color:#ff7733;">i32</span><span>&gt; {
+</span><span>  </span><span style="color:#ff7733;">let </span><span style="color:#f29668;">_ =</span><span> list</span><span style="color:#f29668;">.</span><span style="color:#f07178;">remove</span><span>(i)</span><span style="color:#bfbab0cc;">;
+</span><span>  list
+</span><span>}
+</span><span>
+</span><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">remove_ith_vec</span><span>(</span><span style="color:#f29718;">vec</span><span style="color:#bfbab0cc;">: </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#ff7733;">i32</span><span>&gt;, </span><span style="color:#f29718;">i</span><span style="color:#bfbab0cc;">: </span><span style="color:#ff7733;">usize</span><span>) </span><span style="color:#bfbab0cc;">-&gt; </span><span style="font-style:italic;color:#39bae6;">Vec</span><span>&lt;</span><span style="color:#ff7733;">i32</span><span>&gt; {
+</span><span>  </span><span style="color:#ff7733;">let mut</span><span> left </span><span style="color:#f29668;">=</span><span> vec[</span><span style="color:#f29668;">..</span><span>i]</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_owned</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>  </span><span style="color:#ff7733;">let mut</span><span> right </span><span style="color:#f29668;">=</span><span> vec[i </span><span style="color:#f29668;">+ </span><span style="color:#f29718;">1</span><span style="color:#f29668;">..</span><span>]</span><span style="color:#f29668;">.</span><span style="color:#f07178;">to_owned</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>  left</span><span style="color:#f29668;">.</span><span style="color:#f07178;">append</span><span>(</span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">mut</span><span> right)</span><span style="color:#bfbab0cc;">;
+</span><span>  left
+</span><span>}
+</span></code></pre>
+<p>Rust's explicitness over things like cloning is one of the things I really like about it as it makes
+spotting potentially costly operations really easy and it forces you to think about them. At least
+when I contrast it to something like Java or Python which is what I've worked with mostly, I'm sure
+C++ works much the same way as Rust (or any other lower level lang for that matter).</p>
+<h2 id="writing-the-benchmarks"><a class="anchor" href="#writing-the-benchmarks" aria-label="Anchor link for: writing-the-benchmarks">Writing the benchmarks</a></h2>
+<p>For the benchmarks I will use <a href="https://docs.rs/criterion/latest/criterion/">Criterion</a>.</p>
+<p>I want to benchmark the following scenarios for a few different list/vec sizes:</p>
+<ul>
+<li>removing the first element</li>
+<li>removing the middle element</li>
+<li>removing the element at <code>size/4</code></li>
+<li>removing the element at <code>3*(size/4)</code></li>
+<li>removing a random element</li>
+</ul>
+<p>Intuitively, the earlier the element appears in the sequence, the faster Linked Lists should be as
+they have to traverse fewer elements. But there is also the size of the data itself to consider as
+behavior might change for small or very large inputs.</p>
+<p>I decided to use</p>
+<pre data-lang="rs" style="background-color:#0f1419;color:#bfbab0;" class="language-rs "><code class="language-rs" data-lang="rs"><span style="color:#ff7733;">const </span><span style="color:#f29718;">SIZES</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#ff7733;">usize</span><span style="color:#bfbab0cc;">; </span><span style="color:#f29718;">3</span><span>] </span><span style="color:#f29668;">= </span><span>[</span><span style="color:#f29718;">100</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">1_000</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">10_000</span><span>]</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>for the different data sizes. The full code is available <a href="https://github.com/AntoniosBarotsis/linkedlist-vs-vec">here</a> but I'll briefly go over
+the random element benchmark code here. These are all largely the same.</p>
+<pre data-lang="rs" style="background-color:#0f1419;color:#bfbab0;" class="language-rs "><code class="language-rs" data-lang="rs"><span style="color:#ff7733;">pub fn </span><span style="color:#ffb454;">criterion_benchmark_rand</span><span>(</span><span style="color:#f29718;">c</span><span style="color:#bfbab0cc;">: </span><span style="color:#f29668;">&amp;</span><span style="color:#ff7733;">mut</span><span> Criterion) {
+</span><span>  </span><span style="color:#ff7733;">let mut</span><span> group </span><span style="color:#f29668;">=</span><span> c</span><span style="color:#f29668;">.</span><span style="color:#f07178;">benchmark_group</span><span>(</span><span style="color:#c2d94c;">&quot;Remove random element&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Seed for reproducible results
+</span><span>  </span><span style="color:#ff7733;">let mut</span><span> rng </span><span style="color:#f29668;">= </span><span>ChaCha8Rng</span><span style="color:#f29668;">::</span><span>seed_from_u64(</span><span style="color:#f29718;">42</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>  </span><span style="font-style:italic;color:#5c6773;">// Benchmark all different data sizes
+</span><span>  </span><span style="color:#ff7733;">for</span><span> size </span><span style="color:#f29668;">in </span><span style="color:#f29718;">SIZES </span><span>{
+</span><span>    </span><span style="color:#ff7733;">let </span><span style="color:#f29668;">_ =</span><span> group</span><span style="color:#f29668;">.</span><span style="color:#f07178;">throughput</span><span>(Throughput</span><span style="color:#f29668;">::</span><span>Bytes(size </span><span style="color:#f29668;">as </span><span style="color:#ff7733;">u64</span><span>))</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Generate data
+</span><span>    </span><span style="color:#ff7733;">let </span><span>(list</span><span style="color:#bfbab0cc;">,</span><span> vec) </span><span style="color:#f29668;">= </span><span style="color:#f07178;">generate</span><span>(size)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// List benchmark
+</span><span>    </span><span style="color:#ff7733;">let </span><span style="color:#f29668;">_ =</span><span> group</span><span style="color:#f29668;">.</span><span style="color:#f07178;">bench_with_input</span><span>(BenchmarkId</span><span style="color:#f29668;">::</span><span>new(</span><span style="color:#c2d94c;">&quot;list&quot;</span><span style="color:#bfbab0cc;">,</span><span> size)</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">&amp;</span><span>size</span><span style="color:#bfbab0cc;">, </span><span>|</span><span style="color:#f29718;">b</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">_range</span><span>| {
+</span><span>      b</span><span style="color:#f29668;">.</span><span style="color:#f07178;">iter_batched</span><span>(
+</span><span>        || list</span><span style="color:#f29668;">.</span><span style="color:#f07178;">clone</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>        |</span><span style="color:#f29718;">list</span><span>| </span><span style="color:#f07178;">remove_ith_list</span><span>(</span><span style="color:#f07178;">black_box</span><span>(list)</span><span style="color:#bfbab0cc;">,</span><span> rng</span><span style="color:#f29668;">.</span><span style="color:#f07178;">random_range</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#f29668;">..</span><span>size))</span><span style="color:#bfbab0cc;">,
+</span><span>        BatchSize</span><span style="color:#f29668;">::</span><span>SmallInput</span><span style="color:#bfbab0cc;">,
+</span><span>      )</span><span style="color:#bfbab0cc;">;
+</span><span>    })</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="font-style:italic;color:#5c6773;">// Vec benchmark
+</span><span>    </span><span style="color:#ff7733;">let </span><span style="color:#f29668;">_ =</span><span> group</span><span style="color:#f29668;">.</span><span style="color:#f07178;">bench_with_input</span><span>(BenchmarkId</span><span style="color:#f29668;">::</span><span>new(</span><span style="color:#c2d94c;">&quot;vec&quot;</span><span style="color:#bfbab0cc;">,</span><span> size)</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29668;">&amp;</span><span>size</span><span style="color:#bfbab0cc;">, </span><span>|</span><span style="color:#f29718;">b</span><span style="color:#bfbab0cc;">, </span><span style="color:#f29718;">_range</span><span>| {
+</span><span>      b</span><span style="color:#f29668;">.</span><span style="color:#f07178;">iter_batched</span><span>(
+</span><span>        || vec</span><span style="color:#f29668;">.</span><span style="color:#f07178;">clone</span><span>()</span><span style="color:#bfbab0cc;">,
+</span><span>        |</span><span style="color:#f29718;">vec</span><span>| </span><span style="color:#f07178;">remove_ith_vec</span><span>(</span><span style="color:#f07178;">black_box</span><span>(vec)</span><span style="color:#bfbab0cc;">,</span><span> rng</span><span style="color:#f29668;">.</span><span style="color:#f07178;">random_range</span><span>(</span><span style="color:#f29718;">0</span><span style="color:#f29668;">..</span><span>size))</span><span style="color:#bfbab0cc;">,
+</span><span>        BatchSize</span><span style="color:#f29668;">::</span><span>SmallInput</span><span style="color:#bfbab0cc;">,
+</span><span>      )</span><span style="color:#bfbab0cc;">;
+</span><span>    })</span><span style="color:#bfbab0cc;">;
+</span><span>  }
+</span><span>
+</span><span>  group</span><span style="color:#f29668;">.</span><span style="color:#f07178;">finish</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<p>If you've written (<a href="https://docs.rs/criterion/latest/criterion/">Criterion</a>) benchmarks before, this should all be pretty self explanatory. Perhaps
+the only thing to note here would be the <code>bench_with_input</code> method. I use that instead of just <code>bench</code>
+because it takes 2 closures, one of which is <em>not</em> measured and is used to generate the test data
+(<code>vec.clone()</code> in my case). Doing this makes it so we do not include the cost of cloning in our
+measurements.</p>
+<h2 id="the-results"><a class="anchor" href="#the-results" aria-label="Anchor link for: the-results">The Results</a></h2>
+<p>Let's start by comparing the removal of the first element:</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/1st-lines.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>As we can see, list does expectedly scale in constant time, while list appears more linear. Nothing
+weird so far but it is all downhill for the linkedlist from here.</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/q1-lines.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>We are only 1/4th of the way into the data and already vectors are outperforming lists. Going
+to the middle only exaggerates the issue further while remaining roughly the same for the vector;</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/middle-lines.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>If we remove the 3/4th element, we see that performance becomes very comparable to the first plot again:</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/q3-lines.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>This is because as I mentioned earlier, Rust's Linked List is doubly linked and the remove method
+<a href="https://doc.rust-lang.org/src/alloc/collections/linked_list.rs.html#1014-1015">checks to see which side it should iterate from</a>. Smart!</p>
+<p>Finally (and perhaps the more useful) benchmark; removing random elements:</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/rand-lines.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>We can see that they are a bit closer this time but still the vector does quite a bit better and they
+would only diverge further for larger inputs. Depending on what you're doing, 10k elements might be
+unreasonably small for in real life the difference could be much bigger.</p>
+<p>This is also the only case where lists were actually faster for the smallest inputs although at that
+point of course you hardly care about the difference, it is more interesting than useful.</p>
+<p>Another thing to consider that is often critical is how predictable the performance is:</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/rand-violin.svg" 
+     style="max-width:160%;margin-left:-35%;margin-right:-25%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-35%;margin-right:-25%"
+    loading="lazy" />
+  
+
+<p>We can see that for the largest input, the vector's distribution is significantly tighter compared
+to the list. This is to be expected; the performance of lists depends on where exactly the element
+is (slowest in the middle, fastest on either end) while vectors don't care.</p>
+<p>As a final benchmark I decided to repeatedly randomly remove elements until half of them remain.</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/half-lines-10k.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>Woah that is <em>very</em> close. I was not really expecting that. I am not entirely sure why that is but
+I am guessing it has to do with the fact that the more elements we remove, the more favored lists
+become since they have to iterate less and less. Still quite interesting! If we use 100k as an
+input size as well however they diverge quite a bit:</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/half-lines.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>Vectors are twice as fast at this point. Goes to show that depending on your use case, you might get
+slightly different results. That said at no point in my tests were vectors slower and of course all
+these tests are their weaknesses so I don't see when you would want to use linked lists over them.</p>
+
+  
+  
+    
+    
+  
+  
+  <img 
+    src="https://antoniosbarotsis.github.io/img/lists-vs-vectors/half-violin.svg" 
+     style="max-width:160%;margin-left:-25%;margin-right:-35%" 
+    class="center  dark-filter"" style="max-width:160%;margin-left:-25%;margin-right:-35%"
+    loading="lazy" />
+  
+
+<p>Just as before, the distribution of the vector is a bit more packed than that of the list.</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>This was for sure one way to spend one of my afternoons.</p>
+<p>About a day or two after I made this post I came up with 2 questions that I may or may not try to
+answer in the future if I am not too lazy;</p>
+<ul>
+<li>Would lists suffer even more in a garbage collected language? Maybe the fact that more garbage
+would need to be deleted (many list nodes vs 1 array) would slow things down even further. I do
+not know enough about the specifics of garbage collector implementations to guess if this would
+be the case so I'd have to do benchmarks in Java or something but that sounds like effort.</li>
+<li>In the repeated removal benchmark I was surprised that lists were faster for up to 10k elements
+and I speculated that it might be because the lists got smaller and smaller so the cost of them
+kept decreasing. A way to figure out if that is indeed the case would be to simply do insertions
+instead of deletions (or both) and see if that reverses this trend or not. This would be simple to
+do but I am rather busy at the moment so I will leave it for later.</li>
+</ul>
+<p>As Mr Stroustrup said in his talk "<em>When I was taught about data structures, this [insertions/deletions]
+is what you used lists for!</em>" same for me and I assume most other people.</p>
+<p>It was interesting to see how (at least nowadays) this seems to no longer be the case. I do wonder
+if the benchmarks would be different on older hardware and just how far back we would need to go to
+potentially reverse this trend.</p>
+<p>This was a rather short post but oh well. I need to find more things to write about.</p>
+<p>In any case, till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/low-effort-everything/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Low-effort everything</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/aim-for-the-stars/">
+                <span class="button__text">Aim for the stars</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

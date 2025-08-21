@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Zip it and ship it!</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="How I published a CLI tool in Chocolatey and Nuget.">
+
+    <meta property="og:description" content="How I published a CLI tool in Chocolatey and Nuget.">
+    <meta property="og:title" content="Zip it and ship it!">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="How I published a CLI tool in Chocolatey and Nuget.">
+    <meta name="twitter:title" content="Zip it and ship it!">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/">Zip it and ship it!</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2022-02-01
+    </span>
+ :: 7 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/zip_it_and_ship_it.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/coding/">#Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/csharp/">#Csharp</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/deployment/">#Deployment</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/#introduction">Introduction</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/#why">Why</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/#what-did-i-build-exactly">What did I build exactly</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/#uploading-to-nuget">Uploading to NuGet</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/#uploading-to-chocolatey">Uploading to Chocolatey</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/#time-to-make-a-workflow">Time to make a Workflow</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/#closing">Closing</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+</ul>
+
+
+    <h1 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h1>
+<p>I recently started working on a command line tool that uses git hooks to remind you to run your
+tests and builds before pushing your code among other stuff and I decided to package that and
+publish it so anyone could use it. The project itself is nothing too impressive or innovative
+so in this post I will be mostly focusing on the packaging and publication process rather than
+the project itself but in case you are interested in checking it out, click
+<a href="https://github.com/AntoniosBarotsis/Rember">here</a> and go make some issues :)</p>
+<p>I'll be explaining how I published said package and how to make a Github Actions CD workflow
+to publish your new releases automatically.</p>
+<h2 id="why"><a class="anchor" href="#why" aria-label="Anchor link for: why">Why</a></h2>
+<p>I feel like most if not all developers find the idea of making their work available for anyone
+to check out and use an exciting one and I definitely relate to that. I personally really like
+working on things that can be used by other developers specifically and that's the main reasons
+why I started this project and why I decided to make it easily accessible to anyone (unless
+you are not on windows because I was too lazy to check how that would work).</p>
+<p>I decided early on that I wanted to publish my code on 2 platforms; the package manager of my
+language of choice (in this case, NuGet) and a more general purpose package manager like
+<a href="https://chocolatey.org/">Chocolatey</a> so that my audience would not be limited to developers
+from my tech stack only.</p>
+<h2 id="what-did-i-build-exactly"><a class="anchor" href="#what-did-i-build-exactly" aria-label="Anchor link for: what-did-i-build-exactly">What did I build exactly</a></h2>
+<p>The project was built using C# mostly because of <a href="https://www.youtube.com/watch?v=JNDgcBDZPkU">this</a>
+video I came across (great YouTuber by the way, make sure to check his channel out for C# content). TLDR; C#
+has this thing called <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools">dotnet tools</a> which
+are essentially command line applications that are very easy to make and package. The linked video walks you
+through creating one from scratch.</p>
+<h2 id="uploading-to-nuget"><a class="anchor" href="#uploading-to-nuget" aria-label="Anchor link for: uploading-to-nuget">Uploading to NuGet</a></h2>
+<h3 id="preparing"><a class="anchor" href="#preparing" aria-label="Anchor link for: preparing">Preparing</a></h3>
+<p>Once you have your CLI tool up and running there's only that many steps left to push it to NuGet.</p>
+<p>The mentioned video already guides you through adding most of the stuff that you need in your <code>.csproj</code>
+file but here's a few more things you might want to add:</p>
+<ul>
+<li>
+<p>A README file</p>
+<p>If you want your NuGet package to display the README file you spent hours filling with meaningless
+badges, this is for you. All you have to do is add the following:</p>
+<pre data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">PropertyGroup</span><span style="color:#39bae690;">&gt;
+</span><span>  ...
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">PackageReadmeFile</span><span style="color:#39bae690;">&gt;</span><span>README.md</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">PackageReadmeFile</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">PropertyGroup</span><span style="color:#39bae690;">&gt;
+</span><span>
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">ItemGroup</span><span style="color:#39bae690;">&gt;
+</span><span>  </span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">None </span><span style="color:#ffb454;">Include</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;../README.md&quot; </span><span style="color:#ffb454;">Pack</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;true&quot; </span><span style="color:#ffb454;">PackagePath</span><span style="color:#bfbab0cc;">=</span><span style="color:#c2d94c;">&quot;\&quot; </span><span style="color:#39bae690;">/&gt;
+</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">ItemGroup</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>This tells NuGet to use our <code>README.md</code> file as the package README file but for that to work we must
+make sure that this is packaged into our <code>nupkg</code> file. This might be different in your project but
+my project has a separate folder for the actual code instead of it also being in the root of the project</p>
+<pre data-lang="txt" style="background-color:#0f1419;color:#bfbab0;" class="language-txt "><code class="language-txt" data-lang="txt"><span>│   README.md
+</span><span>│   Rember.sln
+</span><span>│
+</span><span>├───publish
+</span><span>│       Rember
+</span><span>│       Rember.exe
+</span><span>│
+</span><span>├───Rember
+</span><span>│   │   Rember.csproj
+</span></code></pre>
+<p>Because of that, my <code>Include</code> parameter goes a directory up to reference the README file.</p>
+</li>
+<li>
+<p>Other useful tags might include <code>RepositoryUrl</code> to link your Github repo and <code>PackageTags</code>
+to provide a list of space-delimited tags for your package.</p>
+</li>
+<li>
+<p>I do also recommend specifying the <code>RuntimeIdentifier</code> to something like <code>win-x64</code> although from
+what I understand this is not necessary but better safe than sorry!</p>
+</li>
+</ul>
+<h3 id="pushing-the-package"><a class="anchor" href="#pushing-the-package" aria-label="Anchor link for: pushing-the-package">Pushing the Package</a></h3>
+<p>That pretty much concludes the needed preparations for NuGet so time to actually push the thing.</p>
+<p>Run <code>dotnet pack</code> and you should get something along the lines of <code>Successfully created package 'path/to/package.nupkg'</code>.</p>
+<p>Next you want to grab yourself a NuGet API Key from <a href="https://www.nuget.org/account/apikeys">here</a>
+and run the following command:</p>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">dotnet</span><span> nuget push path/to/package.nupkg </span><span style="color:#bfbab0cc;">\
+</span><span style="color:#f29718;">  --api-key </span><span style="color:#f29668;">&lt;</span><span>API_KEY</span><span style="color:#f29668;">&gt; </span><span style="color:#bfbab0cc;">\
+</span><span style="color:#f29718;">  --source</span><span> https://api.nuget.org/v3/index.json
+</span></code></pre>
+<p>If all goes well your package will be soon available on NuGet! Wasn't that simple?</p>
+<h2 id="uploading-to-chocolatey"><a class="anchor" href="#uploading-to-chocolatey" aria-label="Anchor link for: uploading-to-chocolatey">Uploading to Chocolatey</a></h2>
+<h3 id="preparing-1"><a class="anchor" href="#preparing-1" aria-label="Anchor link for: preparing-1">Preparing</a></h3>
+<p>Chocolatey requires you to provide a so called <code>nuspec</code> file which essentially provides some details
+for your package. I personally found their <a href="https://docs.chocolatey.org/en-us/create/create-packages#nuspec">docs</a>
+a bit confusing so if you get confused perhaps looking over at my repository could help you out more after you've
+read through them.</p>
+<p>You will see that most of the stuff we specify are essentially the same as what we specified earlier for NuGet.
+Only thing to note here is that you want to make sure that everything your package needs ends up in the <code>tools</code>
+folder.</p>
+<h3 id="compiling"><a class="anchor" href="#compiling" aria-label="Anchor link for: compiling">Compiling</a></h3>
+<p>Uploading to Choco is a little more complicated. First of all, we need to compile our code to a single
+file that has everything it needs to run bundled inside of it aka, a self contained file. It is also a
+good idea to try and remove anything that is not used in terms of libraries considering how much larger
+this file is going to be compared to the <code>nupkg</code> file we created earlier. Take a look at the docs for
+<a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish">dotnet publish</a> but TLDR; our command
+will look something like this:</p>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">dotnet</span><span> publish</span><span style="color:#f29718;"> -o</span><span> tools </span><span style="color:#bfbab0cc;">\
+</span><span style="color:#f29718;">  --self-contained</span><span> True </span><span style="color:#bfbab0cc;">\
+</span><span>  /property:PublishTrimmed=True </span><span style="color:#bfbab0cc;">\
+</span><span>  /property:PublishSingleFile=True
+</span></code></pre>
+<p>The reason why I specify these properties in the arguments of the command instead of in the <code>csproj</code>
+file is because I would have to keep toggling them on and off depending on whether I was
+targeting NuGet or Choco.</p>
+<p>I also specify the following in the <code>csproj</code> file to hopefully cut the executable file size down a
+bit more:</p>
+<pre data-lang="xml" style="background-color:#0f1419;color:#bfbab0;" class="language-xml "><code class="language-xml" data-lang="xml"><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">DebugType</span><span style="color:#39bae690;">&gt;</span><span>none</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">DebugType</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">DebugSymbols</span><span style="color:#39bae690;">&gt;</span><span>false</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">DebugSymbols</span><span style="color:#39bae690;">&gt;
+</span><span style="color:#39bae690;">&lt;</span><span style="color:#59c2ff;">Configuration</span><span style="color:#39bae690;">&gt;</span><span>release</span><span style="color:#39bae690;">&lt;/</span><span style="color:#59c2ff;">Configuration</span><span style="color:#39bae690;">&gt;
+</span></code></pre>
+<p>This should create a <code>.exe</code> file in the <code>tools</code> folder.</p>
+<h3 id="pushing-to-chocolatey"><a class="anchor" href="#pushing-to-chocolatey" aria-label="Anchor link for: pushing-to-chocolatey">Pushing to Chocolatey</a></h3>
+<p>We are almost done! We now only need to run the following:</p>
+<pre data-lang="bash" style="background-color:#0f1419;color:#bfbab0;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#ffb454;">choco</span><span> pack
+</span><span style="color:#ffb454;">choco</span><span> push</span><span style="color:#f29718;"> --api-key</span><span style="color:#f29668;">=&lt;</span><span>API KEY</span><span style="color:#f29668;">&gt;
+</span></code></pre>
+<p>Your API key can be found <a href="https://community.chocolatey.org/account">here</a> and I do not know why
+navigating to your profile page is so hard on their website.</p>
+<p>Publications on Chocolatey take way longer than NuGet (around 1-3 hours from personal experience)
+so sit back, go grab yourself some coffee, do some laundry, watch some YouTube, call your friends,
+finish that one side project you abandoned 7 months ago, and check your email every 2 minutes in
+case something goes wrong with the publication.</p>
+<h2 id="time-to-make-a-workflow"><a class="anchor" href="#time-to-make-a-workflow" aria-label="Anchor link for: time-to-make-a-workflow">Time to make a Workflow</a></h2>
+<p>Workflows are great! They do the boring, repetitive stuff for you automatically so you don't have
+to worry about forgetting them or doing something wrong, your project looks cooler and more serious
+with them but most importantly, from what I understand, they qualify you for DevOps positions which
+pay quite well so that's the main reason why you should care about making them 👍</p>
+<p>Feel free to check <a href="https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release">Github's docs</a>.</p>
+<p>We first start by specifying that we want our workflow to run on a new release publication</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span style="color:#f29718;">on</span><span style="color:#bfbab0cc;">:
+</span><span>  </span><span style="color:#59c2ff;">release</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">types</span><span style="color:#bfbab0cc;">: </span><span>[</span><span style="color:#c2d94c;">published</span><span>]
+</span></code></pre>
+<p>The release event has a bunch of different types that are explained very nicely in the documentation,
+I personally chose <code>published</code> which gets triggered for normal as well as pre-releases.</p>
+<p>The good news is that this is a very simply workflow because we've already figured out how to do most
+of the work from our terminals!</p>
+<pre data-lang="yml" style="background-color:#0f1419;color:#bfbab0;" class="language-yml "><code class="language-yml" data-lang="yml"><span style="color:#59c2ff;">jobs</span><span style="color:#bfbab0cc;">:
+</span><span>  </span><span style="color:#59c2ff;">publish</span><span style="color:#bfbab0cc;">:
+</span><span>    </span><span style="color:#59c2ff;">runs-on</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">windows-latest
+</span><span>    </span><span style="color:#59c2ff;">steps</span><span style="color:#bfbab0cc;">:
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/checkout@v2
+</span><span>      - </span><span style="color:#59c2ff;">uses</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">actions/setup-dotnet@v1
+</span><span>        </span><span style="color:#59c2ff;">with</span><span style="color:#bfbab0cc;">:
+</span><span>          </span><span style="color:#59c2ff;">dotnet-version</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&#39;6.0.x&#39;
+</span><span>      </span><span style="font-style:italic;color:#5c6773;"># Nuget 
+</span><span>      - </span><span style="color:#59c2ff;">run</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dotnet pack
+</span><span>      - </span><span style="color:#59c2ff;">run</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dotnet nuget push .\Rember\nupkg\*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+</span><span>        </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Nuget publish
+</span><span>      </span><span style="font-style:italic;color:#5c6773;"># Choco
+</span><span>      - </span><span style="color:#59c2ff;">run</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">dotnet publish -o tools --verbosity normal --self-contained True /property:PublishTrimmed=True /property:PublishSingleFile=True 
+</span><span>      - </span><span style="color:#59c2ff;">run</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">choco pack
+</span><span>      - </span><span style="color:#59c2ff;">run</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">choco push --api-key=${{ secrets.CHOCO_API_KEY }}
+</span><span>        </span><span style="color:#59c2ff;">name</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">Choco publish
+</span></code></pre>
+<p>As you can see, I checkout to my repository and set up Dotnet 6 before running the exact same commands
+I mentioned earlier. The only thing left now is to set the <code>NUGET_API_KEY</code> and <code>CHOCO_API_KEY</code> secrets
+in your github repository and create your first release!</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>Overall, I feel like this was a little less exciting than some of my other posts but to me, the whole process
+of publishing this project was quite exciting and I wanted to write something about it. Hopefully this inspires
+someone to go make his own package or library and make it available, same way Nick's video inspired me to work
+on this project. Till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/posharp/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Veritas</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/aspnet_testing/">
+                <span class="button__text">Testing an ASP .NET Core project</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

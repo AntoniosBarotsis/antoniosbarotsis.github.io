@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Simple JWT</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="A simple JWT authorization scheme.">
+
+    <meta property="og:description" content="A simple JWT authorization scheme.">
+    <meta property="og:title" content="Simple JWT">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/simple_jwt/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="A simple JWT authorization scheme.">
+    <meta name="twitter:title" content="Simple JWT">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/simple_jwt/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/simple_jwt/">Simple JWT</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2022-06-29
+    </span>
+ :: 6 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/simple_jwt.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/coding/">#Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/csharp/">#Csharp</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/simple_jwt/#simple-jwt-authorization-with-net">Simple JWT Authorization with .NET</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/simple_jwt/#setup">Setup</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/simple_jwt/#the-jwtconfig">The JwtConfig</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/simple_jwt/#the-tokenservice">The TokenService</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/simple_jwt/#the-secured-attribute">The Secured Attribute</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/simple_jwt/#closing">Closing</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+</ul>
+
+
+    <h1 id="simple-jwt-authorization-with-net"><a class="anchor" href="#simple-jwt-authorization-with-net" aria-label="Anchor link for: simple-jwt-authorization-with-net">Simple JWT Authorization with .NET</a></h1>
+<p>Recently I have been working on a side project that needed a very simple toy-like auth
+scheme to be implemented. The last few times I implemented JWTs in .NET it was for a full-blown
+application which means that I made use of things like <code>IdentityModel</code> and <code>UserManager</code>.</p>
+<p>In this case, I did not need <em>Authentication</em>, just <em>Authorization</em>. The two are defined as followed
+in the <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/authentication-vs-authorization">MS Docs</a>.</p>
+<blockquote>
+<p>Authentication is the process of proving that you are who you say you are. [...]
+Authorization is the act of granting an authenticated party permission to do something.
+It specifies what data you're allowed to access and what you can do with that data.</p>
+</blockquote>
+<p>For my use case, simulating a credential check is enough; I don't need to store and check
+password salted hashes to make sure a user is indeed who he is supposed to be as this is a toy app
+that I am working on with supposedly just one user. All this means that if you are looking for a
+tutorial on how to implement Auth for your new project, this is probably not the article for you,
+it is just a less verbose way of dealing with JWT generation and validation that works for me.</p>
+<p>That being said, let's get started.</p>
+<h2 id="setup"><a class="anchor" href="#setup" aria-label="Anchor link for: setup">Setup</a></h2>
+<p>The only package I used is <a href="https://www.nuget.org/packages/JWT.Extensions.AspNetCore">JWT.Extensions</a>.
+I created 3 classes that make everything work:</p>
+<ul>
+<li><code>JwtConfig</code>: Holds the JWT secret which is provided in the <code>application.json</code> file. Could also be
+used for other pieces of configuration such as the token lifespan</li>
+<li><code>Secured</code>: An attribute that when attached to a controller or a specific endpoint requires a
+valid token to be provided in the request header</li>
+<li><code>TokenService</code>: A very simple interface to the <code>JWT.Extensions</code> API that helps us create and
+validate tokens.</li>
+</ul>
+<h2 id="the-jwtconfig"><a class="anchor" href="#the-jwtconfig" aria-label="Anchor link for: the-jwtconfig">The <code>JwtConfig</code></a></h2>
+<p>Let's start with the config class first. The idea with this is pretty simple; have a section in our
+<code>appsettings.json</code> file where we define crucial security information in plain text, what could
+possibly go wrong! On a more serious note, while this is fine for developing, you should definitely
+use something like <a href="https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&amp;tabs=windows">app secrets</a>
+or plain old environment variables for this. Once again, my app is not supposed to be secure so I don't
+care.</p>
+<p>The class itself is pretty simple in my case:</p>
+<pre data-lang="cs" style="background-color:#0f1419;color:#bfbab0;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="color:#ff7733;">public </span><span style="font-style:italic;color:#39bae6;">record </span><span style="color:#ffb454;">JwtConfig</span><span>(</span><span style="color:#ff7733;">string </span><span style="color:#f29718;">Secret </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;fallback-secret&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>And here's my settings file</p>
+<pre data-lang="json" style="background-color:#0f1419;color:#bfbab0;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>  </span><span style="color:#c2d94c;">&quot;JwtConfig&quot;</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    </span><span style="color:#c2d94c;">&quot;secret&quot;</span><span style="color:#bfbab0cc;">: </span><span style="color:#c2d94c;">&quot;jwt-secret&quot;
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#c2d94c;">&quot;Logging&quot;</span><span style="color:#bfbab0cc;">: </span><span>{
+</span><span>    </span><span style="color:#ff3333;">...
+</span><span>  }</span><span style="color:#bfbab0cc;">,
+</span><span>  </span><span style="color:#ff3333;">...
+</span><span>}
+</span></code></pre>
+<p>Now that that's out of the way, let's make sure we use the secret from our settings file in the
+<code>JwtConfig</code> instances.</p>
+<p>I made it so the class is registered as a singleton in the DI container, the binding itself is
+pretty simple:</p>
+<pre data-lang="cs" style="background-color:#0f1419;color:#bfbab0;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="font-style:italic;color:#5c6773;">// Program.cs
+</span><span style="color:#ff7733;">var </span><span>jwtConfig </span><span style="color:#f29668;">= new </span><span style="font-style:italic;color:#39bae6;">JwtConfig</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>builder</span><span style="color:#f29668;">.</span><span>Configuration</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">Bind</span><span>(</span><span style="color:#ff7733;">nameof</span><span>(jwtConfig)</span><span style="color:#bfbab0cc;">, </span><span>jwtConfig)</span><span style="color:#bfbab0cc;">;
+</span><span>builder</span><span style="color:#f29668;">.</span><span>Services</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">AddSingleton</span><span>(jwtConfig)</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>I used <code>nameof</code> just because I wanted to be sure that the config file's section is titled the
+exact same as the class itself to avoid confusion, this is just a string so swapping it out for
+<code>"JwtConfig"</code> would change nothing.</p>
+<p>Since we are here, let's also configure some basic settings for our tokens</p>
+<pre data-lang="cs" style="background-color:#0f1419;color:#bfbab0;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="font-style:italic;color:#5c6773;">// Program.cs
+</span><span>builder</span><span style="color:#f29668;">.</span><span>Services</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">AddAuthentication</span><span>(</span><span style="color:#f29718;">options </span><span style="color:#ff7733;">=&gt;
+</span><span>    {
+</span><span>        options</span><span style="color:#f29668;">.</span><span>DefaultChallengeScheme </span><span style="color:#f29668;">= </span><span>JwtAuthenticationDefaults</span><span style="color:#f29668;">.</span><span>AuthenticationScheme</span><span style="color:#bfbab0cc;">;
+</span><span>        options</span><span style="color:#f29668;">.</span><span>DefaultAuthenticateScheme </span><span style="color:#f29668;">= </span><span>JwtAuthenticationDefaults</span><span style="color:#f29668;">.</span><span>AuthenticationScheme</span><span style="color:#bfbab0cc;">;
+</span><span>    })
+</span><span>    </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">AddJwt</span><span>(</span><span style="color:#f29718;">options </span><span style="color:#ff7733;">=&gt; </span><span>{ options</span><span style="color:#f29668;">.</span><span>Keys </span><span style="color:#f29668;">= new</span><span>[] { jwtConfig</span><span style="color:#f29668;">.</span><span>Secret }</span><span style="color:#bfbab0cc;">; </span><span>})</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>builder</span><span style="color:#f29668;">.</span><span>Services</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">AddSingleton</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">IAlgorithmFactory</span><span>&gt;(</span><span style="color:#f29668;">new </span><span style="font-style:italic;color:#39bae6;">HMACSHAAlgorithmFactory</span><span>())</span><span style="color:#bfbab0cc;">;
+</span></code></pre>
+<p>This is taken straight from their <a href="https://github.com/jwt-dotnet/jwt#register-authentication-handler-to-validate-jwt">documentation</a>
+so I won't be explaining it too much, just know that we are telling the package to use
+the key we just defined and we are also using the <code>HMACSHA</code> algorithm.</p>
+<p>It is worth noting that this throws us a warning as this is no longer considered secure
+and it is recommended to "consider switching to RSASSA or ECDSA". Once again, for the purposes
+of my use case, this is not a concern.</p>
+<h2 id="the-tokenservice"><a class="anchor" href="#the-tokenservice" aria-label="Anchor link for: the-tokenservice">The <code>TokenService</code></a></h2>
+<p>This is where most of the interesting stuff happens. Let's first create the class, get our
+<code>jwtConfig</code> secret and assign it to a <code>JwtBuilder</code> instance which we'll use later.</p>
+<pre data-lang="cs" style="background-color:#0f1419;color:#bfbab0;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="color:#ff7733;">public class </span><span style="color:#59c2ff;">TokenService
+</span><span>{
+</span><span>    </span><span style="color:#ff7733;">private readonly </span><span style="font-style:italic;color:#39bae6;">JwtBuilder </span><span>_jwtBuilder</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>    </span><span style="color:#ff7733;">public </span><span style="color:#ffb454;">TokenService</span><span>(</span><span style="font-style:italic;color:#39bae6;">JwtConfig </span><span style="color:#f29718;">jwtConfig</span><span>)
+</span><span>    {
+</span><span>        _jwtBuilder </span><span style="color:#f29668;">= </span><span>JwtBuilder</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">Create</span><span>()
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">WithAlgorithm</span><span>(</span><span style="color:#f29668;">new </span><span style="font-style:italic;color:#39bae6;">HMACSHA512Algorithm</span><span>())
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">WithSecret</span><span>(jwtConfig</span><span style="color:#f29668;">.</span><span>Secret)</span><span style="color:#bfbab0cc;">;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>Creating the token itself is also pretty much copy-pasted from their
+<a href="https://github.com/jwt-dotnet/jwt#register-authentication-handler-to-validate-jwt">docs</a>.</p>
+<pre data-lang="cs" style="background-color:#0f1419;color:#bfbab0;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="color:#ff7733;">public string </span><span style="color:#ffb454;">Create</span><span>(</span><span style="color:#ff7733;">string </span><span style="color:#f29718;">username</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#ff7733;">return </span><span>_jwtBuilder
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">AddClaim</span><span>(</span><span style="color:#c2d94c;">&quot;exp&quot;</span><span style="color:#bfbab0cc;">, </span><span>DateTimeOffset</span><span style="color:#f29668;">.</span><span>UtcNow</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">AddHours</span><span>(</span><span style="color:#f29718;">1</span><span>)</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">ToUnixTimeSeconds</span><span>())
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">AddClaim</span><span>(</span><span style="color:#c2d94c;">&quot;username&quot;</span><span style="color:#bfbab0cc;">, </span><span>username)
+</span><span>        </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">Encode</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>}
+</span></code></pre>
+<p>I only use the expiration date and username for claims.</p>
+<p>Lastly, verification.</p>
+<pre data-lang="cs" style="background-color:#0f1419;color:#bfbab0;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="color:#ff7733;">public bool </span><span style="color:#ffb454;">Verify</span><span>(</span><span style="color:#ff7733;">string </span><span style="color:#f29718;">token</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#ff7733;">try
+</span><span>    {
+</span><span>        </span><span style="color:#ff7733;">var </span><span>json </span><span style="color:#f29668;">= </span><span>_jwtBuilder
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">MustVerifySignature</span><span>()
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">Decode</span><span>(token)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>        </span><span style="color:#ff7733;">return </span><span>json </span><span style="color:#f29668;">is </span><span style="font-style:italic;color:#39bae6;">not </span><span style="color:#f29718;">null</span><span style="color:#bfbab0cc;">;
+</span><span>    }
+</span><span>    </span><span style="color:#ff7733;">catch </span><span>(</span><span style="font-style:italic;color:#39bae6;">Exception</span><span>)
+</span><span>    {
+</span><span>        </span><span style="color:#ff7733;">return </span><span style="color:#f29718;">false</span><span style="color:#bfbab0cc;">;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>I only need a true or false return as I don't care why the token was not valid. In case the token is a
+valid JWT but it is expired, <code>json</code> will be null. If on the other hand, the signature is invalid,
+then an exception will be thrown for whatever reason.</p>
+<h2 id="the-secured-attribute"><a class="anchor" href="#the-secured-attribute" aria-label="Anchor link for: the-secured-attribute">The <code>Secured</code> Attribute</a></h2>
+<p>As I mentioned earlier, all this is glued together by the use of attributes. For this to work,
+we need to implement the <code>IAuthorizationFilter</code> interface. This will make it so our code will be
+executed to determine whether a request should be authorized or not.</p>
+<p>The code for this is also simple but let's go over it step by step</p>
+<pre data-lang="cs" style="background-color:#0f1419;color:#bfbab0;" class="language-cs "><code class="language-cs" data-lang="cs"><span style="color:#bfbab0cc;">[</span><span style="color:#ffb454;">AttributeUsage</span><span>(AttributeTargets</span><span style="color:#f29668;">.</span><span>Class </span><span style="color:#f29668;">| </span><span>AttributeTargets</span><span style="color:#f29668;">.</span><span>Method)</span><span style="color:#bfbab0cc;">]
+</span><span style="color:#ff7733;">public class </span><span style="color:#59c2ff;">Secured </span><span style="color:#bfbab0cc;">: </span><span style="text-decoration:underline;color:#59c2ff;">Attribute</span><span style="color:#bfbab0cc;">, </span><span style="text-decoration:underline;color:#59c2ff;">IAuthorizationFilter
+</span><span>{
+</span><span>    </span><span style="color:#ff7733;">public void </span><span style="color:#ffb454;">OnAuthorization</span><span>(</span><span style="font-style:italic;color:#39bae6;">AuthorizationFilterContext </span><span style="color:#f29718;">context</span><span>)
+</span><span>    {
+</span><span>        </span><span style="color:#ff7733;">var </span><span>jwtConfig </span><span style="color:#f29668;">= </span><span>context</span><span style="color:#f29668;">.</span><span>HttpContext</span><span style="color:#f29668;">.</span><span>RequestServices</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">GetService</span><span>&lt;</span><span style="font-style:italic;color:#39bae6;">JwtConfig</span><span>&gt;()</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="color:#ff7733;">if </span><span>(jwtConfig </span><span style="color:#f29668;">== </span><span style="color:#f29718;">null</span><span>) </span><span style="color:#ff7733;">throw </span><span style="color:#f29668;">new </span><span style="font-style:italic;color:#39bae6;">ArgumentNullException</span><span>()</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>        </span><span style="color:#ff7733;">var </span><span>tokenService </span><span style="color:#f29668;">= new </span><span style="font-style:italic;color:#39bae6;">TokenService</span><span>(jwtConfig)</span><span style="color:#bfbab0cc;">;
+</span><span>        </span><span style="color:#ff7733;">var </span><span>token </span><span style="color:#f29668;">= </span><span>context
+</span><span>            </span><span style="color:#f29668;">.</span><span>HttpContext
+</span><span>            </span><span style="color:#f29668;">.</span><span>Request
+</span><span>            </span><span style="color:#f29668;">.</span><span>Headers[</span><span style="color:#c2d94c;">&quot;Authorization&quot;</span><span>]
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">ToString</span><span>()
+</span><span>            </span><span style="color:#f29668;">.</span><span style="color:#ffb454;">Replace</span><span>(</span><span style="color:#c2d94c;">&quot;Bearer &quot;</span><span style="color:#bfbab0cc;">, </span><span style="color:#c2d94c;">&quot;&quot;</span><span>)</span><span style="color:#bfbab0cc;">;
+</span><span>
+</span><span>        </span><span style="color:#ff7733;">if </span><span>(</span><span style="color:#f29668;">!</span><span>tokenService</span><span style="color:#f29668;">.</span><span style="color:#ffb454;">Verify</span><span>(token))
+</span><span>            context</span><span style="color:#f29668;">.</span><span>Result </span><span style="color:#f29668;">= new </span><span style="font-style:italic;color:#39bae6;">JsonResult</span><span>(</span><span style="color:#f29668;">new </span><span>{ message </span><span style="color:#f29668;">= </span><span style="color:#c2d94c;">&quot;Unauthorized&quot; </span><span>})
+</span><span>                { StatusCode </span><span style="color:#f29668;">= </span><span>StatusCodes</span><span style="color:#f29668;">.</span><span>Status401Unauthorized }</span><span style="color:#bfbab0cc;">;
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>As I mentioned earlier, I want this to apply to both endpoints and entire controllers, hence
+the first line. In order to implement <code>IAuthorizationFilter</code>, we need to define the <code>OnAuthorization</code>
+method. We use the <code>IServiceProdiver</code> to retrieve our <code>JwtConfig</code> instance and make sure it is not null.
+We then instantiate <code>TokenService</code> and retrieve the token from the request header. Finally, we make sure
+to throw an Unauthorized message to the user if the token is invalid, otherwise, the request pipeline
+will proceed as expected.</p>
+<p>And that's it! We can now add our newly created attribute to whichever controller or endpoint we want
+and it will be locked behind a valid JWT requirement.</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>This pretty much concludes the article! As I mentioned earlier, this is a very specific and lacking
+implementation, the main point of the article was to showcase how you could use your own attributes
+to simplify the process which to me feels simpler (and less verbose) compared to some of my previous
+implementations.</p>
+<p>This is probably the most boring article I've written so far but I promise you that the project I am
+going to use this for is interesting. It's also a lot harder than anything I've tried before so don't
+expect that the be out anytime soon.</p>
+<p>Till next time :)</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">BudgetFixture</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/posharp/">
+                <span class="button__text">Veritas</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>2023-recapped</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="This one had quite a bit of Rust!">
+
+    <meta property="og:description" content="This one had quite a bit of Rust!">
+    <meta property="og:title" content="2023-recapped">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/2023-recapped/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="This one had quite a bit of Rust!">
+    <meta name="twitter:title" content="2023-recapped">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/2023-recapped/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/2023-recapped/">2023-recapped</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2024-01-06
+    </span>
+ :: 9 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/2023-recapped.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/year-recap/">#Year Recap</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#2023-goals-recap">2023 Goals Recap</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#learn-more-rust">Learn more Rust</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#build-a-decent-tui-app">Build a decent TUI app</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#learn-and-apply-distributed-systems-basics">Learn (and apply?) distributed systems basics</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#look-into-zero-copy-deserialization-parsing-in-general">Look into zero-copy deserialization &amp; parsing in general</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#apply-concurrent-programming">Apply concurrent programming</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#develop-a-general-purpose-library-for-devs">Develop a general-purpose library for devs</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#contribute-more-to-open-source">Contribute more to Open Source</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#2024-goals">2024 Goals</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/2023-recapped/#closing">Closing</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>This year felt rather quick for some reason, I feel like I barely remember anything from before
+summer.</p>
+<p>Well anyway, earlier this year I set some goals to work towards throughout the year, just like
+the year before;</p>
+<!-- The maximum width of the rendered Tweet in whole pixels. This value should be between
+ 250 and 550 pixels. -->
+<!-- https://developer.x.com/en/docs/x-for-websites/embedded-tweets/guides/embedded-tweet-parameter-reference -->
+
+<div style="display: flex;justify-content: center;">
+  <blockquote class="twitter-tweet" 
+    data-width=""
+    data-cards=""
+    data-dnt="true" 
+    data-theme="dark" >
+    <a href="https:&#x2F;&#x2F;twitter.com&#x2F;Tony_Barotsis&#x2F;status&#x2F;1609131868984860673"></a>
+  </blockquote> 
+</div>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>It has been quite some time since and reflecting on stuff that happens over a year is something I
+always find interesting. Also probably a good idea to come up and write down some goals for the
+upcoming year, even if I'm a few days late.</p>
+<h2 id="2023-goals-recap"><a class="anchor" href="#2023-goals-recap" aria-label="Anchor link for: 2023-goals-recap">2023 Goals Recap</a></h2>
+<h3 id="learn-more-rust"><a class="anchor" href="#learn-more-rust" aria-label="Anchor link for: learn-more-rust">Learn more Rust</a></h3>
+<p><a href="../2022-recapped#rust-crab">Last year</a> I wrote that</p>
+<blockquote>
+<p>"<em>I will definitely focus most of my time in 2023 on learning more about it.</em>"</p>
+</blockquote>
+<p>And I definitely did. The fact that <a href="../rss2email"><code>rss2email</code></a> was a whole year ago is crazy to me
+because that's what kickstarted my Rust arc.</p>
+<p>I already mentioned the individual projects I worked on <a href="../../about#2023">here</a> and you can also see
+the repositories
+<a href="https://github.com/AntoniosBarotsis?tab=repositories&amp;q=created%3A2022-10-01..2024-01-01&amp;type=source&amp;language=rust&amp;sort=">on my Github</a>
+although a few private ones are omitted. The 2 notable ones are the ones mentioned in
+<a href="../rewrite_cs_in_rust">this</a> and <a href="../python_package_written_in_rust">this</a> blog posts.</p>
+<p>I also read through a lot of articles and a couple of books on the language, both of which I
+learned a lot from and will definitely continue to do next year. I still have a few books I have
+bought but have yet to read so I need to try and stop impulsively buying new ones before those are
+done 😅</p>
+<p>I even attended a few <a href="https://www.meetup.com/rust-amsterdam-group/">local conferences</a>!</p>
+<h3 id="build-a-decent-tui-app"><a class="anchor" href="#build-a-decent-tui-app" aria-label="Anchor link for: build-a-decent-tui-app">Build a decent TUI app</a></h3>
+<p>Never really came up with an idea for this, even though I always had it at the back of my mind. I
+guess <a href="https://github.com/AntoniosBarotsis/controller-trigger-recorder">I can say I finally did some UI</a>
+at last but TUI specifically.</p>
+<p>To be honest, I don't really mind not having done this as, again, I didn't have a good reason to
+at any point but I'll be keeping it in mind throughout 2024 as well. I think some sort of
+dashboard could be cool, I'll likely revisit this if I get around to doing anything related to
+distributed systems stuff as it could be useful for debugging and observing what is going on.</p>
+<h3 id="learn-and-apply-distributed-systems-basics"><a class="anchor" href="#learn-and-apply-distributed-systems-basics" aria-label="Anchor link for: learn-and-apply-distributed-systems-basics">Learn (and apply?) distributed systems basics</a></h3>
+<p>Did not do quite as much as I had in mind but then again, I did not know too much about this to
+set any sort of accurate goals for this anyway.</p>
+<p>I started reading <a href="https://archive.org/details/designing-data-intensive-applications-the-big-ideas-behind-reliable-scalable-and">"Designing Data-Intensive Applications" by Martin Kleppmann</a>
+which touches on quite a few interesting and relevant topics but I still have a decent chunk of the
+book to finish. I also took a look and did ~half of the
+<a href="https://fly.io/dist-sys/3b/">Fly.io distributed systems challenges</a>.</p>
+<p>My main issue with distributed systems is that it is quite hard to find a problem that I have that
+could be solved by distributed systems as usually the scale required for them is way bigger than
+anything I am dealing with. I could build something arbitrarily like a distributed cache but I like
+working on things that I will actually use or at least need once.</p>
+<p>One idea that I have for this is perhaps looking into the
+<a href="https://en.wikipedia.org/wiki/Actor_model">Actor model</a> as that <em>should</em> share some of the same
+philosophies of distributed systems. Of course, a lot of stuff will probably not overlap but it is
+better than nothing.</p>
+<!-- https://fly.io/dist-sys/3b/ -->
+<h3 id="look-into-zero-copy-deserialization-parsing-in-general"><a class="anchor" href="#look-into-zero-copy-deserialization-parsing-in-general" aria-label="Anchor link for: look-into-zero-copy-deserialization-parsing-in-general">Look into zero-copy deserialization &amp; parsing in general</a></h3>
+<p>Well, I did make an <a href="https://modis.ornl.gov/documentation/ascii_grid_format.html">ASCII Grid format</a>
+parser, as well as needed to do some parsing in
+<a href="https://www.shuttle.rs/cch">Shuttle's Christmas Code Hunt</a>. The former used
+<a href="https://github.com/rust-bakery/nom"><code>nom</code></a> and a bunch of lifetimes that technically qualify
+as zero-copy. I also used <a href="https://github.com/pest-parser/pest"><code>pest</code></a> in that project which I
+found easier.</p>
+<p>I definitely feel like I could use some more practice but when is that not the case ¯\_(ツ)_/¯</p>
+<h3 id="apply-concurrent-programming"><a class="anchor" href="#apply-concurrent-programming" aria-label="Anchor link for: apply-concurrent-programming">Apply concurrent programming</a></h3>
+<p>This went quite well!</p>
+<p>I applied a lot of stuff from the <a href="https://marabos.nl/atomics/">Rust Atomics and Locks</a> book in
+my University software project (the one with the self driving robot), some of
+<a href="https://github.com/AntoniosBarotsis/shuttle-cch23/blob/b4060ca2ffea30937319188b7160940d2c0effba/src/days/day_19.rs">my solutions</a>
+to Shuttle's Christmas Code Hunt (a previous iteration was quite a bit more complex but I ended up
+scraping it), my <a href="https://github.com/AntoniosBarotsis/mandelbrot">Mandelbrot set renderer</a> as well
+as my <a href="https://github.com/AntoniosBarotsis/controller-trigger-recorder">controller ui</a>.</p>
+<p>I ended up using some SIMD in my Mandelbrot renderer as well which was quite interesting and I also
+ended up reading a lot about SIMD-able sorting algorithms for whatever reason which are
+quite cool!</p>
+<h3 id="develop-a-general-purpose-library-for-devs"><a class="anchor" href="#develop-a-general-purpose-library-for-devs" aria-label="Anchor link for: develop-a-general-purpose-library-for-devs">Develop a general-purpose library for devs</a></h3>
+<p>I'm pretty happy with this as well. The two most notable ones have got to be my Software project
+and the <a href="https://github.com/AntoniosBarotsis/confusables"><code>confusables</code></a> library.</p>
+<p>In the Software project I worked on library functions that the students using our platform would use
+as well as a testing framework for testing some of our ROS node code that we ourselves ended up using.</p>
+<p>As for the <code>confusables</code> library, I stumbled upon the fantastic talk
+<a href="https://youtu.be/_mZBa3sqTrI?si=70dtSnU2HJ93nBnh">"Plain Text" by Dylan Beattie</a> and ended up
+reading up on random Unicode things, eventually coming across confusables and making a library
+for detecting them. I experimented with creating JavaScript bindings for the crate as well as
+compile-time code generation. It also ended up getting a
+<a href="https://crates.io/crates/confusables">surprising amount of downloads</a> although I can't be sure how
+many of those are automated and how many are actual use cases. Still pretty cool though.</p>
+<h3 id="contribute-more-to-open-source"><a class="anchor" href="#contribute-more-to-open-source" aria-label="Anchor link for: contribute-more-to-open-source">Contribute more to Open Source</a></h3>
+<p>This was another good one, I feel like I made a
+<a href="https://github.com/pulls?q=author%3A%40me+-user%3A%40me+sort%3Aupdated-desc+created%3A2022-10-01..2024-01-01+">decent amount</a>,
+one of them was even towards the Rust compiler! (it was definitely not a typo in the docs somewhere
+do not look it up)</p>
+<p>I also made a <a href="https://gitlab.com/veloren/veloren/-/merge_requests/3853">temporary bug fix</a> for an
+open source game I was playing at the time with a couple of friends. It was quite funny knowing I
+stopped dying to a bug that I myself had fixed once it was published.</p>
+<h2 id="2024-goals"><a class="anchor" href="#2024-goals" aria-label="Anchor link for: 2024-goals">2024 Goals</a></h2>
+<p>I think I want to shift my focus, at least partially, to reading more instead of building small
+projects. Although they are fun, I feel like I am at a point where I've used Rust extensively and
+doing more small projects won't teach me quite as much. I'll probably still build random stuff since
+they're fun and often interesting/useful but I don't think there's a point in setting that as a
+"goal" necessarily. I still have 3-4 books (none Rust specific) I've bought and haven't
+finished/started so I definitely want to be done with those and there are always more books to read
+if I'm done early.</p>
+<p>I still want to learn more about distributed systems. As I mentioned earlier, I find it hard to find
+some tangible project idea that makes use of them to anchor myself to and build towards but reading
+more about them is a good starting point so I'll be doing some more of that.</p>
+<p>Lastly, and my main goal for the year, is to look into computational fluid dynamics and attempt to
+build a simulation showcasing either something like the aerodynamic properties of a car or some sort
+of water simulation. This is quite far outside the area of things I know so I really can't tell
+now if the vague idea that I have of an end result is realistic to achieve over this year alone.
+Roughly what I have in mind is something like a <a href="https://en.wikipedia.org/wiki/Wind_tunnel">wind tunnel</a>
+simulation where a car is placed in the middle of the frame and air is blown out of one side, allowing
+you to see how it interacts with the various parts of the car. There are so many questions I need to
+answer even before I start doing too much research on this such as:</p>
+<ul>
+<li>do I want this to be in 2d or 3d?</li>
+<li>what will the performance look like and will I have to use a GPU? Does that affect my algorithm
+choice?</li>
+<li>how easy do I want creating objects to test to be?</li>
+<li>should I aim to support importing objects via some standard format?</li>
+<li>how do I even get things to show up on screen? Should I use like a game engine or something?</li>
+<li>is something like this possible in real-time or should I aim for more of a record and playback method?</li>
+</ul>
+<p>This probably comes off a bit out of the blue for the type of stuff I usually do. Truth is, I've
+just been getting fascinated by the aerodynamics of (race)cars recently and I'm quite annoyed about
+the fact that I don't understand how aerodynamics work at all. Unfortunately, I was never a physics
+person so instead of reading a book about aerodynamics, I will instead simulate them as any
+non-sensible software person would do.</p>
+<p>I would also like to blog some more this year and this whole aerodynamics arc could make for a nice
+little blog series.</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>Overall, I'm pretty happy with how the year went actually. I think I overall managed to hit or at
+least make good progress towards all of them. Let's see how far I get this time!</p>
+<!-- The maximum width of the rendered Tweet in whole pixels. This value should be between
+ 250 and 550 pixels. -->
+<!-- https://developer.x.com/en/docs/x-for-websites/embedded-tweets/guides/embedded-tweet-parameter-reference -->
+
+<div style="display: flex;justify-content: center;">
+  <blockquote class="twitter-tweet" 
+    data-width=""
+    data-cards=""
+    data-dnt="true" 
+    data-theme="dark" >
+    <a href="https:&#x2F;&#x2F;twitter.com&#x2F;Tony_Barotsis&#x2F;status&#x2F;1743687653386506460"></a>
+  </blockquote> 
+</div>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>This is more or less fewer goals than last year but you know what they say, less is more and the
+more the merrier.</p>
+<p>Till next year!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/efficient-logging/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Efficient Logging</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/rewrite_cs_in_rust/">
+                <span class="button__text">Rewriting it in Rust</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>
