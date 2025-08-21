@@ -804,7 +804,7 @@ In any case, till next time!
 [uBlock origin]: https://github.com/gorhill/uBlock
 [this block-list]: https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist
 [Unhook]: https://unhook.app
-[StackOverflow running entirely on prem]: https://stackexchange.com/performance
+[StackOverflow running entirely on prem]: https://archive.is/9dEsB
 [Dr. Tratt's blog]: https://tratt.net/laurie/
 [this post]: https://tratt.net/laurie/blog/2025/the_fifth_kind_of_optimisation.html
 
