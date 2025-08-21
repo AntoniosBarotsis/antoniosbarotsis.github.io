@@ -44,6 +44,8 @@ then the cycle repeats.
 
 ### Some Cool Projects I've Worked On
 
+- A tool for searching through your spotify playlists by describing their cover arts in natural
+  language [[repo]](https://github.com/AntoniosBarotsis/spotify-img-search)
 - A real-time, transparent chart of your controller trigger inputs - 
   [[repo]](https://github.com/AntoniosBarotsis/controller-trigger-recorder)
 - A library that provides a couple of Unicode utilities for dealing with Unicode 
