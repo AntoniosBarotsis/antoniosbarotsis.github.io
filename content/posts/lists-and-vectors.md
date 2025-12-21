@@ -170,7 +170,7 @@ Let's start by comparing the removal of the first element:
 
 {{ image(src="/img/lists-vs-vectors/1st-lines.svg", class="dark-filter", style="max-width:160%;margin-left:-25%;margin-right:-35%") }}
 
-As we can see, list does expectedly scale in constant time, while list appears more linear. Nothing
+As we can see, list does expectedly scale in constant time, while vec appears more linear. Nothing
 weird so far but it is all downhill for the linkedlist from here.
 
 {{ image(src="/img/lists-vs-vectors/q1-lines.svg", class="dark-filter", style="max-width:160%;margin-left:-25%;margin-right:-35%") }}
