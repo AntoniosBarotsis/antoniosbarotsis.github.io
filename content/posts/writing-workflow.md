@@ -174,7 +174,7 @@ The CI job looks like this:
 In short:
 
 - Clone the repo
-- Install `lychee` and its [build dependencies](https://lychee.cli.rs/installation/#build-dependencies)
+- Install `lychee` and its [build dependencies](https://lychee.cli.rs/guides/getting-started/#build-dependencies)
   \+ sitemap2urllist (the tool I mentioned earlier) **(line 16-17)**
 - I then serve my blog (which uses [zola]) and run lychee on the sitemap running in localhost
   (**line 26**)
