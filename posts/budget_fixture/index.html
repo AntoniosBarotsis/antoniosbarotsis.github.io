@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+  <script src="/footnote.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>BudgetFixture</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="A Proof of Concept AutoFixture Clone in java.">
+
+    <meta property="og:description" content="A Proof of Concept AutoFixture Clone in java.">
+    <meta property="og:title" content="BudgetFixture">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/budget_fixture/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="A Proof of Concept AutoFixture Clone in java.">
+    <meta name="twitter:title" content="BudgetFixture">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/budget_fixture/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/budget_fixture/">BudgetFixture</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2022-07-12
+    </span>
+ :: 15 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/budget_fixture.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/coding/">#Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/java/">#Java</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2>Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#budgetfixture">BudgetFixture</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#what-is-autofixture">What is AutoFixture</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#how-did-this-start">How Did This Start?</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#what-did-i-want-to-build">What Did I Want To Build?</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#end-result">End Result?</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#the-plan">The Plan</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#getting-started-with-the-generator">Getting Started with the Generator</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#creating-the-fixture-class">Creating the Fixture Class</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#generating-class-instances">Generating Class Instances</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/budget_fixture/#closing">Closing</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+</ul>
+
+
+    <h1 id="budgetfixture"><a class="anchor" href="#budgetfixture" aria-label="Anchor link for: budgetfixture">BudgetFixture</a></h1>
+<p>BudgetFixture is a very minimal (budget one could say), proof of concept - clone of the
+<a href="https://github.com/AutoFixture/AutoFixture">AutoFixture</a> package in Java.</p>
+<p>My repository can be found <a href="https://github.com/AntoniosBarotsis/BudgetFixture">here</a>.</p>
+<h2 id="what-is-autofixture"><a class="anchor" href="#what-is-autofixture" aria-label="Anchor link for: what-is-autofixture">What is AutoFixture</a></h2>
+<p>AutoFixture is a very handy .NET library that is</p>
+<blockquote>
+<p>"designed to minimize the 'Arrange' phase of your unit
+tests in order to maximize maintainability. Its primary goal is to allow developers to focus on what
+is being tested rather than how to setup the test scenario, by making it easier to create object
+graphs containing test data."</p>
+</blockquote>
+<p>What does that mean? In essence, it provides a neat interface for creating class instances for your
+tests with random data.</p>
+<p>In their README they provide the following example:</p>
+<pre data-lang="cs" class="language-cs "><code class="language-cs" data-lang="cs">[Fact]
+public void IntroductoryTest()
+{
+    &#x2F;&#x2F; Arrange
+    Fixture fixture = new Fixture();
+
+    int expectedNumber = fixture.Create&lt;int&gt;();
+    MyClass sut = fixture.Create&lt;MyClass&gt;();
+    &#x2F;&#x2F; Act
+    int result = sut.Echo(expectedNumber);
+    &#x2F;&#x2F; Assert
+    Assert.Equal(expectedNumber, result);
+}
+</code></pre>
+<p>For comparison, this is what I ended up with:</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">public class Main {
+    public static void main(String[] args) {
+        Fixture.registerGenerators();
+
+        var test = Fixture.Generate(Person.class);
+
+        System.out.println(test);
+        &#x2F;&#x2F; Person[id=fe4c38b1-aefc-4f6d-a60c-ca4918a3ad79, name=Random string]
+    }
+}
+</code></pre>
+<p>Although these two admittedly look deceivingly similar, I regret to remind you that
+I dropped the project at a very early "proof of concept" stage, meaning that it is
+very much lacking a lot of features and configuration options, some of which would
+cause certain issues in your tests.</p>
+<p>This project was more about seeing if something similar to this was even possible
+rather than creating a useful library I'm afraid.</p>
+<p>That said, there's some interesting bit of reflection involved which not too many
+people care enough about so you might still find it interesting!</p>
+<h2 id="how-did-this-start"><a class="anchor" href="#how-did-this-start" aria-label="Anchor link for: how-did-this-start">How Did This Start?</a></h2>
+<p>A friend of mine recently started working on his own <a href="https://en.wikipedia.org/wiki/Fuzzing">Fuzzer</a>
+which can be found <a href="https://github.com/martinmladenov/fuzzer">here</a>, go give it a star!</p>
+<p>The idea is simple: Create certain blueprint classes (he called them Reference classes)
+which</p>
+<p>For example, the following method would generate and print 100 random URIs;</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">private static String getDemoUris(int seed) {
+    URIReference symbol = new URIReference();
+
+    StringBuilder sb = new StringBuilder();
+    Random rnd = new Random(seed);
+
+    for (int i = 0; i &lt; 100; i++) {
+        sb.append(i).append(&quot;: &quot;);
+        symbol.generate(sb, rnd);
+        sb.append(&quot;\n&quot;);
+    }
+    return sb.toString();
+}
+</code></pre>
+<p>Me being me, I started thinking about how this would work in the context of a library.</p>
+<p>Having used <a href="https://jqwik.net/">Jqwik</a> in the past, I liked their idea of defining
+<code>Providers</code> which were functions that would leverage the library and generate
+random output with potential useful constraints.</p>
+<p>For instance, here's an example they include in their docs;</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">@Provide
+Arbitrary&lt;Integer&gt; divisibleBy3() {
+  return Arbitraries
+      .integers()               &#x2F;&#x2F; an arbitrary integer
+      .between(1, 100)          &#x2F;&#x2F; between 1 and 100
+      .filter(i -&gt; i % 3 == 0); &#x2F;&#x2F; that is also divisible by 3
+}
+</code></pre>
+<p>This deviates a bit from what I wanted to do but at the same time, it's not like
+I had a very clear image of what I wanted to achieve in the first place.</p>
+<h2 id="what-did-i-want-to-build"><a class="anchor" href="#what-did-i-want-to-build" aria-label="Anchor link for: what-did-i-want-to-build">What Did I Want To Build?</a></h2>
+<p>In my case, it would make more sense to have a let's say <code>intProvider</code>
+or a <code>UriProvider</code> instead of a <code>intThatIsDivisibleBy3</code>, although it would be nice to
+allow the tester to override an <code>intProvider</code> with a <code>intThatIsDivisibleBy3</code> in a specific
+test because why not, which is ironic for me to say considering the aforementioned feature
+is left as an exercise to the reader.</p>
+<p>I instead decided to go for simple data type providers and use those to build up any complex
+type. In the <code>Person</code> example from the beginning of the post, for example, I defined <code>UUID</code> and
+<code>String</code> providers (or generators as I ended up calling them) in separate files and used those
+behind the scenes to create a <code>Person</code> instance.</p>
+<p>My idea was to worry about how this could look as a library rather than how the generation
+itself would work which is why as you will see I didn't really add any features around it.</p>
+<h2 id="end-result"><a class="anchor" href="#end-result" aria-label="Anchor link for: end-result">End Result?</a></h2>
+<p>I'm pretty happy with how this ended up looking. Most of this is taken from my repo's
+<a href="https://github.com/AntoniosBarotsis/BudgetFixture">README</a>.</p>
+<p>For this example, let's create a <code>Person</code> record which we'll try to generate automatically
+later:</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Person.java
+public record Person(UUID id, String name) {}
+</code></pre>
+<p>This class has 2 different classes in its fields, namely a <code>UUID</code> and a <code>String</code> so let's
+create <code>Generator</code>s for both of them:</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; UuidGenerator.java
+public class UuidGenerator extends Generator&lt;UUID&gt; {
+    @Override
+    public UUID call() {
+        return UUID.randomUUID();
+    }
+}
+
+&#x2F;&#x2F; StringGenerator.java
+public class StringGenerator extends Generator&lt;String&gt; {
+    @Override
+    public String call() {
+        return &quot;Random string&quot;;
+    }
+}
+</code></pre>
+<p>The contents themselves are not important for the sake of the example, hence the <code>"Random String"</code>.</p>
+<p>Heading back to our <code>Main</code> method, running the following piece of code</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Main.java
+public class Main {
+    public static void main(String[] args) {
+        &#x2F;&#x2F; register UuidGenerator.java &amp; StringGenerator.java
+        Fixture.registerGenerators();
+
+        &#x2F;&#x2F; Generate a Person instance
+        var test = Fixture.Generate(Person.class);
+
+        &#x2F;&#x2F; Check the results
+        System.out.println(test);
+    }
+}
+</code></pre>
+<p>Would print something like this:</p>
+<pre data-lang="txt" class="language-txt "><code class="language-txt" data-lang="txt">Person[id=fe4c38b1-aefc-4f6d-a60c-ca4918a3ad79, name=Random string]
+</code></pre>
+<p>I mentioned my <a href="https://github.com/martinmladenov/fuzzer">friend's Fuzzer</a> earlier as, if that was
+also a library, we could use the <code>Reference</code> classes provided by it for our generators to very easily
+produce complex and randomised attributes for our tests.</p>
+<h2 id="the-plan"><a class="anchor" href="#the-plan" aria-label="Anchor link for: the-plan">The Plan</a></h2>
+<p>Reiterating the previous paragraph but more concretely this time;</p>
+<p>The plan is to fulfill the following:</p>
+<ul>
+<li>easily define a generator for a given data type</li>
+<li>register generators manually (and potentially override default)</li>
+<li>have a way to "discover" the generators automatically without the tester
+needing to manually write them out one by one</li>
+<li>have a very simple way of generating new classes</li>
+</ul>
+<h2 id="getting-started-with-the-generator"><a class="anchor" href="#getting-started-with-the-generator" aria-label="Anchor link for: getting-started-with-the-generator">Getting Started with the Generator</a></h2>
+<blockquote>
+<p>Why does Java have Type Erasure? :(</p>
+</blockquote>
+<p>This right here was the main reason why I wanted to give this project a shot <em>again</em>.
+Java implements <a href="https://docs.oracle.com/javase/tutorial/java/generics/erasure.html">Type Erasure</a>.</p>
+<p>Having picked up reflection and Metaprogramming in general from C#, this was weird to me initially.
+Well, turns out that Java doesn't like reflection as much as C# does <em>and this is terribly apparent in
+any framework/library comparison between the 2 languages</em>.</p>
+<p>But I'm getting sidetracked here. Type erasure is a pretty big problem for this project. To fully
+understand why I'll explain how I would be implementing this in a language that does not use
+type erasure (say C#). I'll be using pseudo-ish code so don't take it char by char for this example.</p>
+<p>It would be possible to have a map (or dictionary depending on your language) of type
+<code>&lt;Class&lt;T&gt;, Callable&lt;T&gt;&gt;</code> where we are essentially mapping a class to some function that
+generates an instance of that class. Sounds simple enough right? Well since that <code>T</code> would get
+erased at runtime, we'd have no way of using our map as it would essentially get turned into
+<code>&lt;Class, Callable&gt;</code>. This would make many things easier (and safer) but since it's not available
+we'll go with the next best thing: using the class' string representation as the Key.</p>
+<p>Since we got that explanation out of the way, let's see how we could create our Generator class then</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Generator.java
+public abstract class Generator&lt;T&gt; {
+    public abstract T call();
+}
+</code></pre>
+<p>Pretty simple so far, we have a class of some generic type <code>T</code> that also has a method <code>call</code> that
+returns something of that type <code>T</code>. I wanted both the class itself and the <code>call</code> method to be abstract
+so that concrete generators inherit from a class which will be important later when we try to detect
+them.</p>
+<p>Coming back to the example from earlier, if we wanted a <code>StringGenerator</code> then that would be a
+<code>Generator&lt;String&gt;</code> type and <code>call</code> would return a <code>String</code>.</p>
+<p>Unfortunately, with Java being Java, getting that <code>T</code> is somewhat cumbersome so we'll add a
+method to help us with that here</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">public abstract class Generator&lt;T&gt; {
+    public abstract T call();
+
+    final Class&lt;T&gt; getType() {
+        &#x2F;&#x2F; Cast result to a generic class
+        ParameterizedType superclass = 
+          (ParameterizedType) getClass().getGenericSuperclass();
+
+        &#x2F;&#x2F; Return first generic type (T)
+        return (Class&lt;T&gt;) superclass.getActualTypeArguments()[0];
+    }
+}
+</code></pre>
+<p>Calling this <code>getType</code> method on our <code>StringGenerator</code> would return <code>java.lang.String</code>.</p>
+<p>Notice that <code>call</code> is declared <code>public</code> so that it can be overridden by the tester while
+<code>getType</code> is both <code>final</code> (so it can't be overridden) and also package-private.</p>
+<p>To recap, we somewhat found a way around Java's type erasure using the text representation of the
+classes instead of the classes themselves and we also made a wrapper abstract class to use for this.
+Now, all we have to do is literally everything else!</p>
+<h2 id="creating-the-fixture-class"><a class="anchor" href="#creating-the-fixture-class" aria-label="Anchor link for: creating-the-fixture-class">Creating the Fixture Class</a></h2>
+<p>Second step into the project and here comes the first decision I later regretted: turning this class
+into a Singleton.</p>
+<p>Test runners nowadays (JUnit included) play around with state scope a lot when running your tests.
+Your tests might be ran in parallel, certain objects involved in your tests might get an instance
+assigned to them for one single test or a group of tests, and so on. All these are usually fine
+if you are dealing with non-static classes. The pitfall of using static classes is that any
+change in the underlying configuration options that you provide might produce unexpected
+behavior if it takes place halfway through your test execution.</p>
+<p>You will see later as I dive through my code that I have a <code>ConstructorFinder</code> interface, this is
+using the strategy pattern to abstract away how I choose a class constructor (I could either pick
+the one with the most attributes or the default one for example). I made this because, depending on
+your use case, you might want to configure your class attributes through the constructor instead of the
+setters or the other way around and I wanted the tester to be able to choose. This would be fine if
+you could choose this option in an individual Fixture instance instead of a singleton. You should
+generally try to avoid anything static in your tests and this is exactly why.</p>
+<p>As an example, say that all of the entities you use in your tests have full arg constructors
+which you want to use when instantiating them, except for this one class which for some reason
+uses a no-arg constructor only for which you need to use the setters for. Were you to tell my
+fixture class "Hey, I want to use the no-arg constructor for this test" the class would <em>do</em> that
+and also use that behavior for all the remaining tests which is more than likely, undesirable.</p>
+<p>Don't get me wrong, using a singleton somewhere is a good idea for this unless you want every
+new Fixture instance to rescan half your package hierarchy. What I should have done instead however
+is have the Singleton be some sort of configuration/builder object that would create the actual
+Fixture instance which would not be a singleton. This way, the state would not be shared between tests
+and that would not cause issues.</p>
+<!-- As I mentioned earlier, this is a proof of concept and not meant to be used as a testing library
+but in case you want to build off of it, definitely make the changes I just mentioned, the "global
+settings" should be frozen once the instances are created to avoid unexpected behavior. -->
+<p>With that out of the way, let's see what my Fixture class looks like.</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">public class Fixture {
+    private static final ConstructorFinder constructorFinder = 
+        new LongestConstructorStrategy&lt;&gt;();
+        
+    private static final HashMap&lt;String, Generator&lt;?&gt;&gt; map = new HashMap&lt;&gt;();
+
+    private Fixture() { }
+
+    private static HashMap&lt;String, Generator&lt;?&gt;&gt; getMap() {
+        return map;
+    }
+}
+</code></pre>
+<p>Nothing weird going on with the map as I explained my reasoning earlier. Let's go on a small tangent
+and check the <code>ConstructorFinder</code> class before moving further down</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; ConstructorFinder.java
+public interface ConstructorFinder&lt;T&gt; {
+    Constructor&lt;T&gt; getConstructor(Class&lt;T&gt; obj) throws NoSuchMethodException;
+}
+</code></pre>
+<p>Similar to the <code>Generator</code> class from earlier, the idea is to, given a class <code>T</code>, return a
+constructor with generic type <code>T</code> which means a constructor that creates an instance of <code>T</code>.</p>
+<p>As I mentioned earlier, I made 2 implementations of this interface as seen below:</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; DefaultConstructorStrategy.java
+public class DefaultConstructorStrategy&lt;T&gt; implements ConstructorFinder&lt;T&gt;{
+    @Override
+    public Constructor&lt;T&gt; getConstructor(Class&lt;T&gt; obj) throws NoSuchMethodException {
+        return obj.getConstructor();
+    }
+}
+
+&#x2F;&#x2F; LongestConstructorStrategy.java
+public class LongestConstructorStrategy&lt;T&gt; implements ConstructorFinder&lt;T&gt; {
+    @Override
+    public Constructor&lt;T&gt; getConstructor(Class&lt;T&gt; obj) {
+        &#x2F;&#x2F; Get class constructors
+        var ctors = obj.getConstructors();
+
+        &#x2F;&#x2F; Find the one with the most parameters
+        var tmp = Arrays.stream(ctors)
+            .max(Comparator.comparingInt(x -&gt; x.getParameterTypes().length));
+
+        &#x2F;&#x2F; tmp is an optional so we need .get()
+        return (Constructor&lt;T&gt;) tmp.get();
+    }
+}
+</code></pre>
+<p>These definitely look safe and don't have half a dozen things that could go wrong in a more
+realistic code base so let's move on!</p>
+<p>Small note here, currently the map allows overrides; if a specific Generator exists and is registered
+at runtime, nothing is preventing you from specifying another Generator for the same type, effectively
+overriding the previous one. This isn't necessarily bad as you may want to make that override for a
+particular test (assuming again, the concerns I listed earlier about singletons are taken care of)
+which would look like this;</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Using a Generator we have already
+&#x2F;&#x2F; declared in a separate file
+Fixture.Register(new UuidGenerator());
+
+&#x2F;&#x2F; Or declaring one inline
+Fixture.Register(new Generator&lt;String&gt;() {
+    @Override
+    public String call() {
+        return &quot;very cool random text&quot;;
+    }
+});
+</code></pre>
+<p>And another small note, I have moved some of these methods to a helper class <code>Util</code> to declutter
+the original one, I'll be adding the filename at the top to avoid confusion!</p>
+<p>I've also defined a <code>Tuple</code> class which looks like this:</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Tuple.java
+public record Tuple&lt;T, K&gt;(T _1, K _2) {}
+</code></pre>
+<h3 id="dealing-with-the-generators"><a class="anchor" href="#dealing-with-the-generators" aria-label="Anchor link for: dealing-with-the-generators">Dealing with the Generators</a></h3>
+<p>As I mentioned earlier, I wanted a way to dynamically find all the declared generators and
+use them without the user needing to specify them.</p>
+<p>To do that we first need to get all classes in the relevant package. I decided to consider
+the "relevant package" to be the package that calls the <code>registerGenerators</code> (which is the
+method that we are building up to). A nice addition here would be to include a configuration
+option (or a function overload) that allows the tester to specify the package where the generators
+are defined to save up some time on startup and to allow them to specify a different package.</p>
+<p>Anyway, this is the method I ended up with</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Util.java
+private static List&lt;Tuple&lt;String, String&gt;&gt; listAllClassesFromPackage(String packageName) {
+    &#x2F;&#x2F; Get resource stream for given package
+    InputStream stream = ClassLoader
+        .getSystemClassLoader()
+        .getResourceAsStream(packageName);
+
+    &#x2F;&#x2F; If stream is null -&gt; return empty list
+    if (stream == null) {
+        return List.of();
+    }
+
+    &#x2F;&#x2F; Turn stream into a list
+    BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+    var list = reader.lines().toList();
+
+    &#x2F;&#x2F; Resulting list will be a list of
+    &#x2F;&#x2F; &lt;className, packageName&gt; tuples
+    var res = new LinkedList&lt;Tuple&lt;String, String&gt;&gt;();
+
+    for (String s : list) {
+        &#x2F;&#x2F; If s is a class
+        if (s.endsWith(&quot;.class&quot;)) {
+            &#x2F;&#x2F; Add to res
+            res.add(new Tuple&lt;&gt;(s, packageName));
+        }
+
+        &#x2F;&#x2F; Recursively add nested package
+        res.addAll(listAllClassesFromPackage(packageName + &quot;&#x2F;&quot; + s));
+    }
+
+    return res;
+}
+</code></pre>
+<p>We first need to get the resource stream of the passed package which might be null if there's nothing
+left, in which case we return an empty list. If not, we turn that into a list and iterate through it.
+Classes do end in <code>.class</code> so we can easily filter those out and add them to the result list (res) along
+with the full package name so far. If the current element is not a class (and is, therefore, a package)
+we recursively call the same method again only with an updated package name. Finally, we return the list.</p>
+<p>But where does this <code>packageName</code> initially come from? The following method retrieves it</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Fixture.java
+private static String getPackageName() throws ClassNotFoundException {
+    &#x2F;&#x2F; Get stacktrace
+    StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+    &#x2F;&#x2F; This corresponds to the context that called this method
+    StackTraceElement e = stacktrace[3];
+
+    &#x2F;&#x2F; Load class and get its package name
+    return ClassLoader
+        .getSystemClassLoader()
+        .loadClass(e.getClassName())
+        .getPackageName()
+        .replaceAll(&quot;\\.&quot;, &quot;&#x2F;&quot;);
+}
+</code></pre>
+<p>This is quite self-explanatory except for the stack trace stuff, what's that all about? This was
+<em>borrowed</em> from <a href="https://stackoverflow.com/a/4065546/12756474">this</a> StackOverflow post. Instead of
+the <code>2</code>, I am using <code>3</code> since this get's called from inside another method which adds another
+entry to the stack.</p>
+<p>Moving back to the Util class, I also made a small wrapper method to get the class given the path to it
+which is the following;</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Util.java
+private static Class&lt;?&gt; getClass(String className, String packageName) {
+    var newClassName = 
+        &#x2F;&#x2F; package
+        packageName.replaceAll(&quot;&#x2F;&quot;, &quot;.&quot;) + &quot;.&quot; +
+        &#x2F;&#x2F; className (without .class)
+        className.substring(0, className.lastIndexOf(&#x27;.&#x27;));
+
+    try {
+        &#x2F;&#x2F; Retrieve class using the class name
+        return Class.forName(newClassName);
+    } catch (ClassNotFoundException e) {
+        throw new RuntimeException(&quot;Class &quot; + newClassName + &quot; was not found&quot;);
+    }
+}
+</code></pre>
+<p>Nothing interesting happening here, just including it to avoid confusion later.</p>
+<p>Finally, we get to the more interesting stuff. Combining the previous methods together,
+we get the following:</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Util.java
+static Set&lt;Class&lt;?&gt;&gt; findAllGenerators(String packageName) {
+    &#x2F;&#x2F; Get all classes for the given package
+    &#x2F;&#x2F; lines is a List&lt;Tuple&lt;className, packageName&gt;&gt;
+    var lines = listAllClassesFromPackage(packageName);
+
+    return lines.stream()
+        &#x2F;&#x2F; Sanity check - filter for classes
+        .filter(el -&gt; el._1().endsWith(&quot;.class&quot;))
+        &#x2F;&#x2F; Map to actual classes
+        .map(el -&gt; Util.getClass(el._1(), el._2()))
+        &#x2F;&#x2F; Filter for
+        .filter(el -&gt;
+            &#x2F;&#x2F; Classes with the Generator as a superclass
+            el.getSuperclass() != null &amp;&amp;
+            el.getSuperclass().equals(Generator.class) &amp;&amp;
+            &#x2F;&#x2F; Classes that are not a Main class
+            Util.isNotMain(el)
+        )
+        .collect(Collectors.toSet());
+}
+
+private static boolean isNotMain(Class&lt;?&gt; el) {
+    try {
+        &#x2F;&#x2F; These would have &quot;$[number]&quot; for some reason,
+        &#x2F;&#x2F; remove those
+        var newName = el.getName().replaceAll(&quot;\\$\\d+&quot;, &quot;&quot;);
+        &#x2F;&#x2F; Try to get main method, if there is no main method
+        &#x2F;&#x2F; this throws an exception
+        el.getClassLoader().loadClass(newName).getMethod(&quot;main&quot;, String[].class);
+        &#x2F;&#x2F; If this didn&#x27;t crash then it is a main method
+        return false;
+    } catch (NoSuchMethodException ignored) {
+        &#x2F;&#x2F; if the method doesn&#x27;t exist then it&#x27;s not main
+        return true;
+    } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+    }
+}
+</code></pre>
+<p>Using the list generated from the <code>listAllClassesFromPackage</code>, we have a sanity check filter
+for the classes followed by a map that uses the <code>getClass</code> method I just mentioned. Now that
+we have a stream of Classes we can check to see if they inherit from <code>Generator</code>. Now, for some
+reason I did not figure out, that would also include the Main class which is why I also make sure
+that the current class does not have the <code>Main</code> method.</p>
+<p>Let's recap really quick because that is a lot to take in;</p>
+<ul>
+<li>we have a way of getting the package name of the file that called a specific method we made</li>
+<li>we also have a way to scan that package for all classes that inherit from the <code>Generator</code> class we
+created earlier</li>
+</ul>
+<p>This means that we can now finally build the <code>registerGenerators</code> method!</p>
+<p>This method had way too many exceptions to catch so let's look at it without the try-catch
+blocks first;</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Fixture.java
+public static void registerGenerators() {
+    &#x2F;&#x2F; Get all generator classes
+    var res = Util.findAllGenerators(getPackageName());
+
+    &#x2F;&#x2F; Instantiate and register the new generator
+    res.forEach(el -&gt; {
+        Register((Generator&lt;?&gt;) el.getConstructor().newInstance());
+    });
+}
+
+public static &lt;T&gt; void Register(Generator&lt;T&gt; callable) {
+    &#x2F;&#x2F; Put new generator in the map
+    getMap().put(callable.getType().getName(), callable);
+}
+</code></pre>
+<p>Well that seems simple! We call <code>findAllGenerators</code> with the relevant package name and then
+for each class in the resulting list, we call the <code>Register</code> method you can see right after
+which just adds them to the Fixture HashMap.</p>
+<p>The real method looks more like this</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Fixture.java
+public static void registerGenerators() {
+    try {
+        var res = Util.findAllGenerators(getPackageName());
+        res.forEach(el -&gt; {
+            try {
+                &#x2F;&#x2F; I know this is a mess, the actual code is here
+                Register((Generator&lt;?&gt;) el.getConstructor().newInstance());
+                &#x2F;&#x2F; cheers
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(&quot;No constructor was found for class &quot; + el.getName());
+            } catch (IllegalAccessException e) {
+                try {
+                    throw new RuntimeException(&quot;Constructor &quot; + el.getConstructor() + &quot; is not public&quot;);
+                } catch (NoSuchMethodException ignored) {}  &#x2F;&#x2F; already caught above
+            } catch (InstantiationException e) {
+                throw new RuntimeException(&quot;The class &quot; + el.getName() + &quot; could not be instantiated&quot;);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+    }
+}
+</code></pre>
+<p>It is worth noting that you should probably break this logic and error-catching down as this is
+way too many try-catches for one method but oh well, not my problem, if it works, it works eh?</p>
+<h2 id="generating-class-instances"><a class="anchor" href="#generating-class-instances" aria-label="Anchor link for: generating-class-instances">Generating Class Instances</a></h2>
+<p>Now that we have a way to dynamically find the declared generators and add them to our
+<code>&lt;dataType, Generator&gt;</code> map, it is time we start generating some class instances.</p>
+<p>I'll take this backward this time and show you the finished method before the parts that make it up
+because I want you to see how simple it actually was</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">&#x2F;&#x2F; Fixture.java
+public static &lt;T&gt; T Generate(Class&lt;T&gt; obj) {
+    try {
+        &#x2F;&#x2F; Get class constructor
+        var ctor = (Constructor&lt;T&gt;) constructorFinder.getConstructor(obj);
+
+        &#x2F;&#x2F; Generate a new instance using our generators
+        T res = ctor.newInstance(getConstructorParams(ctor));
+
+        &#x2F;&#x2F; Also use the setters to populate the attributes 
+        useSetters(res);
+
+        return res;
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+}
+</code></pre>
+<p>That's it! We want to get a constructor of the provided class (using our strategy from earlier),
+create a new instance using that constructor (this uses our generators behind the scenes)
+and finally (technically also optionally), use our generators on all relevant setters.</p>
+<p>Technically speaking, if this was an actual library you would want to let the tester decide whether
+or not you should use either the constructor, the setters or both. Perhaps this decision should be
+connected to the constructor finder strategy as in, default constructor &amp; setters or
+big constructor and no setters. In any case, that is beyond the scope of what I wanted to achieve
+so I didn't do much with it.</p>
+<p>But enough with that, let's take a look at the <code>getConstructorParams</code> method;</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">private static &lt;T&gt; Object[] getConstructorParams(Constructor&lt;T&gt; ctor) {
+    return Arrays.stream(ctor.getParameters()) &#x2F;&#x2F; Get constructor params
+        .map(Parameter::getType)               &#x2F;&#x2F; Get param type
+        .map(Class::getName)                   &#x2F;&#x2F; Get class name
+        .map(el -&gt; getMap().get(el).call())    &#x2F;&#x2F; Call appropriate generator
+        .toArray();
+}
+</code></pre>
+<p>For this, we want to basically do the exact opposite of what the <code>Register</code> method from
+earlier does; get the type class names, retrieve and call their corresponding Generators from our
+map.</p>
+<p>With all this done, we have now created our class instance! As I mentioned earlier, stopping here
+would be fine (especially if we assumed that an all-arg constructor is always present) but as I
+mentioned earlier, I wanted to fiddle around with setters as well so let's now take a look at
+<code>useSetters</code>;</p>
+<pre data-lang="java" class="language-java "><code class="language-java" data-lang="java">private static &lt;T&gt; void useSetters(T res) {
+    &#x2F;&#x2F; Create Map&lt;fieldName, fieldType&gt;
+    var fieldTypes = Arrays.stream(res.getClass().getDeclaredFields())
+        .collect(Collectors.toMap(Field::getName, Field::getType));
+
+    &#x2F;&#x2F; Get all setters
+    var setters = Arrays.stream(res.getClass().getDeclaredMethods())
+        .filter(el -&gt; el.getName().toLowerCase(Locale.ROOT).contains(&quot;set&quot;)).toList();
+
+    &#x2F;&#x2F; for each field
+    fieldTypes.forEach((fieldName, fieldType) -&gt; {
+        &#x2F;&#x2F; Find related setter if exists
+        var setter = setters.stream()
+            .filter(el -&gt; el.getName().toLowerCase(Locale.ROOT).contains(fieldName))
+            .findFirst();
+
+        &#x2F;&#x2F; If a setter was found
+        setter.ifPresent(el -&gt; {
+            try {
+                &#x2F;&#x2F; Find generator for given field type
+                var generator = getMap().get(fieldType.getName());
+
+                &#x2F;&#x2F; Pass generator output to setter
+                el.invoke(res, generator.call());
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    });
+}
+</code></pre>
+<p>This first creates a map of all the class field names and types which we'll use later.
+It then finds all methods that contain "set" in their method name (so hopefully all setters).
+Then for each field, we try to find a setter that contains the field name in its name and if
+we do find it we try and get a generator for the current field through our map. Finally, we
+invoke the setter with whatever the generator call gives us.</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>All in all, I'm glad I have this idea a shot again. I tried one or two more times in the past
+but got stuck somewhere and dropped the project in favor of something else (preferably not Java)
+so it was definitely refreshing paying this a visit again after getting some new ideas from here
+and there.</p>
+<p>This definitely was one way of spending the last 2 afternoons.</p>
+<p>Till next time!</p>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        <span class="button previous">
+            <a href="https://antoniosbarotsis.github.io/posts/rss2email/">
+                <span class="button__icon">←</span>&nbsp;
+                <span class="button__text">Rss2Email</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/simple_jwt/">
+                <span class="button__text">Simple JWT</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+    
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>
