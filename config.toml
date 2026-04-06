@@ -20,12 +20,13 @@ taxonomies = [
 [slugify]
 paths = "off"
 
-[markdown]
+[markdown.highlighting]
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = true
-highlight_theme = "ayu-dark"
-bottom_footnotes = true
+# highlight_code = true
+# highlight_theme = "ayu-dark"
+# bottom_footnotes = true
+theme = "ayu-dark"
 
 [extra]
 favicon = "/favicon.ico"

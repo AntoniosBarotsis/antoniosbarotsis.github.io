@@ -41,7 +41,7 @@ jobs:
 
     - uses: taiki-e/install-action@v2
       with:
-        tool: zola@0.19.2
+        tool: zola@0.22.1
 
     - name: Link check
       run: |
