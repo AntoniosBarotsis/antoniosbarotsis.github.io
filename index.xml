@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>Tony&#x27;s Blog</title>
+      <link>https://antoniosbarotsis.github.io</link>
+      <description>My personal website and blog where I write about my programming endeavours.</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://antoniosbarotsis.github.io/index.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Tue, 06 May 2025 12:28:06 +0200</lastBuildDate>
+      <item>
+          <title>My writing workflow</title>
+          <pubDate>Tue, 06 May 2025 12:28:06 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/writing-workflow/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/writing-workflow/</guid>
+          <description>Helping myself blog</description>
+      </item>
+      <item>
+          <title>Low-effort everything</title>
+          <pubDate>Sat, 12 Apr 2025 01:12:39 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/low-effort-everything/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/low-effort-everything/</guid>
+          <description>From taking shortcuts in code to taking shortcuts in learning</description>
+      </item>
+      <item>
+          <title>Linkedlists kinda ..suck?</title>
+          <pubDate>Tue, 11 Feb 2025 21:18:05 +0100</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/lists-and-vectors/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/lists-and-vectors/</guid>
+          <description>Long live cache locality</description>
+      </item>
+      <item>
+          <title>Aim for the stars</title>
+          <pubDate>Wed, 14 Aug 2024 18:24:14 +0300</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/aim-for-the-stars/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/aim-for-the-stars/</guid>
+          <description>Shooting the Andromeda Galaxy</description>
+      </item>
+      <item>
+          <title>Efficient Logging</title>
+          <pubDate>Thu, 01 Aug 2024 02:24:51 +0300</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/efficient-logging/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/efficient-logging/</guid>
+          <description>Speeding up production code by 33% in my cherry-picked-definitely-representative benchmark!</description>
+      </item>
+      <item>
+          <title>2023-recapped</title>
+          <pubDate>Sat, 06 Jan 2024 19:19:01 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/2023-recapped/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/2023-recapped/</guid>
+          <description>This one had quite a bit of Rust!</description>
+      </item>
+      <item>
+          <title>Rewriting it in Rust</title>
+          <pubDate>Sun, 31 Dec 2023 20:56:22 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/rewrite_cs_in_rust/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/rewrite_cs_in_rust/</guid>
+          <description>Like the joke but for real this time.</description>
+      </item>
+      <item>
+          <title>Simple Rust Function Macros</title>
+          <pubDate>Mon, 17 Jul 2023 00:42:43 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/simple_rust_macros/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/simple_rust_macros/</guid>
+          <description>Sometimes, repeating yourself is not that bad, as long as macros do it for you.</description>
+      </item>
+      <item>
+          <title>Finding Rust crates</title>
+          <pubDate>Mon, 06 Mar 2023 23:42:39 +0100</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/finding_rust_crates/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/finding_rust_crates/</guid>
+          <description>A beginner&#x27;s guide on discovering the right Rust crates for the job.</description>
+      </item>
+      <item>
+          <title>Python with a bit of Rust</title>
+          <pubDate>Sat, 25 Feb 2023 02:12:37 +0100</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/python_package_written_in_rust/</guid>
+          <description>Creating and publishing a Python package written in Rust.</description>
+      </item>
+      <item>
+          <title>2022 Recapped</title>
+          <pubDate>Sun, 01 Jan 2023 13:20:00 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/2022-recapped/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/2022-recapped/</guid>
+          <description>A look back at another year of progress.</description>
+      </item>
+      <item>
+          <title>Rss2Email</title>
+          <pubDate>Fri, 07 Oct 2022 18:47:04 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/rss2email/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/rss2email/</guid>
+          <description>My introduction to Rust.</description>
+      </item>
+      <item>
+          <title>BudgetFixture</title>
+          <pubDate>Tue, 12 Jul 2022 22:11:09 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/budget_fixture/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/budget_fixture/</guid>
+          <description>A Proof of Concept AutoFixture Clone in java.</description>
+      </item>
+      <item>
+          <title>Simple JWT</title>
+          <pubDate>Wed, 29 Jun 2022 18:16:47 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/simple_jwt/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/simple_jwt/</guid>
+          <description>A simple JWT authorization scheme.</description>
+      </item>
+      <item>
+          <title>Veritas</title>
+          <pubDate>Sun, 06 Mar 2022 22:29:48 +0100</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/posharp/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/posharp/</guid>
+          <description>My attempt at a testing framework.</description>
+      </item>
+      <item>
+          <title>Zip it and ship it!</title>
+          <pubDate>Tue, 01 Feb 2022 19:05:19 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/zip_it_and_ship_it/</guid>
+          <description>How I published a CLI tool in Chocolatey and Nuget.</description>
+      </item>
+      <item>
+          <title>Testing an ASP .NET Core project</title>
+          <pubDate>Fri, 29 Oct 2021 16:12:35 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/aspnet_testing/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/aspnet_testing/</guid>
+          <description>Tests and automated coverage reports with .NET and Github actions.</description>
+      </item>
+      <item>
+          <title>C# and the ELK stack</title>
+          <pubDate>Thu, 28 Oct 2021 22:04:54 +0200</pubDate>
+          <link>https://antoniosbarotsis.github.io/posts/cs_elk/</link>
+          <guid>https://antoniosbarotsis.github.io/posts/cs_elk/</guid>
+          <description>Integrating the ELK stack with C#.</description>
+      </item>
+    </channel>
+</rss>
