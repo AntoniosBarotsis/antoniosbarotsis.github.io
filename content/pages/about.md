@@ -34,7 +34,7 @@ then the cycle repeats.
 
 - Received a *Letter of Appreciation* for performing data analysis and statistical processing of
   the exam results for the European Board of Physical and Rehabilitation Medicine (EBPRM)
-  `2020-2024 academic years`.
+  `2020-2026 academic years`.
 - *Junior Backend Developer* at GILO Technologies `from September to December 2021`.
 - *Member of the tech core team* in
   [Delft's Google Student Developer Club](https://web.archive.org/web/20230521000246/https://gdsc.community.dev/delft-university-of-technology/)
