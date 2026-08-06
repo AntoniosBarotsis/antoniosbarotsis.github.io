@@ -107,6 +107,7 @@ pyproject
 QUIC
 randomised
 Rember
+reqwest
 rescan
 responce
 rlib
@@ -147,6 +148,7 @@ vectorizing
 Veloren
 weatherforecast
 webapi
+webpki
 Woah
 xunit
 Xunit
