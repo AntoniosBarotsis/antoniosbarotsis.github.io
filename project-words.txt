@@ -87,7 +87,6 @@ NASM
 newtab
 nofile
 nstruction
-opglog
 oplog
 optimising
 overcomplicate
