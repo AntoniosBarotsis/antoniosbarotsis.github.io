@@ -44,7 +44,7 @@
 
 {% macro toc() %}
 {% if page.toc and not page.extra.hide_toc %}
-<h2>Table of Contents</h2>
+<h2 class="toc-heading">Table of Contents</h2>
 <ul>
     {% for h1 in page.toc %}
     <li>
