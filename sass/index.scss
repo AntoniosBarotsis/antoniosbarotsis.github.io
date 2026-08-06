@@ -227,14 +227,15 @@ pre table {
 }
 
 .footnotes-list li {
+  background-color: transparent;
   transition: background-color 0.4s;
 }
 
-/* Highlight the footnote when it is targeted */
 .footnotes-list li:target {
-  background-color: var(--footnote-selected);
+  animation: highlightFade 3s forwards;
 }
 
-.footnote-definition p {
-  display: unset;
+@keyframes highlightFade {
+  0%   { background-color: var(--footnote-selected); }
+  100% { background-color: transparent; }
 }

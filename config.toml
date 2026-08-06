@@ -17,6 +17,9 @@ taxonomies = [
     {name = "tags"},
 ]
 
+[markdown]
+bottom_footnotes = true
+
 [slugify]
 paths = "off"
 
