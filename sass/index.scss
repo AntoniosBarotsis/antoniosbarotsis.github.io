@@ -271,6 +271,14 @@ h4 {
   }
 }
 
+h5 {
+  counter-increment: h5;
+  &::before {
+    content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) ".";
+    margin-right: $heading-number-margin;
+  }
+}
+
 h2.toc-heading {
   counter-increment: none;
   &::before {
