@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+
+
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_OsZHF9H7fUX08AyjtqACUFVfnsQNWfKYkDy9tl0i0bG',{api_host:'https://app.posthog.com'})
+</script>
+
+
+
+<html lang="en">
+<link rel="stylesheet" href="https://antoniosbarotsis.github.io/index.css">
+
+<head>
+  <!--<script src="/footnote.js"></script>-->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/mathtex-script-type.min.js" integrity="sha512-MBhOGY4yRA2eATtRGTcrDJCRqcnLai5+uu47GA2ueVr1MPzirC/iogLWRA8CXTlOTK09VI4fdTe4qE4LBfjsHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <title>Peer to Peer Groceries</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/style.css">
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/orange-auto.css">
+
+        <link rel="stylesheet" href="https://antoniosbarotsis.github.io/color/background_orange.css">
+    
+    <link rel="stylesheet" href="https://antoniosbarotsis.github.io/font-hack-subset.css">
+
+    
+    <meta name="description" content="Most overkill todo list of all time">
+
+    <meta property="og:description" content="Most overkill todo list of all time">
+    <meta property="og:title" content="Peer to Peer Groceries">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://antoniosbarotsis.github.io/posts/p2p-groceries/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Most overkill todo list of all time">
+    <meta name="twitter:title" content="Peer to Peer Groceries">
+    <meta property="twitter:domain" content="antoniosbarotsis.github.io">
+    <meta property="twitter:url" content="https://antoniosbarotsis.github.io/posts/p2p-groceries/">
+
+        <link rel="shortcut icon" type="image&#x2F;x-icon" href="/favicon.ico">
+    
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://antoniosbarotsis.github.io" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            Tony&#x27;s Blog
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        <nav class="menu">
+            <ul class="menu__inner">
+                <li><a href="https://antoniosbarotsis.github.io">Home</a></li>
+            
+                <li class="active"><a href="https://antoniosbarotsis.github.io/posts">Posts</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/tags">Tags</a></li>
+            
+                <li><a href="https://antoniosbarotsis.github.io/about">About</a></li>
+            
+                <li><a href="https://github.com/AntoniosBarotsis" target="_blank" rel="noopener noreferrer">Github</a></li>
+            
+                <li><a href="https://twitter.com/Tony_Barotsis" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+            
+                <li><a href="https://www.linkedin.com/in/antonios-barotsis-5a26a0199/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            
+                <li><a href="mailto:antonios.barotsis@proton.me" target="_blank" rel="noopener noreferrer">Email</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+<h1 class="post-title"><a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/">Peer to Peer Groceries</a></h1>
+<div class="post-meta-inline">
+    
+    
+<span class="post-date">
+    2026-08-06
+    </span>
+ :: 19 min read ::
+    
+    
+
+
+<a href="https://github.com/AntoniosBarotsis/antoniosbarotsis.github.io/blob/master/content/posts/p2p-groceries.md">View
+    Source</a>
+
+
+&nbsp;
+</div>
+
+
+<span class="post-tags-inline">
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/distributed-systems/">#Distributed Systems</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/no-coding/">#No Coding</a>,
+    <a class="post-tag" href="https://antoniosbarotsis.github.io/tags/rust/">#Rust</a></span>
+
+
+        
+
+<meta name="keywords" content="Antonios,Barotsis,Tony,Portfolio,Blog,Open,Source,Rust" />
+
+
+<!-- /posts -->
+<div class="post-content">
+    
+
+<h2 class="toc-heading">Table of Contents</h2>
+<ul>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#introduction">Introduction</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#background">Background</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#short-note-on-the-full-project">Short Note on the Full Project</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#crdts">CRDTs</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#resolution-strategies">Resolution Strategies</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#a-bit-of-code">A Bit of Code</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#recap">Recap</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#networking">Networking</a>
+        
+        <ul>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#message-types">Message Types</a>
+            </li>
+            
+            <li>
+                <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#message-handling">Message Handling</a>
+            </li>
+            
+        </ul>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#lessons-learned">Lessons Learned</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#future-changes">Future Changes</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#closing">Closing</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://antoniosbarotsis.github.io/posts/p2p-groceries/#footnotes">Footnotes</a>
+        
+    </li>
+    
+</ul>
+
+
+    <h2 id="introduction"><a class="anchor" href="#introduction" aria-label="Anchor link for: introduction">Introduction</a></h2>
+<p>For some time now I've been wanting to learn more about distributed systems and <a rel="external" href="https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type">Conflict-free Replicated Data Types</a>
+(<em>CRDTs</em>) and even though I've read a bit about both of these, I never built anything that utilized them.</p>
+<p>Thankfully in my infinite wisdom (and mostly boredom) over the summer, I found an excuse to build something that
+uses both of these: a <del><em>glorified todo list</em></del> peer-to-peer grocery list tracker!</p>
+<h2 id="background"><a class="anchor" href="#background" aria-label="Anchor link for: background">Background</a></h2>
+<p>Me and my sister have been doing grocery shopping together recently and in an effort to buy everything
+we need faster, we usually split up and collect whatever we need in parallel.</p>
+<p>The "problem" with this is that our
+grocery lists so far have been WhatsApp messages we each optionally copy paste in our phones' pre-installed note apps.
+Because we never actually plan out who should buy what, we waste precious <em>seconds</em> figuring out what items we each
+collected and what we still have to buy. Technically we <em>could</em> use something like Microsoft's ToDo which from what
+I remember does let you share the "tasks" with someone else but that is:</p>
+<ul>
+<li>boring</li>
+<li>has too many bells and whistles we don't need/want</li>
+<li>very annoying to set up (probably takes like 5 whole seconds to share a list)</li>
+<li>probably needs accounts</li>
+<li>needs an internet connection</li>
+</ul>
+<p>Not sure if this is a common occurrence but half the supermarkets I go to either have horrible reception, horrible WiFi
+or both.
+At one point last year I saw <a rel="external" href="https://github.com/permissionlesstech/bitchat">Bitchat</a> and thought it was a cool idea so naturally I figured Bluetooth would solve my
+connectivity issues.</p>
+<p>The other 4 bullet points were easily solved by making a barely-functional mobile app over the
+course of two weeks or so because engineers like nothing more than looking at a pretty decent wheel someone else
+created and thinking "I could reinvent that but worse" and then doing just that!</p>
+<blockquote>
+<p>At the time of writing this, I'm waiting on the maintainer of the BLE crate(s) I wanted to use to respond to
+an issue I've been having (I think it might be on the crate's end but we'll see) so right now I am not actually
+using BLE but <a rel="external" href="https://en.wikipedia.org/wiki/Multicast_DNS">mDNS</a>!</p>
+<p>This should be near-trivial to change in the code<sup class="footnote-reference" id="fr-1-1"><a href="#fn-1">1</a></sup> but it is worth pointing out because, <em>though
+I haven't tested this</em>, I doubt that mDNS is allowed in public networks, like supermarket WiFi. So <em>technically</em> the
+app is kinda useless at the moment, obviously I made it for fun so I don't care but yea.</p>
+</blockquote>
+<h3 id="short-note-on-the-full-project"><a class="anchor" href="#short-note-on-the-full-project" aria-label="Anchor link for: short-note-on-the-full-project">Short Note on the Full Project</a></h3>
+<p>Even though this had to be a mobile app, I am actually very uninterested in UIs and as a result I ended up vibe coding
+most of that. I don't think it is too interesting to talk about but the <a rel="external" href="https://github.com/AntoniosBarotsis/groceries-bmesh">code</a> is public if you want to take a look.</p>
+<p>Hopefully by the time anyone reads this I'll have actually added READMEs explaining how to build and run it but if not,
+this is what the app looks like now running on my Android phone.</p>
+
+  
+  
+
+  
+  <img
+    src="https://antoniosbarotsis.github.io/img/p2p-groceries/screenshot.webp"
+     style="max-width:30%"
+    class="center "
+    loading="lazy" />
+  
+
+<p>You can add/edit/remove items and mark them as bought or not. The save button serializes your list to disk so you can
+make it at home, close the app, then open it at the supermarket and be ready to go.</p>
+<h2 id="crdts"><a class="anchor" href="#crdts" aria-label="Anchor link for: crdts">CRDTs</a></h2>
+<p>Before we talk about any of the networking, I think it makes sense to briefly talk about CRDTs.</p>
+<p>I feel like a lot of people who might not know about CRDTs have probably heard of multi-threading and if you've
+heard of multi-threading you probably know that mutating the same thing, at the same time, from multiple threads
+is a big no-no.</p>
+<p>I think, in some cases at least, it makes sense to think of distributed systems as a multi-threaded
+program where instead of different threads, code is running on different devices. As such, it shouldn't be shocking
+that you can't easily have two devices maintaining some shared state between them which they can both edit
+concurrently. Unlike a thread-safe object, however, (think a concurrent hashmap), safety &amp; correctness are not achieved
+via locks but via eventual consistency, an Operation Log (oplog) and algorithms for "merging"/applying operations to
+our state reliably.</p>
+<p>For the oplog to make sense, it needs to follow some order. Naively, one might consider using time - if event A
+happens earlier in time than event B then obviously <code>A &lt; B</code>. The problem is that it is not actually that simple;
+you've probably noticed <a rel="external" href="https://en.wikipedia.org/wiki/Clock_drift">clock drift</a>, especially in offline devices such as a wristwatch. Even if we know
+that all our peers' clocks are correctly set (and no one is "cheating" by rewinding theirs to gain precedence!),
+clock drift can eventually still put events out of order.</p>
+<p>Obviously this doesn't work, what we need is a <em>causal</em> relation (A causes B therefore, A proceeds B) and this is where
+the <a rel="external" href="https://en.wikipedia.org/wiki/Vector_clock">Vector Clock</a> comes in! Now although it sounds terribly fancy, a vector clock is <em>essentially</em> a dictionary
+that maps <strong>actors</strong> (each device) to a count representing how many actions they've done. The idea is to
+attach this clock to each operation you perform as a way to "timestamp" it.</p>
+<p>For example: We start with an empty state. Actor <code>A</code> decides they want to add something to a CRDT so they broadcast
+their operation and their incremented clock: <code>{A:1}</code>. The same actor then decides to update the CRDT so they
+broadcast with clock <code>{A:2}</code>. Now say for the sake of the example that these two broadcasts arrive to peer B out of
+order. Because each op came with <code>A</code>'s clock, <code>B</code> can confidently say that the op that came with the smaller clock
+(<code>{A:1}</code>) happened first.</p>
+<h3 id="resolution-strategies"><a class="anchor" href="#resolution-strategies" aria-label="Anchor link for: resolution-strategies">Resolution Strategies</a></h3>
+<p>It is worth mentioning that this doesn't always work by design; vector clocks only determine a <a rel="external" href="https://en.wikipedia.org/wiki/Partially_ordered_set"><strong>partial</strong> ordering</a>
+which means that not all clocks are comparable. As an example, consider the case where both actors add their own
+values, producing clocks <code>{A:1}</code> and <code>{B:1}</code> respectively, we can't tell which came first!</p>
+<p>We have to choose our own resolution strategy for cases like this.</p>
+<p>This to me seems like a very confusing topic that I did not explore too much, but I <em>can</em> talk about the two
+register types I saw in the crate and the two strategies I considered using.</p>
+<h4 id="last-write-wins-register-lwwreg"><a class="anchor" href="#last-write-wins-register-lwwreg" aria-label="Anchor link for: last-write-wins-register-lwwreg">Last-Write Wins Register (LWWReg)</a></h4>
+<p>The "convenience" of this register type is that it always contains just one value. Concurrent writes are merged
+using a total ordering marker we define. I suppose you have some freedom in designing this marker but the idea I had
+was to use a tuple of our map's vector clock<sup class="footnote-reference" id="fr-2-1"><a href="#fn-2">2</a></sup> combined with our actor id. The vector clock guarantees partial
+ordering and we can get total ordering by resolving tied/incomparable states with the lexicographic order of the
+actor id.</p>
+<h4 id="multi-value-register-mvreg"><a class="anchor" href="#multi-value-register-mvreg" aria-label="Anchor link for: multi-value-register-mvreg">Multi-Value Register (MVReg)</a></h4>
+<p>Instead of immediately resolving conflicts, this register instead maintains a collection of values when their clocks
+are incomparable, which means we still (might) need to resolve them ourselves. In my case at least, obviously I
+don't want a grocery item to map to multiple boolean values, that would make no sense. Instead I decided to apply what
+<em>I think</em> is called an Enable-Wins semantic; if any of the values is true: keep the true, else remain false.</p>
+<h4 id="okay-but-what-is-the-difference"><a class="anchor" href="#okay-but-what-is-the-difference" aria-label="Anchor link for: okay-but-what-is-the-difference">Okay but What Is the Difference?</a></h4>
+<p>My reasoning behind choosing the MVReg strategy is that I want to prevent different peers from buying the same
+item accidentally.</p>
+<p>If a concurrent
+write occurs where someone marks an item as <em>bought</em> and someone else as <em>not</em> with this strategy, the <em>bought</em>
+dominates so we avoid buying it multiple times. In contrast, LWWReg <em>could</em> make the false dominate in this case if
+the Actor's id was lexicographically bigger and this would lead to the <em>bought</em> value disappearing (and as a result,
+potentially buying the item again).</p>
+<h3 id="a-bit-of-code"><a class="anchor" href="#a-bit-of-code" aria-label="Anchor link for: a-bit-of-code">A Bit of Code</a></h3>
+<p>Thankfully there's a great Rust crate that does <em>a lot</em> of the heavy lifting: <a rel="external" href="https://crates.io/crates/crdts"><code>crdts</code></a>. Let's see how we can create
+one of the simplest CRDTs; a Multi-Value Register.</p>
+<pre class="giallo" style="color: #EBDBB2; background-color: #1D2021;"><code data-lang="rust"><span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 1</span><span style="color: #928374;font-style: italic;">// Think of this as some sort of peer id</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 2</span><span style="color: #FE8019;">type</span><span style="color: #FABD2F;"> Actor</span><span style="color: #8EC07C;"> =</span><span style="color: #FABD2F;"> String</span><span style="color: #A89984;">;</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 3</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 4</span><span style="color: #928374;font-style: italic;">// Create a new MVReg that stores i32s</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 5</span><span style="color: #FE8019;">let mut</span><span style="color: #83A598;"> reg</span><span style="color: #8EC07C;"> =</span><span style="color: #FABD2F;"> crdts</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">MVReg</span><span style="color: #8EC07C;">::</span><span style="color: #A89984;">&lt;</span><span style="color: #FABD2F;">i32</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Actor</span><span style="color: #A89984;">&gt;</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">new</span><span style="color: #A89984;">();</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 6</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 7</span><span style="color: #928374;font-style: italic;">// Get add_context (this increments our add_clock)</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 8</span><span style="color: #FE8019;">let</span><span style="color: #83A598;"> ctx</span><span style="color: #8EC07C;">:</span><span style="color: #FABD2F;"> crdts</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">ctx</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">AddCtx</span><span style="color: #A89984;">&lt;</span><span style="color: #FABD2F;">Actor</span><span style="color: #A89984;">&gt;</span><span style="color: #8EC07C;"> =</span><span style="color: #83A598;"> reg</span><span style="color: #8EC07C;">.</span><span style="color: #FABD2F;">read_ctx</span><span style="color: #A89984;">()</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;"> 9</span><span style="color: #8EC07C;">    .</span><span style="color: #FABD2F;">derive_add_ctx</span><span style="color: #A89984;">(&quot;</span><span style="color: #B8BB26;">actor 1</span><span style="color: #A89984;">&quot;</span><span style="color: #8EC07C;">.</span><span style="color: #FABD2F;">to_owned</span><span style="color: #A89984;">());</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;">10</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;">11</span><span style="color: #928374;font-style: italic;">// Produce apply op</span></span>
+<span class="giallo-l" style="background-color: #3C383660;"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;">12</span><span style="color: #FE8019;">let</span><span style="color: #83A598;"> op</span><span style="color: #8EC07C;"> =</span><span style="color: #83A598;"> reg</span><span style="color: #8EC07C;">.</span><span style="color: #FABD2F;">write</span><span style="color: #A89984;">(</span><span style="color: #D3869B;">42</span><span style="color: #A89984;">,</span><span style="color: #83A598;"> ctx</span><span style="color: #A89984;">);</span></span>
+<span class="giallo-l" style="background-color: #3C383660;"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;">13</span><span style="color: #83A598;">reg</span><span style="color: #8EC07C;">.</span><span style="color: #FABD2F;">apply</span><span style="color: #A89984;">(</span><span style="color: #83A598;">op</span><span style="color: #A89984;">);</span></span>
+<span class="giallo-l"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;">14</span></span>
+<span class="giallo-l" style="background-color: #3C383660;"><span aria-hidden="true" class="giallo-ln" style="color: #665C54;">15</span><span style="color: #FABD2F;">assert_eq!</span><span style="color: #A89984;">(</span><span style="color: #83A598;">reg</span><span style="color: #8EC07C;">.</span><span style="color: #FABD2F;">read</span><span style="color: #A89984;">()</span><span style="color: #8EC07C;">.</span><span>val</span><span style="color: #A89984;">[</span><span style="color: #D3869B;">0</span><span style="color: #A89984;">],</span><span style="color: #D3869B;"> 42</span><span style="color: #A89984;">);</span></span></code></pre>
+<p>One thing to be mindful of is that <code>.write</code> doesn't actually mutate <code>reg</code> (as evident by the fact that it takes
+<code>&amp;self</code>), you need to <code>.apply</code> the op separately. The returned op type is very convenient for our case since we'll
+want to both apply but also broadcast ops to peers.</p>
+<p>As we build more complex CRDT structures, we need to keep in mind that all nested fields in our struct must also
+be CRDTs themselves! Thankfully this is enforced statically through the type system in the <code>crdts</code> crate.</p>
+<p>This is what my final types looked like:</p>
+<pre class="giallo" style="color: #EBDBB2; background-color: #1D2021;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> type</span><span style="color: #FABD2F;"> Actor</span><span style="color: #8EC07C;"> =</span><span style="color: #FABD2F;"> iroh</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">PublicKey</span><span style="color: #A89984;">;</span></span>
+<span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> type</span><span style="color: #FABD2F;"> Grocery</span><span style="color: #8EC07C;"> =</span><span style="color: #FABD2F;"> crdts</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">MVReg</span><span style="color: #A89984;">&lt;</span><span style="color: #FABD2F;">bool</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Actor</span><span style="color: #A89984;">&gt;;</span></span>
+<span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> type</span><span style="color: #FABD2F;"> Groceries</span><span style="color: #8EC07C;"> =</span><span style="color: #FABD2F;"> crdts</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">Map</span><span style="color: #A89984;">&lt;</span><span style="color: #FABD2F;">String</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Grocery</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Actor</span><span style="color: #A89984;">&gt;;</span></span>
+<span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> type</span><span style="color: #FABD2F;"> Clock</span><span style="color: #8EC07C;"> =</span><span style="color: #FABD2F;"> crdts</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">VClock</span><span style="color: #A89984;">&lt;</span><span style="color: #FABD2F;">Actor</span><span style="color: #A89984;">&gt;;</span></span></code></pre>
+<blockquote>
+<p>The <code>PublicKey</code> is not too important right now, just know that it is essentially a peer-unique String.</p>
+</blockquote>
+<h3 id="recap"><a class="anchor" href="#recap" aria-label="Anchor link for: recap">Recap</a></h3>
+<p>This section was quite lengthy so let's very briefly recap some key points before we move on to networking:</p>
+<ul>
+<li>CRDTs rely on an oplog comprised of serializable operations</li>
+<li>fancy logical clocks are used to establish a causal partial order</li>
+<li>the way to establish a total order depends on your domain</li>
+</ul>
+<h2 id="networking"><a class="anchor" href="#networking" aria-label="Anchor link for: networking">Networking</a></h2>
+<p>For networking, we'll be using <a rel="external" href="https://docs.iroh.computer">Iroh</a> which, in their own words, <em>"handles the hole-punching, NAT traversal, and relay
+fallback needed to open a direct, authenticated QUIC connection between any two nodes."</em>, it also does a bunch of
+other stuff in a very neat, modular way, go check their <a rel="external" href="https://docs.iroh.computer">docs</a> if you're building anything peer-to-peer.</p>
+<p>We're going to be using <a rel="external" href="https://en.wikipedia.org/wiki/Gossip_protocol">Gossip</a> (<a rel="external" href="https://docs.iroh.computer/connecting/gossip">gossip iroh docs</a>) so we won't need a central message broker. The big issue with
+the unreliable nature of our environment (changing network conditions, peers going temporarily offline, messages
+possibly being dropped etc) means that we'll need mechanisms for bringing peers up to speed with our current state
+(this is also why we are using CRDTs!).</p>
+<h3 id="message-types"><a class="anchor" href="#message-types" aria-label="Anchor link for: message-types">Message Types</a></h3>
+<p>I'll skip over some implementation specific details and give a rough overview of our message types instead. We'll go
+over the responce logic to each message type in the next section.</p>
+<p>Let's start with the simplest message; earlier I explained how our CRDT produces <code>Op</code>s, obviously whenever a peer
+performs an operation, we need to broadcast it to everyone else so they can apply it to their own state as well.
+The message for that looks like this.</p>
+<pre class="giallo" style="color: #EBDBB2; background-color: #1D2021;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> enum</span><span style="color: #FABD2F;"> CoreMessage</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #FABD2F;">  Op</span><span style="color: #A89984;">(</span><span style="color: #FABD2F;">map</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">Op</span><span style="color: #A89984;">&lt;</span><span style="color: #FABD2F;">String</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Grocery</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Actor</span><span style="color: #A89984;">&gt;),</span></span>
+<span class="giallo-l"><span style="color: #928374;font-style: italic;">  // ...</span></span>
+<span class="giallo-l"><span style="color: #A89984;">}</span></span></code></pre>
+<p>What happens when a peer misses an Op broadcast though? That's what our logical clocks are for! We can periodically
+broadcast a "heartbeat" containing our clock information to all other peers. Then those peers can compare the clocks
+to their own and reply to us with any Ops we might be missing! In practice I broadcast a heartbeat every 5 seconds.</p>
+<p>That "reply with the ops we are missing" is called an anti-entropy response but even though it sounds real fancy, it
+is just a list of ops:</p>
+<pre class="giallo" style="color: #EBDBB2; background-color: #1D2021;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> enum</span><span style="color: #FABD2F;"> CoreMessage</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #FABD2F;">  Heartbeat</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #83A598;">    add_clock</span><span style="color: #8EC07C;">:</span><span style="color: #FABD2F;"> Clock</span><span style="color: #A89984;">,</span></span>
+<span class="giallo-l"><span style="color: #83A598;">    rm_clock</span><span style="color: #8EC07C;">:</span><span style="color: #FABD2F;"> Clock</span><span style="color: #A89984;">,</span></span>
+<span class="giallo-l"><span style="color: #A89984;">  },</span></span>
+<span class="giallo-l"><span style="color: #FABD2F;">  AntiEntropyResponse</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #83A598;">    ops</span><span style="color: #8EC07C;">:</span><span style="color: #FABD2F;"> Vec</span><span style="color: #A89984;">&lt;</span><span style="color: #83A598;">map</span><span style="color: #8EC07C;">::</span><span style="color: #FABD2F;">Op</span><span style="color: #A89984;">&lt;</span><span style="color: #FABD2F;">String</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Grocery</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Actor</span><span style="color: #A89984;">&gt;&gt;,</span></span>
+<span class="giallo-l"><span style="color: #A89984;">  },</span></span>
+<span class="giallo-l"><span style="color: #928374;font-style: italic;">  // ...</span></span>
+<span class="giallo-l"><span style="color: #A89984;">}</span></span></code></pre><h4 id="anti-entropy-responses-can-get-huge-quickly"><a class="anchor" href="#anti-entropy-responses-can-get-huge-quickly" aria-label="Anchor link for: anti-entropy-responses-can-get-huge-quickly">Anti Entropy Responses Can Get Huge Quickly..</a></h4>
+<p>Here's the thing, since we <em>could</em> have a bunch of peers on the same network exchanging messages, we need to keep an
+eye on our message sizes in order to avoid network congestion, and this Op list can grow quickly.</p>
+<p>Iroh does have a <a rel="external" href="https://docs.rs/iroh-gossip/latest/iroh_gossip/proto/constant.DEFAULT_MAX_MESSAGE_SIZE.html">default max message size</a> which obviously you can change but I wanted to keep it around and figure
+out how I can keep my messages below that.</p>
+<p>The first and easiest thing we can do to lower <code>AntiEntropyResponse</code> is to make sure we are only sending Ops that
+the peer is missing. To do that, we have to go through our local oplog and filter out any ops with clocks strictly
+smaller than our peer's, that way we know the ones we're left with are going to be new to them.</p>
+<blockquote>
+<p>In my code, I just used a <code>Vec</code> to store the oplog but in a real, long lived system you might want to use a
+fixed length circular buffer to make sure you won't eventually run out of memory!</p>
+</blockquote>
+<p>Another easy thing we can do is to just compress all our messages before sending them. If you are in a very dense
+network, with very weak devices that are broadcasting very frequently, you might consider the cost of decoding to be
+too significant. In my case, I doubt a phone's processor will have issues decoding a 4kb gzip payload every few
+seconds! It is easy to forget how good gzip can be, when testing it would often bring a message the size of a few
+thousand bytes to just a few hundreds. If you are not in a very compute-limited environment, this sounds like a great
+idea to me.</p>
+<p>But that is not very interesting. What is slightly cooler is realizing that it's the <em>list</em> of Ops specifically that
+can grow very large, <em>not</em> the state itself. In other words, there comes a point<sup class="footnote-reference" id="fr-3-1"><a href="#fn-3">3</a></sup> where sending over the state
+will produce a smaller message than the <code>AntiEntropyResponse</code>. That's what <code>SnapshotResponse</code> is for:</p>
+<pre class="giallo" style="color: #EBDBB2; background-color: #1D2021;"><code data-lang="rust"><span class="giallo-l"><span style="color: #A89984;">#[</span><span>derive</span><span style="color: #A89984;">(</span><span style="color: #FABD2F;">Debug</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Serialize</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Deserialize</span><span style="color: #A89984;">)]</span></span>
+<span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> enum</span><span style="color: #FABD2F;"> CoreMessage</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #FABD2F;">  SnapshotResponse</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #83A598;">    state</span><span style="color: #8EC07C;">:</span><span style="color: #FABD2F;"> Groceries</span><span style="color: #A89984;">,</span></span>
+<span class="giallo-l"><span style="color: #A89984;">  },</span></span>
+<span class="giallo-l"><span style="color: #928374;font-style: italic;">  // ...</span></span>
+<span class="giallo-l"><span style="color: #A89984;">}</span></span></code></pre>
+<p>A gzip-compressed <code>SnapShotResponse</code> response would probably work most of the time but just to be safe I added another
+fallback to <a rel="external" href="https://docs.iroh.computer/protocols/blobs"><code>iroh-blob</code></a>s which sends the data over in chunks. This way even if a compressed <code>SnapShotResponse</code>
+ends up being over the limit, we can still send it over as a blob and maintain parity.</p>
+<pre class="giallo" style="color: #EBDBB2; background-color: #1D2021;"><code data-lang="rust"><span class="giallo-l"><span style="color: #A89984;">#[</span><span>derive</span><span style="color: #A89984;">(</span><span style="color: #FABD2F;">Debug</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Serialize</span><span style="color: #A89984;">,</span><span style="color: #FABD2F;"> Deserialize</span><span style="color: #A89984;">)]</span></span>
+<span class="giallo-l"><span style="color: #FB4934;">pub</span><span style="color: #FE8019;"> enum</span><span style="color: #FABD2F;"> CoreMessage</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #FABD2F;">  Blob</span><span style="color: #A89984;"> {</span></span>
+<span class="giallo-l"><span style="color: #83A598;">    ticket</span><span style="color: #8EC07C;">:</span><span style="color: #FABD2F;"> BlobTicket</span><span style="color: #A89984;">,</span></span>
+<span class="giallo-l"><span style="color: #A89984;">  },</span></span>
+<span class="giallo-l"><span style="color: #A89984;">}</span></span></code></pre><h3 id="message-handling"><a class="anchor" href="#message-handling" aria-label="Anchor link for: message-handling">Message Handling</a></h3>
+<p>I'll keep this section relatively high level to avoid getting hyper-specific but feel free to read the code if you
+want. Most of what I will talk about in this section is inside <a rel="external" href="https://github.com/AntoniosBarotsis/groceries-bmesh/blob/master/groceries-bmesh-core/src/crdt.rs#L173-L249">one match statement</a>.</p>
+<ul>
+<li>
+<p><code>Op</code>: We add the op to our oplog (so we can later broadcast it to peers that need it) and apply it to our data.</p>
+</li>
+<li>
+<p><code>AntiEntropyResponse</code>: We iterate through the ops contained in the message and treat them like individual <code>Op</code>
+messages.</p>
+</li>
+<li>
+<p><code>SnapshotResponse</code>: We merge our state with the incoming state and clear our oplog (remember we received the full
+state, <em>not</em> the full oplog!).</p>
+</li>
+<li>
+<p><code>Blob</code>: We let iroh download the blob into memory and we recursively call <code>handle_message</code> with its contents. In my
+codebase, I <strong>only</strong> put <code>SnapshotResponse</code>s in blobs, that way I know this recursive call will at most have a depth
+of one.</p>
+</li>
+<li>
+<p><code>Heartbeat</code>: I left this for last as its the lengthiest one. This is the "main" message that drives everything else,
+remember that we send heartbeats every 5 seconds. The heartbeats only contain the peer's clocks so we compare them
+with our own to find whether we have any missing ops.</p>
+<p>If we do have missing ops, we build an <code>AntiEntropyResponse</code>, if that's too big we fallback to a <code>SnapshotResponse</code>
+and if that's too big as well we send it as a blob.</p>
+<p>If we notice that the clock is behind but we can't find the missing ops (which can happen if we reset them
+earlier!), we send a <code>SnapshotResponse</code> with a blob fallback.</p>
+</li>
+</ul>
+<h2 id="lessons-learned"><a class="anchor" href="#lessons-learned" aria-label="Anchor link for: lessons-learned">Lessons Learned</a></h2>
+<p>By far the biggest issue I had was testing the CRDT to make sure it was working as expected. For the most part it did
+work fine but I kept finding new bugs surrounding removals and their clocks. Because I hadn't anticipated this
+(I assumed the <code>crdts</code> crate would be a bit more hands off than it was for my use case), I ended up coupling a lot
+of the iroh  networking logic bits with the pure CRDT logic bits, meaning I needed an actual iroh connection to do
+any testing.</p>
+<p>By the time this became mildly frustrating, I knew I wouldn't need much more time to iron the last few issues out so I
+didn't redesign the entire backend to facilitate testing <em>but</em> this is definitely something I'll be paying more
+attention to in the future.</p>
+<p>I learned that I am in fact, still not a fan of building UIs, and that mobile app development sucks. I don't think
+any of my issues are tauri specific, I think for the most part it is a pretty decent project (<em>although I did have
+a few complaints in the execution order of some of their setup functions and their docs can be a bit lacking
+sometimes</em>), but they are rather inherent to cross-platform development <em>combined</em> with rust-js/wasm interop.
+Obviously it's great that this is even possible but it is not without its inconveniences. Next time I want a UI, if I
+can make a simple TUI and cover my needs, I'm doing that instead of anything else.</p>
+<h2 id="future-changes"><a class="anchor" href="#future-changes" aria-label="Anchor link for: future-changes">Future Changes</a></h2>
+<p>While writing this post i had some time to reflect on the current networking design which, as I explained earlier,
+was kind of an afterthought since I'm having issues with the BLE crate I was planning on using. In hindsight, I think
+that even though automatic discovery is cool, for this project specifically exchanging <a rel="external" href="https://docs.rs/iroh/latest/iroh/type.EndpointId.html"><code>EndpointId</code></a>s would work
+better. This would work even better than Bluetooth (assuming a stable WiFi connection in the supermarket) as it
+wouldn't be bound by things like distance.</p>
+<p>The idea for that as of now
+is to generate and persist a secret key on each peer, that way we can re-use the same <code>EndpointId</code> across different
+runs<sup class="footnote-reference" id="fr-4-1"><a href="#fn-4">4</a></sup>. These IDs are serializable and meant to be shared, it would probably be convenient to do so via a QR Code.
+Maybe we could add an optional <code>nickname</code> field and share that along with its corresponding ID so that we can then
+display a list of the peers and their IDs in the mobile app (in case you later decide you want to remove some of
+them).</p>
+<p>Annoyingly, even though this does not sound like a big backend change at all, it would need a bunch of frontend fluff
+to be convenient to use so I'll see what corners I can cut if I decide to go ahead with it hehe.</p>
+<h2 id="closing"><a class="anchor" href="#closing" aria-label="Anchor link for: closing">Closing</a></h2>
+<p>This was a really fun and rewarding project to work on.</p>
+<p>I do have to go grocery shopping in a few hours so I'll see if mDNS is indeed blocked in the supermarket WiFi. It would
+definitely be convenient if it wasn't as that would mean I don't have to do any more work to get the app to function!</p>
+<p>Even if it doesn't, of course my goal with this was to learn more about CRDTs and P2P systems, which I did. If I also
+get something out of this that makes my life marginally easier and more fun then that's cool too.</p>
+<p>Till next time!</p>
+<h2 id="footnotes"><a class="anchor" href="#footnotes" aria-label="Anchor link for: footnotes">Footnotes</a></h2>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-1">
+<p>In reality, even though the code changes needed for this are quite small, I had to go through <em>a lot</em> of issues
+to get it to not panic on android (and I'm not sure if it would work now, I haven't touched BLE in a while).
+I kept having issues with the Java Native Interface either not being initialized or being initialized twice,
+both of these happening in code I didn't write myself which meant I had to go cave diving in my dependencies to
+figure out what was going on. Then there was also issues caused by reqwest and it not shipping a tls backend on
+android by default which I had some trouble getting it to do so. Probably had some other issues I forgot at
+this point.</p>
+<p>What was a bit funny was that both issues I mentioned here were introduced quite recently in both
+tauri and reqwest (I think the current latest versions of both). Even though they both actually make sense
+from their perspective, naturally a lot of people were now getting compile-time/run-time errors on these
+latest versions and were rightfully complaining about them on github issues. We'll see where both crates go
+from here.</p>
+<p>From the digging I did, I think tauri actually made some changes to fix whatever issues I was having
+with their crate (I ended up fixing my issues by using the main branch until a new release comes out) and the
+creator of reqwest is considering where to go from here.</p>
+<p>As I said, this is not a dig at either of the two projects at all but if you want to read some more, here are
+some of the issues I went through:</p>
+<ul>
+<li><a rel="external" href="https://github.com/seanmonstar/reqwest/issues/2968">reqwest: rust-webpki-roots causes crash on Android</a></li>
+<li><a rel="external" href="https://github.com/open-source-cooperative/android-native-keyring-store/issues/21">tauri: Tauri no longer initialize ndk-context since 2.11</a></li>
+<li><a rel="external" href="https://github.com/rust-mobile/android-activity/issues/58">tauri: Crashes on re-launch due to ndk-context re-initialization panic</a></li>
+<li><a rel="external" href="https://github.com/tauri-apps/tao/issues/1220">tauri: please initialize ndk-context</a></li>
+</ul>
+<p>All these issues link to other relevant issues and PRs. <a href="#fr-1-1">↩</a></p>
+</li>
+<li id="fn-2">
+<p>Technically speaking, we should probably <em>not</em> use a <a rel="external" href="https://docs.rs/crdts/latest/crdts/vclock/struct.VClock.html"><code>VClock</code></a> here but rather a <a rel="external" href="https://docs.rs/crdts/latest/crdts/dot/struct.Dot.html"><code>Dot</code></a>. Dots are just the
+actor-specific entry in the clock (so with a clock of <code>{A:1,B:1}</code>, <code>A</code>'s dot is <code>(A,1)</code>) <a href="#fr-2-1">↩</a></p>
+</li>
+<li id="fn-3">
+<p>I suppose this might differ from use case to use case but for example in my case, to further illustrate this
+point, imagine we have just one item in our map; if we decide to toggle its boolean value 500 times, the state
+will remain tiny (its still one KV pair) but the oplog will now have 500 entries in it. <a href="#fr-3-1">↩</a></p>
+</li>
+<li id="fn-4">
+<p>Iroh also has what they call <a rel="external" href="https://docs.iroh.computer/concepts/tickets#tickets">Tickets</a> which they use in a bunch of their examples, however, those are
+more suited for shorter lived connections where network topology doesn't change. Because I want to be
+able to connect my peers at home and at the supermarket for instance, only sharing EndpointIds instead
+probably works better. <a href="#fr-4-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+</div>
+
+        
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read more</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button next">
+            <a href="https://antoniosbarotsis.github.io/posts/writing-workflow/">
+                <span class="button__text">My writing workflow</span>&nbsp;
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        </div>
+</div>
+
+<script src="https://utteranc.es/client.js" repo="AntoniosBarotsis/antoniosbarotsis.github.io" issue-term="pathname"
+    label="Comment" theme="github-dark" crossorigin="anonymous" async>
+    </script>
+
+
+    </div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>
