@@ -3,8 +3,8 @@ title: "Peer to Peer Groceries"
 description: "Most overkill todo list of all time"
 keywords: ["Rust","Distributed Systems", "p2p", "peer to peer", "CRDT", "Conflict-free Replicated Data Types",
   "Mobile", "tauri"]
-date: 2026-08-06T01:26:02+02:00
-draft: true
+date: 2026-08-06T16:50:00+02:00
+draft: false
 taxonomies:
   tags: ["No Coding", "Rust", "Distributed Systems"]
 ---
@@ -19,18 +19,18 @@ uses both of these: a ~_glorified todo list_~ peer-to-peer grocery list tracker!
 
 ## Background
 
-Me and my sister have been doing grocery shopping for the whole family recently and in an effort to buy everything
+Me and my sister have been doing grocery shopping together recently and in an effort to buy everything
 we need faster, we usually split up and collect whatever we need in parallel. 
 
 The "problem" with this is that our
-grocery lists so far have been WhatsApp messages we each copy paste in our phones' pre-installed note apps.
-Because we never actually plan out who should buy what, we waste precious seconds figuring out what items we each
+grocery lists so far have been WhatsApp messages we each optionally copy paste in our phones' pre-installed note apps.
+Because we never actually plan out who should buy what, we waste precious _seconds_ figuring out what items we each
 collected and what we still have to buy. Technically we _could_ use something like Microsoft's ToDo which from what
 I remember does let you share the "tasks" with someone else but that is:
 
 - boring
 - has too many bells and whistles we don't need/want
-- very annoying to set up (probably takes like 5 seconds to share a list)
+- very annoying to set up (probably takes like 5 whole seconds to share a list)
 - probably needs accounts
 - needs an internet connection
 
@@ -41,13 +41,13 @@ connectivity issues.
 
 The other 4 bullet points were easily solved by making a barely-functional mobile app over the
 course of two weeks or so because engineers like nothing more than looking at a pretty decent wheel someone else
-created and thinking "I could make that but worse" and then doing just that!
+created and thinking "I could reinvent that but worse" and then doing just that!
 
 > At the time of writing this, I'm waiting on the maintainer of the BLE crate(s) I wanted to use to respond to
 > an issue I've been having (I think it might be on the crate's end but we'll see) so right now I am not actually
 > using BLE but [mDNS]! 
 > 
-> This should be near-trivial to change in the code but it is worth pointing out because, _though
+> This should be near-trivial to change in the code[^1] but it is worth pointing out because, _though
 > I haven't tested this_, I doubt that mDNS is allowed in public networks, like supermarket WiFi. So _technically_ the 
 > app is kinda useless at the moment, obviously I made it for fun so I don't care but yea.
 
@@ -69,7 +69,7 @@ make it at home, close the app, then open it at the supermarket and be ready to 
 Before we talk about any of the networking, I think it makes sense to briefly talk about CRDTs.
 
 I feel like a lot of people who might not know about CRDTs have probably heard of multi-threading and if you've
-heard of multi-threading you probably know that mutating the same thing, at the same time from multiple threads
+heard of multi-threading you probably know that mutating the same thing, at the same time, from multiple threads
 is a big no-no. 
 
 I think, in some cases at least, it makes sense to think of distributed systems as a multi-threaded
@@ -79,7 +79,7 @@ concurrently. Unlike a thread-safe object, however, (think a concurrent hashmap)
 via locks but via eventual consistency, an Operation Log (oplog) and algorithms for "merging"/applying operations to
 our state reliably.
 
-For the opglog to make sense, it needs to follow some order. Naively, one might consider using time - if event A
+For the oplog to make sense, it needs to follow some order. Naively, one might consider using time - if event A
 happens earlier in time than event B then obviously `A < B`. The problem is that it is not actually that simple;
 you've probably noticed [clock drift], especially in offline devices such as a wristwatch. Even if we know
 that all our peers' clocks are correctly set (and no one is "cheating" by rewinding theirs to gain precedence!),
@@ -98,33 +98,40 @@ order. Because each op came with `A`'s clock, `B` can confidently say that the o
 
 ### Resolution Strategies
 
-It is worth mentioning that this doesn't always work by design; vector clocks only determine a **partial** ordering
+It is worth mentioning that this doesn't always work by design; vector clocks only determine a [**partial** ordering]
 which means that not all clocks are comparable. As an example, consider the case where both actors add their own
-values, producing clocks `{A:1}` and `{B:1}` respectively, we can't tell which came first! We have to choose our own
-resolution strategy for cases like this.
+values, producing clocks `{A:1}` and `{B:1}` respectively, we can't tell which came first! 
 
-This to me seems like a very confusing and deep topic that I did not explore too much, but I can talk about the two
+We have to choose our own resolution strategy for cases like this.
+
+This to me seems like a very confusing topic that I did not explore too much, but I _can_ talk about the two
 register types I saw in the crate and the two strategies I considered using.
 
 #### Last-Write Wins Register (LWWReg)
 
 The "convenience" of this register type is that it always contains just one value. Concurrent writes are merged
 using a total ordering marker we define. I suppose you have some freedom in designing this marker but the idea I had
-was to use a tuple of our map's vector clock[^1] combined with our actor id. The vector clock guarantees partial
+was to use a tuple of our map's vector clock[^2] combined with our actor id. The vector clock guarantees partial
 ordering and we can get total ordering by resolving tied/incomparable states with the lexicographic order of the
 actor id.
 
-#### Multi-Value Register (MVREG)
+#### Multi-Value Register (MVReg)
 
 Instead of immediately resolving conflicts, this register instead maintains a collection of values when their clocks
 are incomparable, which means we still (might) need to resolve them ourselves. In my case at least, obviously I
 don't want a grocery item to map to multiple boolean values, that would make no sense. Instead I decided to apply what
 _I think_ is called an Enable-Wins semantic; if any of the values is true: keep the true, else remain false.
 
-My reasoning behind this is that I want to prevent different peers buying the same item accidentally. If a concurrent
-write occurs where someone marks an item as bought and someone else as not with this strategy, the bought dominates
-so we avoid buying it multiple times. In contrast, LWWReg _could_ make the false dominate in this case if the Actor's
-id was lexicographically bigger.
+#### Okay but What Is the Difference?
+
+My reasoning behind choosing the MVReg strategy is that I want to prevent different peers from buying the same
+item accidentally. 
+
+If a concurrent
+write occurs where someone marks an item as _bought_ and someone else as _not_ with this strategy, the _bought_ 
+dominates so we avoid buying it multiple times. In contrast, LWWReg _could_ make the false dominate in this case if
+the Actor's id was lexicographically bigger and this would lead to the _bought_ value disappearing (and as a result,
+potentially buying the item again).
 
 ### A Bit of Code
 
@@ -153,7 +160,7 @@ One thing to be mindful of is that `.write` doesn't actually mutate `reg` (as ev
 `&self`), you need to `.apply` the op separately. The returned op type is very convenient for our case since we'll
 want to both apply but also broadcast ops to peers.
 
-As we build more complex CRDT structures, we need keep in mind that all nested fields in our struct must also
+As we build more complex CRDT structures, we need to keep in mind that all nested fields in our struct must also
 be CRDTs themselves! Thankfully this is enforced statically through the type system in the `crdts` crate.
 
 This is what my final types looked like:
@@ -177,13 +184,14 @@ This section was quite lengthy so let's very briefly recap some key points befor
 
 ## Networking
 
-For networking, we'll be using [Iroh] which, in their own words, "_handles the hole-punching, NAT traversal, and relay
-fallback needed to open a direct, authenticated QUIC connection between any two nodes._", it also does a bunch of
+For networking, we'll be using [Iroh] which, in their own words, _"handles the hole-punching, NAT traversal, and relay
+fallback needed to open a direct, authenticated QUIC connection between any two nodes."_, it also does a bunch of
 other stuff in a very neat, modular way, go check their [docs] if you're building anything peer-to-peer.
 
 We're going to be using [Gossip] ([gossip iroh docs]) so we won't need a central message broker. The big issue with
-the unreliable nature of our environment (changing network conditions, peers going temporarily offline etc) means that
-we'll need mechanisms for bringing peers up to speed with our current state (this is also why we are using CRDTs!).
+the unreliable nature of our environment (changing network conditions, peers going temporarily offline, messages
+possibly being dropped etc) means that we'll need mechanisms for bringing peers up to speed with our current state
+(this is also why we are using CRDTs!).
 
 ### Message Types
 
@@ -229,12 +237,12 @@ eye on our message sizes in order to avoid network congestion, and this Op list 
 Iroh does have a [default max message size] which obviously you can change but I wanted to keep it around and figure
 out how I can keep my messages below that. 
 
-The first an easiest thing we can do to lower `AntiEntropyResponse` is to make sure we are only sending Ops that
+The first and easiest thing we can do to lower `AntiEntropyResponse` is to make sure we are only sending Ops that
 the peer is missing. To do that, we have to go through our local oplog and filter out any ops with clocks strictly
 smaller than our peer's, that way we know the ones we're left with are going to be new to them.
 
 > In my code, I just used a `Vec` to store the oplog but in a real, long lived system you might want to use a
-> fixed length circular buffer to make sure you won't randomly run out of memory!
+> fixed length circular buffer to make sure you won't eventually run out of memory!
 
 Another easy thing we can do is to just compress all our messages before sending them. If you are in a very dense
 network, with very weak devices that are broadcasting very frequently, you might consider the cost of decoding to be
@@ -244,8 +252,8 @@ thousand bytes to just a few hundreds. If you are not in a very compute-limited 
 idea to me.
 
 But that is not very interesting. What is slightly cooler is realizing that it's the _list_ of Ops specifically that 
-can grow very large, _not_ the state itself. In other words, there comes a point[^2] where sending over the state
-will produce a smaller message than the Anti Entropy Response. That's what `SnapshotResponse` is for:
+can grow very large, _not_ the state itself. In other words, there comes a point[^3] where sending over the state
+will produce a smaller message than the `AntiEntropyResponse`. That's what `SnapshotResponse` is for:
 
 ```rs
 #[derive(Debug, Serialize, Deserialize)]
@@ -257,9 +265,9 @@ pub enum CoreMessage {
 }
 ```
 
-A compressed gzip response would probably work most of the time but just to be safe I added another fallback to
-[`iroh-blob`]s which sends the data over in chunks. This way even if a compressed SnapShotResponse ends up being
-over the limit, we can still send it over and maintain parity.
+A gzip-compressed `SnapShotResponse` response would probably work most of the time but just to be safe I added another
+fallback to [`iroh-blob`]s which sends the data over in chunks. This way even if a compressed `SnapShotResponse`
+ends up being over the limit, we can still send it over as a blob and maintain parity.
 
 
 ```rs
@@ -273,18 +281,18 @@ pub enum CoreMessage {
 
 ### Message Handling
 
-I'll keep this section relatively high level to avoid getting hyper-specific but feel free to read the [code] if you
-want. Most of what I will talk about in this section is inside one match statement.
+I'll keep this section relatively high level to avoid getting hyper-specific but feel free to read the code if you
+want. Most of what I will talk about in this section is inside [one match statement].
 
-+ `Op`: We add the op to our oplog (so we can later broadcast it to peers that need it) and apply it to our data.
-+ `AntiEntropyResponse`: We iterate through the ops contained in the message and treat them like individual `Op`
+- `Op`: We add the op to our oplog (so we can later broadcast it to peers that need it) and apply it to our data.
+- `AntiEntropyResponse`: We iterate through the ops contained in the message and treat them like individual `Op`
    messages.
-+ `SnapshotResponse`: We merge our state with the incoming state and clear our oplog (remember we received the full
-   state, not the full oplog!). 
-+ `Blob`: We let iroh download the blob into memory and we recursively call `handle_message` with its contents. In my
+- `SnapshotResponse`: We merge our state with the incoming state and clear our oplog (remember we received the full
+   state, _not_ the full oplog!). 
+- `Blob`: We let iroh download the blob into memory and we recursively call `handle_message` with its contents. In my
    codebase, I **only** put `SnapshotResponse`s in blobs, that way I know this recursive call will at most have a depth
    of one.
-+ `Heartbeat`: I left this for last as its the lengthiest one. This is the "main" message that drives everything else,
+- `Heartbeat`: I left this for last as its the lengthiest one. This is the "main" message that drives everything else,
    remember that we send heartbeats every 5 seconds. The heartbeats only contain the peer's clocks so we compare them
    with our own to find whether we have any missing ops.
 
@@ -298,11 +306,13 @@ want. Most of what I will talk about in this section is inside one match stateme
 
 By far the biggest issue I had was testing the CRDT to make sure it was working as expected. For the most part it did
 work fine but I kept finding new bugs surrounding removals and their clocks. Because I hadn't anticipated this
-(I assumed the `crdts` crate would be a bit more hands off than it was), I ended up coupling a lot of the iroh 
-networking logic bits with the pure CRDT logic bits, meaning I needed an actual iroh connection to do any testing.
-By the time this became mildly frustrating, I knew I wouldn't need much more time to iron issues out so I didn't
-redesign the entire backend to facilitate testing _but_ this is definitely something I'll be paying more attention
-to in the future.
+(I assumed the `crdts` crate would be a bit more hands off than it was for my use case), I ended up coupling a lot
+of the iroh  networking logic bits with the pure CRDT logic bits, meaning I needed an actual iroh connection to do
+any testing. 
+
+By the time this became mildly frustrating, I knew I wouldn't need much more time to iron the last few issues out so I
+didn't redesign the entire backend to facilitate testing _but_ this is definitely something I'll be paying more
+attention to in the future.
 
 I learned that I am in fact, still not a fan of building UIs, and that mobile app development sucks. I don't think
 any of my issues are tauri specific, I think for the most part it is a pretty decent project (_although I did have
@@ -319,15 +329,66 @@ that even though automatic discovery is cool, for this project specifically exch
 better. This would work even better than Bluetooth (assuming a stable WiFi connection in the supermarket) as it
 wouldn't be bound by things like distance.
 
-The idea as of now
+The idea for that as of now
 is to generate and persist a secret key on each peer, that way we can re-use the same `EndpointId` across different
-runs[^3]. These IDs are serializable and meant to be shared, it would probably be convenient to do so via a QR Code.
+runs[^4]. These IDs are serializable and meant to be shared, it would probably be convenient to do so via a QR Code.
 Maybe we could add an optional `nickname` field and share that along with its corresponding ID so that we can then
 display a list of the peers and their IDs in the mobile app (in case you later decide you want to remove some of
 them). 
 
 Annoyingly, even though this does not sound like a big backend change at all, it would need a bunch of frontend fluff
-to be convenient to use so I'll see what corners I can cut hehe.
+to be convenient to use so I'll see what corners I can cut if I decide to go ahead with it hehe.
+
+## Closing
+
+This was a really fun and rewarding project to work on.
+
+I do have to go grocery shopping in a few hours so I'll see if mDNS is indeed blocked in the supermarket WiFi. It would
+definitely be convenient if it wasn't as that would mean I don't have to do any more work to get the app to function!
+
+Even if it doesn't, of course my goal with this was to learn more about CRDTs and P2P systems, which I did. If I also
+get something out of this that makes my life marginally easier and more fun then that's cool too.
+
+Till next time!
+
+## Footnotes
+
+[^1]: In reality, even though the code changes needed for this are quite small, I had to go through _a lot_ of issues
+      to get it to not panic on android (and I'm not sure if it would work now, I haven't touched BLE in a while).
+      I kept having issues with the Java Native Interface either not being initialized or being initialized twice,
+      both of these happening in code I didn't write myself which meant I had to go cave diving in my dependencies to
+      figure out what was going on. Then there was also issues caused by reqwest and it not shipping a tls backend on
+      android by default which I had some trouble getting it to do so. Probably had some other issues I forgot at
+      this point. 
+
+      What was a bit funny was that both issues I mentioned here were introduced quite recently in both
+      tauri and reqwest (I think the current latest versions of both). Even though they both actually make sense
+      from their perspective, naturally a lot of people were now getting compile-time/run-time errors on these
+      latest versions and were rightfully complaining about them on github issues. We'll see where both crates go
+      from here. 
+
+      From the digging I did, I think tauri actually made some changes to fix whatever issues I was having
+      with their crate (I ended up fixing my issues by using the main branch until a new release comes out) and the
+      creator of reqwest is considering where to go from here.
+
+      As I said, this is not a dig at either of the two projects at all but if you want to read some more, here are
+      some of the issues I went through:
+
+      - [reqwest: rust-webpki-roots causes crash on Android]
+      - [tauri: Tauri no longer initialize ndk-context since 2.11]
+      - [tauri: Crashes on re-launch due to ndk-context re-initialization panic]
+      - [tauri: please initialize ndk-context]
+      
+      All these issues link to other relevant issues and PRs.
+[^2]: Technically speaking, we should probably _not_ use a [`VClock`] here but rather a [`Dot`]. Dots are just the
+      actor-specific entry in the clock (so with a clock of `{A:1,B:1}`, `A`'s dot is `(A,1)`)
+[^3]: I suppose this might differ from use case to use case but for example in my case, to further illustrate this
+      point, imagine we have just one item in our map; if we decide to toggle its boolean value 500 times, the state
+      will remain tiny (its still one KV pair) but the oplog will now have 500 entries in it.
+[^4]: Iroh also has what they call [Tickets] which they use in a bunch of their examples, however, those are
+      more suited for shorter lived connections where network topology doesn't change. Because I want to be
+      able to connect my peers at home and at the supermarket for instance, only sharing EndpointIds instead
+      probably works better.
 
 [Conflict-free Replicated Data Types]: https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
 [Bitchat]: https://github.com/permissionlesstech/bitchat
@@ -346,15 +407,9 @@ to be convenient to use so I'll see what corners I can cut hehe.
 [docs]: https://docs.iroh.computer
 [default max message size]: https://docs.rs/iroh-gossip/latest/iroh_gossip/proto/constant.DEFAULT_MAX_MESSAGE_SIZE.html
 [`iroh-blob`]: https://docs.iroh.computer/protocols/blobs
-
-## Footnotes
-
-[^1]: Technically speaking, we should probably _not_ use a [`VClock`] here but rather a [`Dot`]. Dots are just the
-      actor-specific entry in the clock (so with a clock of `{A:1,B:1}`, `A`'s dot is `(A,1)`)
-[^2]: I suppose this might differ from use case to use case but for example in my case, to further illustrate this
-      point, imagine we have just one item in our map; if we decide to toggle its boolean value 500 times, the state
-      will remain tiny (its still one KV pair) but the oplog will now have 500 entries in it.
-[^3]: Iroh also has what they call [Tickets] which they use in a bunch of their examples, however, those are
-      more suited for shorter lived connections where network topology doesn't change. Because I want to be
-      able to connect my peers at home and at the supermarket for instance, only sharing EndpointIds instead
-      probably works better.
+[reqwest: rust-webpki-roots causes crash on Android]: https://github.com/seanmonstar/reqwest/issues/2968
+[tauri: Tauri no longer initialize ndk-context since 2.11]: https://github.com/open-source-cooperative/android-native-keyring-store/issues/21
+[tauri: Crashes on re-launch due to ndk-context re-initialization panic]: https://github.com/rust-mobile/android-activity/issues/58
+[tauri: please initialize ndk-context]: https://github.com/tauri-apps/tao/issues/1220
+[**partial** ordering]: https://en.wikipedia.org/wiki/Partially_ordered_set
+[one match statement]: https://github.com/AntoniosBarotsis/groceries-bmesh/blob/master/groceries-bmesh-core/src/crdt.rs#L173-L249
