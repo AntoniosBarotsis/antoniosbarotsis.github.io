@@ -31,13 +31,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7
       with:
         fetch-depth: 1
         submodules: true
 
     - uses: cargo-bins/cargo-binstall@main
-
 
     - name: Install lychee
       run: |
@@ -67,7 +66,7 @@ jobs:
         submodules: true
         fetch-depth: 1
     - name: Build and deploy
-      uses: shalzz/zola-deploy-action@v0.22.1
+      uses: shalzz/zola-deploy-action@v0.23.1
       env:
         env: prod
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
